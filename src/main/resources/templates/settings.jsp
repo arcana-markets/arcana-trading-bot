@@ -1942,6 +1942,8 @@
                   </div>
                 </div>
               </div>
+                <h2 class="mb-4">Account Settings</h2>
+                <hr/>
                 <h4 class="mb-2">RPC Configuration</h4>
                 <p class="text-700">Upload your unique RPC URL to power your Arcana Bot.</p>
                 <div class="input-group">
