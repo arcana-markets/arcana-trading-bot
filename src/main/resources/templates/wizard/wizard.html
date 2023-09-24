@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Arcana</title>
+
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicons/favicon-16x16.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicons/favicon.ico">
+    <link rel="manifest" href="/static/img/favicons/manifest.json">
+    <meta name="msapplication-TileImage" content="/static/img/favicons/mstile-150x150.png">
+    <meta name="theme-color" content="#ffffff">
+    <script src="/static/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="/static/vendors/simplebar/simplebar.min.js"></script>
+    <script src="/static/config.js"></script>
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+
+    <link href="/static/vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
+    <link href="/static/vendors/dropzone/dropzone.min.css" rel="stylesheet">
+    <link href="/static/vendors/prism/prism-okaidia.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link href="/static/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
+
+  </head>
+
+
+  <body>
+
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top">
+      <nav class="navbar navbar-vertical navbar-expand-lg">
+        <script>
+          var navbarStyle = window.config.config.phoenixNavbarStyle;
+          if (navbarStyle && navbarStyle !== 'transparent') {
+            document.querySelector('body').classList.add(`navbar-${navbarStyle}`);
+          }
+        </script>
+        <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+          <!-- scrollbar removed-->
+          <div class="navbar-vertical-content">
+            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
+              <li class="nav-item">
+                  <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="home"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Dashboard</span></span>
+                      </div>
+                  </a>
+                  </div>
+                  <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="play"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Getting started</span></span>
+                      </div>
+                  </a>
+                  </div>
+                  <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-faq" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-faq">
+                      <div class="d-flex align-items-center">
+                          <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div><span class="nav-link-icon"><img src="/static/img/bootstrap-icons/robot.svg" alt="Robot" ...></span><span class="nav-link-text">Trading Bots</span><span class="fa-solid fa-circle text-info ms-1 new-page-indicator" style="font-size: 6px"></span>
+                      </div>
+                  </a>
+                      <div class="parent-wrapper label-1">
+                          <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
+                              <li class="collapsed-nav-item-title d-none">Trading Bots
+                              </li>
+                              <li class="nav-item"><a class="nav-link" href="/bots" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center"><span class="nav-link-text">My Bots</span>
+                                  </div>
+                              </a>
+                                  <!-- more inner pages-->
+                              </li>
+                              <li class="nav-item"><a class="nav-link" href="/bots/add" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center"><span class="nav-link-text">The Wizard</span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info ">New</span>
+                                  </div>
+                              </a>
+                                  <!-- more inner pages-->
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="../../widgets.html" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="pocket"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">My Bots</span></span>
+                      </div>
+                  </a>
+                  </div>
+                  <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/market-list" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="bar-chart"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Browse Markets</span></span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info nav-link-badge">New</span>
+                      </div>
+                  </a>
+                  </div>
+                  <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/settings" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="settings"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Settings</span></span>
+                      </div>
+                  </a>
+                  </div>
+                  <!-- parent pages-->
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="https://arcana.markets" a target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="book"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Documentation</span></span>
+                      </div>
+                  </a>
+                  </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="navbar-vertical-footer">
+          <button class="btn navbar-vertical-toggle border-0 fw-semi-bold w-100 white-space-nowrap d-flex align-items-center"><span class="uil uil-left-arrow-to-left fs-0"></span><span class="uil uil-arrow-from-right fs-0"></span><span class="navbar-vertical-footer-text ms-2">Collapsed View</span></button>
+        </div>
+      </nav>
+      <nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault">
+        <div class="collapse navbar-collapse justify-content-between">
+          <div class="navbar-logo">
+
+            <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+            <a class="navbar-brand me-1 me-sm-3" href="index.html">
+              <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center"><img src="/static/img/icons/logo.png" alt="phoenix" width="27" />
+                  <p class="logo-text ms-2 d-none d-sm-block">arcana</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <ul class="navbar-nav navbar-nav-icons flex-row">
+            <li class="nav-item">
+              <div class="theme-control-toggle fa-icon-wait px-2">
+                <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
+                <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label>
+                <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label>
+              </div>
+            </li>
+            <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                <div class="avatar avatar-l ">
+                  <img class="rounded-circle " src="/static/img/team/40x40/57.webp" alt="" />
+
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300" aria-labelledby="navbarDropdownUser">
+                <div class="card position-relative border-0">
+                  <div class="card-body p-0">
+                    <div class="text-center pt-4 pb-3">
+                      <div class="avatar avatar-xl ">
+                        <img class="rounded-circle " src="/static/img/team/72x72/57.webp" alt="" />
+
+                      </div>
+                      <h6 class="mt-2 text-black">Jerry Seinfield</h6>
+                    </div>
+                    <div class="mb-3 mx-3">
+                      <input class="form-control form-control-sm" id="statusUpdateInput" type="text" placeholder="Update your status" />
+                    </div>
+                  </div>
+                  <div class="overflow-auto scrollbar" style="height: 10rem;">
+                    <ul class="nav d-flex flex-column mb-2 pb-1">
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user"></span><span>Profile</span></a></li>
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="pie-chart"></span>Dashboard</a></li>
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="lock"></span>Posts &amp; Activity</a></li>
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Settings &amp; Privacy </a></li>
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="help-circle"></span>Help Center</a></li>
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="globe"></span>Language</a></li>
+                    </ul>
+                  </div>
+                  <div class="card-footer p-0 border-top">
+                    <ul class="nav d-flex flex-column my-3">
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user-plus"></span>Add another account</a></li>
+                    </ul>
+                    <hr />
+                    <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
+                    <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms</a>&bull;<a class="text-600 ms-1" href="#!">Cookies</a></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="content">
+        <h2 class="mb-2 lh-sm">The Wizard</h2>
+        <p class="text-700 lead mb-2">Follow the Wizard to create your new Arcana trading bots</p>
+        <div class="row mb-9">
+          <div class="col-12 col-xxl-6">
+            <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
+              <div class="card-header p-4 border-bottom border-300 bg-soft">
+                <div class="row g-3 justify-content-between align-items-center">
+                  <div class="col-12 col-md">
+                    <h4 class="text-900 mb-0" data-anchor="data-anchor">Create New Bot</h4>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="collapse code-collapse" id="with-validation-code">
+                  <pre class="scrollbar" style="max-height:420px"><code class="language-html">&lt;div class=&quot;card theme-wizard mb-5&quot; data-theme-wizard=&quot;data-theme-wizard&quot;&gt;
+  &lt;div class=&quot;card-header bg-100 pt-3 pb-2 border-bottom-0&quot;&gt;
+    &lt;ul class=&quot;nav justify-content-between nav-wizard&quot;&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab1&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;1&quot;&gt;
+          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-lock&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Account&lt;/span&gt;&lt;/div&gt;
+        &lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab2&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;2&quot;&gt;
+          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-user&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Personal&lt;/span&gt;&lt;/div&gt;
+        &lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab3&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;3&quot;&gt;
+          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-file-alt&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Billing&lt;/span&gt;&lt;/div&gt;
+        &lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab4&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;4&quot;&gt;
+          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-check&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Done&lt;/span&gt;&lt;/div&gt;
+        &lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;card-body pt-4 pb-0&quot;&gt;
+    &lt;div class=&quot;tab-content&quot;&gt;
+      &lt;div class=&quot;tab-pane active&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab1&quot; id=&quot;bootstrap-wizard-validation-tab1&quot;&gt;
+        &lt;form class=&quot;needs-validation&quot; id=&quot;wizardValidationForm1&quot; novalidate=&quot;novalidate&quot; data-wizard-form=&quot;1&quot;&gt;
+          &lt;div class=&quot;mb-2&quot;&gt;
+            &lt;label class=&quot;form-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-name&quot;&gt;Name&lt;/label&gt;
+            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;John Smith&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-name&quot; /&gt;
+            &lt;div class=&quot;invalid-feedback&quot;&gt;Please choose a username.&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mb-2&quot;&gt;
+            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-email&quot;&gt;Email*&lt;/label&gt;
+            &lt;input class=&quot;form-control&quot; type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Email address&quot; pattern=&quot;^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-email&quot; /&gt;
+            &lt;div class=&quot;invalid-feedback&quot;&gt;You must add email&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;row g-3 mb-3&quot;&gt;
+            &lt;div class=&quot;col-sm-6&quot;&gt;
+              &lt;div class=&quot;mb-2 mb-sm-0&quot;&gt;
+                &lt;label class=&quot;form-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-password&quot;&gt;Password*&lt;/label&gt;
+                &lt;input class=&quot;form-control&quot; type=&quot;password&quot; name=&quot;password&quot; placeholder=&quot;Password&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-password&quot; data-wizard-password=&quot;true&quot; /&gt;
+                &lt;div class=&quot;invalid-feedback&quot;&gt;Please enter password&lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-sm-6&quot;&gt;
+              &lt;div class=&quot;mb-2&quot;&gt;
+                &lt;label class=&quot;form-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-confirm-password&quot;&gt;Confirm Password*&lt;/label&gt;
+                &lt;input class=&quot;form-control&quot; type=&quot;password&quot; name=&quot;confirmPassword&quot; placeholder=&quot;Confirm Password&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-confirm-password&quot; data-wizard-confirm-password=&quot;true&quot; /&gt;
+                &lt;div class=&quot;invalid-feedback&quot;&gt;Passwords need to match&lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-check&quot;&gt;
+            &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; name=&quot;terms&quot; required=&quot;required&quot; checked=&quot;checked&quot; id=&quot;bootstrap-wizard-validation-wizard-checkbox&quot; /&gt;
+            &lt;label class=&quot;form-check-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-checkbox&quot;&gt;I accept the &lt;a href=&quot;#!&quot;&gt;terms &lt;/a&gt;and &lt;a href=&quot;#!&quot;&gt;privacy policy&lt;/a&gt;&lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;tab-pane&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab2&quot; id=&quot;bootstrap-wizard-validation-tab2&quot;&gt;
+        &lt;form class=&quot;needs-validation&quot; id=&quot;wizardValidationForm2&quot; novalidate=&quot;novalidate&quot; data-wizard-form=&quot;2&quot;&gt;
+          &lt;div class=&quot;row g-4 mb-4&quot; data-dropzone=&quot;data-dropzone&quot; data-options='{&quot;maxFiles&quot;:1,&quot;data&quot;:[{&quot;name&quot;:&quot;avatar.webp&quot;,&quot;size&quot;:&quot;54kb&quot;,&quot;url&quot;:&quot;../../assets/img/team&quot;}]}'&gt;
+            &lt;div class=&quot;fallback&quot;&gt;
+              &lt;input type=&quot;file&quot; name=&quot;file&quot; /&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-md-auto&quot;&gt;
+              &lt;div class=&quot;dz-preview dz-preview-single&quot;&gt;
+                &lt;div class=&quot;dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0&quot;&gt;
+                  &lt;div class=&quot;avatar avatar-4xl&quot;&gt;&lt;img class=&quot;rounded-circle avatar-placeholder&quot; src=&quot;../../assets/img/team/avatar.webp&quot; alt=&quot;...&quot; data-dz-thumbnail=&quot;data-dz-thumbnail&quot; /&gt;&lt;/div&gt;
+                  &lt;div class=&quot;dz-progress&quot;&gt;&lt;span class=&quot;dz-upload&quot; data-dz-uploadprogress=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-md&quot;&gt;
+              &lt;div class=&quot;dz-message dropzone-area px-2 py-3&quot; data-dz-message=&quot;data-dz-message&quot;&gt;
+                &lt;div class=&quot;text-center text-1100&quot;&gt;
+                  &lt;h5 class=&quot;mb-2&quot;&gt;&lt;span class=&quot;fa-solid fa-upload me-2&quot;&gt;&lt;/span&gt;Upload Profile Picture&lt;/h5&gt;
+                  &lt;p class=&quot;mb-0 fs--1 text-600 lh-sm&quot;&gt;Upload a 300x300 jpg image with &lt;br /&gt;a maximum size of 400KB&lt;/p&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mb-2&quot;&gt;
+            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-gender&quot;&gt;Gender&lt;/label&gt;
+            &lt;select class=&quot;form-select&quot; name=&quot;gender&quot; id=&quot;bootstrap-wizard-validation-gender&quot; required=&quot;required&quot;&gt;
+              &lt;option value=&quot;&quot;&gt;Select your gender ...&lt;/option&gt;
+              &lt;option value=&quot;Male&quot;&gt;Male&lt;/option&gt;
+              &lt;option value=&quot;Female&quot;&gt;Female&lt;/option&gt;
+              &lt;option value=&quot;Other&quot;&gt;Other&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mb-2&quot;&gt;
+            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-phone&quot;&gt;Phone&lt;/label&gt;
+            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;phone&quot; placeholder=&quot;Phone&quot; id=&quot;bootstrap-wizard-validation-wizard-phone&quot; required=&quot;required&quot; /&gt;
+            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mb-2&quot;&gt;
+            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-datepicker&quot;&gt;Date of Birth&lt;/label&gt;
+            &lt;input class=&quot;form-control datetimepicker&quot; type=&quot;text&quot; placeholder=&quot;d/m/y&quot; data-options='{&quot;dateFormat&quot;:&quot;d/m/y&quot;,&quot;disableMobile&quot;:true}' required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-datepicker&quot; /&gt;
+            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;mb-2&quot;&gt;
+            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-address&quot;&gt;Address&lt;/label&gt;
+            &lt;textarea class=&quot;form-control&quot; rows=&quot;4&quot; id=&quot;bootstrap-wizard-validation-wizard-address&quot; required=&quot;required&quot;&gt;&lt;/textarea&gt;
+            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;tab-pane&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab3&quot; id=&quot;bootstrap-wizard-validation-tab3&quot;&gt;
+        &lt;form class=&quot;mb-2 needs-validation&quot; id=&quot;wizardValidationForm3&quot; novalidate=&quot;novalidate&quot; data-wizard-form=&quot;3&quot;&gt;
+          &lt;div class=&quot;row gx-3 gy-2&quot;&gt;
+            &lt;div class=&quot;col-6&quot;&gt;
+              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-number&quot;&gt;Card Number&lt;/label&gt;
+              &lt;input class=&quot;form-control&quot; placeholder=&quot;XXXX XXXX XXXX XXXX&quot; type=&quot;text&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-card-number&quot; /&gt;
+              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-6&quot;&gt;
+              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-name&quot;&gt;Name&lt;/label&gt;
+              &lt;input class=&quot;form-control&quot; placeholder=&quot;John Doe&quot; name=&quot;cardName&quot; type=&quot;text&quot; id=&quot;bootstrap-wizard-validation-card-name&quot; required=&quot;required&quot; /&gt;
+              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-6&quot;&gt;
+              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-holder-country&quot;&gt;Country&lt;/label&gt;
+              &lt;select class=&quot;form-select&quot; name=&quot;customSelectCountry&quot; id=&quot;bootstrap-wizard-validation-card-holder-country&quot; required=&quot;required&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;Select your country ...&lt;/option&gt;
+                &lt;option value=&quot;Afghanistan&quot;&gt;Afghanistan&lt;/option&gt;
+                &lt;option value=&quot;Albania&quot;&gt;Albania&lt;/option&gt;
+                &lt;option value=&quot;Algeria&quot;&gt;Algeria&lt;/option&gt;
+                &lt;option value=&quot;American Samoa&quot;&gt;American Samoa&lt;/option&gt;
+                &lt;option value=&quot;Andorra&quot;&gt;Andorra&lt;/option&gt;
+                &lt;option value=&quot;Angola&quot;&gt;Angola&lt;/option&gt;
+                &lt;option value=&quot;Anguilla&quot;&gt;Anguilla&lt;/option&gt;
+                &lt;option value=&quot;Antarctica&quot;&gt;Antarctica&lt;/option&gt;
+                &lt;option value=&quot;Antigua and Barbuda&quot;&gt;Antigua and Barbuda&lt;/option&gt;
+                &lt;option value=&quot;Argentina&quot;&gt;Argentina&lt;/option&gt;
+              &lt;/select&gt;
+              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-6&quot;&gt;
+              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-holder-zip-code&quot;&gt;Zip&lt;/label&gt;
+              &lt;input class=&quot;form-control&quot; placeholder=&quot;1234&quot; name=&quot;zipCode&quot; type=&quot;text&quot; id=&quot;bootstrap-wizard-validation-card-holder-zip-code&quot; required=&quot;required&quot; /&gt;
+              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-6&quot;&gt;
+              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-exp-date&quot;&gt;Date of Expire&lt;/label&gt;
+              &lt;input class=&quot;form-control&quot; placeholder=&quot;15/2024&quot; name=&quot;expDate&quot; type=&quot;text&quot; id=&quot;bootstrap-wizard-validation-card-exp-date&quot; required=&quot;required&quot; /&gt;
+              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-6&quot;&gt;
+              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-cvv&quot;&gt;CVV&lt;/label&gt;
+              &lt;input class=&quot;form-control&quot; placeholder=&quot;123&quot; name=&quot;cvv&quot; maxlength=&quot;3&quot; pattern=&quot;[0-9]{3}&quot; type=&quot;number&quot; id=&quot;bootstrap-wizard-validation-card-cvv&quot; required=&quot;required&quot; /&gt;
+              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;tab-pane&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab4&quot; id=&quot;bootstrap-wizard-validation-tab4&quot;&gt;
+        &lt;div class=&quot;row flex-center pb-8 pt-4 gx-3 gy-4&quot;&gt;
+          &lt;div class=&quot;col-12 col-sm-auto&quot;&gt;
+            &lt;div class=&quot;text-center text-sm-start&quot;&gt;&lt;img class=&quot;d-dark-none&quot; src=&quot;../../assets/img/spot-illustrations/38.webp&quot; alt=&quot;&quot; width=&quot;220&quot; /&gt;&lt;img class=&quot;d-light-none&quot; src=&quot;../../assets/img/spot-illustrations/dark_38.webp&quot; alt=&quot;&quot; width=&quot;220&quot; /&gt;&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;col-12 col-sm-auto&quot;&gt;
+            &lt;div class=&quot;text-center text-sm-start&quot;&gt;
+              &lt;h5 class=&quot;mb-3&quot;&gt;You are all set!&lt;/h5&gt;
+              &lt;p class=&quot;text-1100 fs--1&quot;&gt;Now you can access your account&lt;br /&gt;anytime anywhere&lt;/p&gt;&lt;a class=&quot;btn btn-primary px-6&quot; href=&quot;../../modules/forms/wizard.html&quot;&gt;Start Over&lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;card-footer border-top-0&quot; data-wizard-footer=&quot;data-wizard-footer&quot;&gt;
+    &lt;div class=&quot;d-flex pager wizard list-inline mb-0&quot;&gt;
+      &lt;button class=&quot;d-none btn btn-link ps-0&quot; type=&quot;button&quot; data-wizard-prev-btn=&quot;data-wizard-prev-btn&quot;&gt;&lt;span class=&quot;fas fa-chevron-left me-1&quot; data-fa-transform=&quot;shrink-3&quot;&gt;&lt;/span&gt;Previous&lt;/button&gt;
+      &lt;div class=&quot;flex-1 text-end&quot;&gt;
+        &lt;button class=&quot;btn btn-primary px-6 px-sm-6&quot; type=&quot;submit&quot; data-wizard-next-btn=&quot;data-wizard-next-btn&quot;&gt;Next&lt;span class=&quot;fas fa-chevron-right ms-1&quot; data-fa-transform=&quot;shrink-3&quot;&gt; &lt;/span&gt;&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+                <div class="p-4 code-to-copy">
+                  <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
+                    <div class="card-header bg-100 pt-3 pb-2 border-bottom-0">
+                      <ul class="nav justify-content-between nav-wizard">
+                        <li class="nav-item"><a class="nav-link active fw-semi-bold" href="#bootstrap-wizard-validation-tab1" data-bs-toggle="tab" data-wizard-step="1">
+                            <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><img src="/static/img/bootstrap-icons/bar-chart.svg" alt="Bar Chart" ...></span></span></span><span class="d-none d-md-block mt-1 fs--1">Markets</span></div>
+                          </a></li>
+                        <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-validation-tab2" data-bs-toggle="tab" data-wizard-step="2">
+                            <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><img src="/static/img/bootstrap-icons/magic.svg" alt="Magic" ...></span></span></span></span><span class="d-none d-md-block mt-1 fs--1">Strategy</span></div>
+                          </a></li>
+                        <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-validation-tab3" data-bs-toggle="tab" data-wizard-step="3">
+                            <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><img src="/static/img/bootstrap-icons/person-badge.svg" alt="Person Badge" ...></span></span></span><span class="d-none d-md-block mt-1 fs--1">Personalize</span></div>
+                          </a></li>
+                        <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-validation-tab4" data-bs-toggle="tab" data-wizard-step="4">
+                            <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-check"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Done</span></div>
+                          </a></li>
+                      </ul>
+                    </div>
+                    <div class="card-body pt-4 pb-0">
+                      <div class="tab-content">
+                        <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab1" id="bootstrap-wizard-validation-tab1">
+                          <form class="needs-validation" id="wizardValidationForm1" novalidate="novalidate" data-wizard-form="1">
+                            <div class="mb-2">
+                              <label class="form-label" for="bootstrap-wizard-validation-gender">Markets</label>
+                              <select class="form-select" name="presetMarkets" id="presetMarkets" required="required">
+                                <option value="">Select a Market</option>
+                                <option value="8BnEgHoWFysVcuFFX7QztDmzuH8r5ZFvyP3sYwn1XTh6">SOL/USDC</option>
+                                <option value="9Lyhks5bQQxb9EyyX55NtgKQzpM4WK7JCmeaWuQ5MoXD">MSOL/USDC</option>
+                                <option value="BbJgE7HZMaDp5NTYvRh5jZSkQPVDTU8ubPFtpogUkEj4">ETH/USDC</option>
+                                <option value="3BAKsQd3RuhZKES2DGysMhjBdwjZYKYmxRqnSMtZ4KSN">WBTC/USDC</option>
+                                <option value="72h8rWaWwfPUL36PAFqyQZU8RT1V3FKG7Nc45aK89xTs">RLB/USDC</option>
+                                <option value="3NnxQvDcZXputNMxaxsGvqiKpqgPfSYXpNigZNFcknmD">MNGO/USDC</option>
+                                <option value="JAmhJbmBzLp2aTp9mNJodPsTcpCJsmq5jpr6CuCbWHvR">JitoSOL/USDC</option>
+                              </select>
+                              <script>
+                        $("#presetMarkets").on('change', function() {
+                            $("#inputAddress").val(this.value);
+                        });
+                    </script>
+                              <div class="invalid-feedback">This field is required.</div>
+                            </div>
+                            <div class="mb-4">
+                              <label class="form-label" for="inputAddress">Market ID</label>
+                              <input type="text" class="form-control" placeholder="Market Address" id="inputAddress" th:field="*{marketId}">
+                            </div>
+                            <div class="form-row mb-2">
+                              <div class="form-group col-md-12">
+                                <input class="form-control btn btn-secondary" type="button" id="autoFillButton" value="Autofill accounts (0-30 seconds)"
+                                       onclick="autoFill()"/>
+                                <script>
+                        function autoFill() {
+                            $("#autoFillButton").prop('disabled', true);
+                            var marketId = $("#inputAddress").val();
+                            $.get('/getAccountsByMarket/' + marketId, function (data,
+                                                                                textStatus,
+                                                                                jqXHR) {
+                                $("#baseWallet").val(data.baseWallet);
+                                $("#quoteWallet").val(data.quoteWallet);
+                                $("#ooa").val(data.ooa);
+                                $("#autoFillButton").prop('disabled', false);
+                            }).fail(function() {
+                                $("#autoFillButton").prop('disabled', false);
+                            });
+                        }
+                    </script>
+                              </div>
+                            </div>
+                            <div class="row g-3 mb-3">
+                              <div class="col-sm-6">
+                                <div class="mb-2 mb-sm-0">
+                                  <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Open Orders Account</label>
+                                  <input class="form-control" type="password" name="password" placeholder="Open Orders Account" required="required" id="bootstrap-wizard-validation-wizard-password" data-wizard-password="true" />
+                                  <div class="invalid-feedback">Fill your Open Orders Account</div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="mb-2">
+                                  <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Base Wallet Account</label>
+                                  <input class="form-control" type="password" name="confirmPassword" placeholder="Base Wallet Account" required="required" id="bootstrap-wizard-validation-wizard-confirm-password" data-wizard-confirm-password="true" />
+                                  <div class="invalid-feedback">Fill your Base Wallet</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="mb-2">
+                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Quote Wallet Account</label>
+                                <input class="form-control" type="password" name="confirmPassword" placeholder="Quote Wallet" required="required" id="bootstrap-wizard-validation-wizard-confirm-password" data-wizard-confirm-password="true" />
+                                <div class="invalid-feedback">Fill your Quote Wallet</div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
+                          <form class="needs-validation" id="wizardValidationForm2" novalidate="novalidate" data-wizard-form="2">
+                            <div class="mb-2">
+                              <label class="form-label" for="bootstrap-wizard-validation-gender">Strategy</label>
+                              <select class="form-select" name="gender" id="bootstrap-wizard-validation-gender" required="required">
+                                <option value="">Select a strategy...</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                              </select>
+                              <div class="invalid-feedback">This field is required.</div>
+                            </div>
+                            <div class="mb-2">
+                              <label class="form-label" for="bootstrap-wizard-validation-wizard-phone">Bid Amount</label>
+                              <input class="form-control" type="text" name="phone" placeholder="Bid" id="bootstrap-wizard-validation-wizard-phone" required="required" />
+                              <div class="invalid-feedback">This field is required.</div>
+                            </div>
+                            <div class="mb-2">
+                              <label class="form-label" for="bootstrap-wizard-validation-wizard-phone">Ask Amount</label>
+                              <input class="form-control" type="text" placeholder="" required="required" id="bootstrap-wizard-validation-wizard-datepicker" />
+                              <div class="invalid-feedback">This field is required.</div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab3" id="bootstrap-wizard-validation-tab3">
+                          <form class="mb-2 needs-validation" id="wizardValidationForm3" novalidate="novalidate" data-wizard-form="3">
+                            <div class="row g-4 mb-4" data-dropzone="data-dropzone" data-options='{"maxFiles":1,"data":[{"name":"avatar.webp","size":"54kb","url":"/static/img/team"}]}'>
+                              <div class="fallback">
+                                <input type="file" name="file" />
+                              </div>
+                              <div class="col-md-auto">
+                                <div class="dz-preview dz-preview-single">
+                                  <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0">
+                                    <div class="avatar avatar-4xl"><img class="rounded-circle avatar-placeholder" src="/static/img/team/avatar.webp" alt="..." data-dz-thumbnail="data-dz-thumbnail" /></div>
+                                    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md">
+                                <div class="dz-message dropzone-area px-2 py-3" data-dz-message="data-dz-message">
+                                  <div class="text-center text-1100">
+                                    <h5 class="mb-2"><span class="fa-solid fa-upload me-2"></span>Upload a Bot Profile Picture</h5>
+                                    <p class="mb-0 fs--1 text-600 lh-sm">Upload a 300x300 jpg image with <br />a maximum size of 400KB</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row gx-3 gy-2">
+                              <div class="col-6">
+                                <label class="form-label" for="bootstrap-wizard-validation-card-name">Bot Name (Optional)</label>
+                                <input class="form-control" placeholder="BagCrusher69" name="cardName" type="text" id="bootstrap-wizard-validation-card-name"/>
+                              </div>
+                              <div class="col-6">
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab4" id="bootstrap-wizard-validation-tab4">
+                          <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
+                            <div class="col-12 col-sm-auto">
+                              <div class="text-center text-sm-start"><img class="d-dark-none" src="/static/img/spot-illustrations/38.webp" alt="" width="220" /><img class="d-light-none" src="/static/img/spot-illustrations/dark_38.webp" alt="" width="220" /></div>
+                            </div>
+                            <div class="col-12 col-sm-auto">
+                              <div class="text-center text-sm-start">
+                                <h5 class="mb-3">You are all set!</h5>
+                                <p class="text-1100 fs--1">Now you can access your Bot<br />anytime anywhere</p><a class="btn btn-primary px-6" href="/modules/forms/wizard.html">Launch Bot</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer border-top-0" data-wizard-footer="data-wizard-footer">
+                      <div class="d-flex pager wizard list-inline mb-0">
+                        <button class="d-none btn btn-link ps-0" type="button" data-wizard-prev-btn="data-wizard-prev-btn"><span class="fas fa-chevron-left me-1" data-fa-transform="shrink-3"></span>Previous</button>
+                        <div class="flex-1 text-end">
+                          <button class="btn btn-primary px-6 px-sm-6" type="submit" data-wizard-next-btn="data-wizard-next-btn">Next<span class="fas fa-chevron-right ms-1" data-fa-transform="shrink-3"> </span></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+              <div class="modal-content position-relative">
+                <div class="modal-header border-100 p-3">
+                  <div class="h4 text-800 mb-0">Access Denied!</div>
+                  <button class="btn btn-link text-danger position-absolute top-0 end-0 mt-2 me-2" data-bs-dismiss="modal"><span class="fas fa-times"></span></button>
+                </div>
+                <div class="modal-body px-4 py-6">
+                  <div class="d-flex align-items-center"><img class="me-4" src="/static/img/icons/stop.png" alt="" />
+                    <div class="flex-1">
+                      <p class="mb-0 fw-semi-bold text-700">You do not have the link to access. Please start <br />over to get access for the next session.<br />Thank You!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+          <div class="toast align-items-center text-white bg-dark border-0 light" id="icon-copied-toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body p-3"></div>
+              <button class="btn-close btn-close-white me-2 m-auto" type="button" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+          <footer class="footer position-fixed z-index:1000 bg-white">
+              <div class="row g-0 justify-content-between align-items-center h-100">
+                  <div class="col-12 col-sm-auto text-center">
+                      <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
+                  </div>
+                  <div class="col-12 col-sm-auto text-center">
+
+                      <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" a target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" a target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
+                                <span class="nav-link-icon d-none d-sm-inline-block">
+                                <img src="/static/img/bootstrap-icons/twitter-x.svg" alt="Twitter/X" ...>
+                            </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" a target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
+                                <span class="nav-link-icon d-none d-sm-inline-block">
+                                <img src="/static/img/bootstrap-icons/discord.svg" alt="Discord" ...>
+                            </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" a target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
+                                <span class="nav-link-icon d-none d-sm-inline-block">
+                                <img src="/static/img/bootstrap-icons/telegram.svg" alt="Telegram" ...>
+                            </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" a target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
+                                <span class="nav-link-icon d-none d-sm-inline-block">
+                                <img src="/static/img/bootstrap-icons/envelope.svg" alt="Email" ...>
+                            </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" a target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
+                                <span class="nav-link-icon d-none d-sm-inline-block">
+                                <img src="/static/img/bootstrap-icons/github.svg" alt="GitHub" ...>
+                            </span>
+                                  </div>
+                              </a>
+                              </div>
+                          </div>
+                      </a>
+                      </div>
+                  </div>
+              </div>
+          </footer>
+      </div>
+      <script>
+        var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
+        var navbarTop = document.querySelector('.navbar-top');
+        if (navbarTopStyle === 'darker') {
+          navbarTop.classList.add('navbar-darker');
+        }
+
+        var navbarVerticalStyle = window.config.config.phoenixNavbarVerticalStyle;
+        var navbarVertical = document.querySelector('.navbar-vertical');
+        if (navbarVertical && navbarVerticalStyle === 'darker') {
+          navbarVertical.classList.add('navbar-darker');
+        }
+      </script>
+    </main>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="/static/vendors/popper/popper.min.js"></script>
+    <script src="/static/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="/static/vendors/anchorjs/anchor.min.js"></script>
+    <script src="/static/vendors/is/is.min.js"></script>
+    <script src="/static/vendors/fontawesome/all.min.js"></script>
+    <script src="/static/vendors/lodash/lodash.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="/static/vendors/list.js/list.min.js"></script>
+    <script src="/static/vendors/feather-icons/feather.min.js"></script>
+    <script src="/static/vendors/dayjs/dayjs.min.js"></script>
+    <script src="/static/phoenix.js"></script>
+    <script src="/static/vendors/prism/prism.js"></script>
+    <script src="/static/vendors/dropzone/dropzone.min.js"></script>
+  </body>
+
+</html>
