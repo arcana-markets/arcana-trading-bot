@@ -10,17 +10,17 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Phoenix</title>
+    <title>Arcana</title>
 
 
     <!-- ===============================================-->
     <!--    Favicons-->
     <!-- ===============================================-->
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/img/favicons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicons/favicon-16x16.png">
     <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicons/favicon.ico">
-    <link rel="manifest" href="../assets/img/favicons/manifest.json">
+    <link rel="manifest" href="/static/img/favicons/manifest.json">
     <meta name="msapplication-TileImage" content="/static/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
     <script src="/static/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
@@ -37,6 +37,7 @@
     <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
+
   </head>
 
 
@@ -132,7 +133,7 @@
           <div class="navbar-logo">
 
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="../index.html">
+            <a class="navbar-brand me-1 me-sm-3" href="index.html">
               <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center"><img src="/static/img/icons/logo.png" alt="phoenix" width="27" />
                   <p class="logo-text ms-2 d-none d-sm-block">arcana</p>
@@ -150,7 +151,7 @@
             </li>
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="../assets/img/team/40x40/57.webp" alt="" />
+                  <img class="rounded-circle " src="/static/img/team/40x40/57.webp" alt="" />
 
                 </div>
               </a>
@@ -159,23 +160,17 @@
                   <div class="card-body p-0">
                     <div class="text-center pt-4 pb-3">
                       <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="../assets/img/team/72x72/57.webp" alt="" />
+                        <img class="rounded-circle " src="/static/img/team/72x72/57.webp" alt="" />
 
                       </div>
                       <h6 class="mt-2 text-black">Jerry Seinfield</h6>
-                    </div>
-                    <div class="mb-3 mx-3">
-                      <input class="form-control form-control-sm" id="statusUpdateInput" type="text" placeholder="Update your status" />
                     </div>
                   </div>
                   <div class="overflow-auto scrollbar" style="height: 10rem;">
                     <ul class="nav d-flex flex-column mb-2 pb-1">
                       <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user"></span><span>Profile</span></a></li>
                       <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="pie-chart"></span>Dashboard</a></li>
-                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="lock"></span>Posts &amp; Activity</a></li>
-                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Settings &amp; Privacy </a></li>
-                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="help-circle"></span>Help Center</a></li>
-                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="globe"></span>Language</a></li>
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Settings</a></li>
                     </ul>
                   </div>
                   <div class="card-footer p-0 border-top">
@@ -193,6 +188,10 @@
         </div>
       </nav>
             <div class="content">
+                <div class="pb-5">
+                    <div class="row g-4">
+                        <div class="col-12 col-xxl-6">
+                            <div class="mb-8">
                 <h2 class="mb-5">My Bots<span class="text-700 fw-normal ms-2">(5)</span></h2>
                 <div class="border-y" id="productWishlistTable" data-list='{"valueNames":["products","color","size","price","quantity","total"],"page":5,"pagination":true}'>
                     <div class="table-responsive scrollbar">
@@ -209,102 +208,102 @@
                             </thead>
                             <tbody class="list" id="profile-wishlist-table-body">
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/1.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/1.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Fitbit Sense Advanced</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">SOL/USDC</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$1820</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$57</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/7.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/7.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Space Gray</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">mSOL/USDC</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$8203</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$1,499</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/6.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/6.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">DualSense</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">MNGO/USDC</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$11293</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$299</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/3.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/3.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Apple</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">WBTC/USDC</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$4500</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$1,699</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/4.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/4.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">MJV83ZP/A</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">SOL/USDC</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$21930</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$65</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/10.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/10.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Apple Magic Mouse (Wireless, Rechargable) - Silver</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">White</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">Regular</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">$30</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/8.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/8.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Amazon Basics Matte Black Wired Keyboard - US Layout (QWERTY)</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">Black</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">MD</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">$40</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/12.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/12.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">HORI Racing Wheel Apex for PlayStation 4_3, and PC</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">Black</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">45</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">$130</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="../../../assets/img//products/17.png" alt="" width="53" /></a></td>
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/17.png" alt="" width="53" /></a></td>
                                 <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Xbox Series S</a></td>
                                 <td class="color align-middle white-space-nowrap fs--1 text-900">Space Gray</td>
                                 <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">sm</td>
                                 <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">$99</td>
                                 <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                     <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2"><span class="fas fa-shopping-cart me-1 fs--2"></span>View Bot</button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -322,11 +321,13 @@
                     </div>
                 </div>
             </div>
-            <!-- end of .container-->
+         </div>
+        </div>
+      </div>
 
-        </section>
-          <footer class="footer position-fixed bg-white z-index-2">
-              <div class="row g-0 justify-content-between align-items-center h-100">
+
+        <footer class="footer position-fixed bg-white z-index-2">
+            <div class="row g-0 justify-content-between align-items-center h-100">
                   <div class="col-12 col-sm-auto text-center" >
                       <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
                   </div>
@@ -398,6 +399,7 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
+      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
