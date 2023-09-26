@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Arcana</title>
+    <title>Arcana Markets</title>
 
 
     <!-- ===============================================-->
@@ -37,7 +37,9 @@
     <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-
+    <link href="/static/vendors/leaflet/leaflet.css" rel="stylesheet">
+    <link href="/static/vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
+    <link href="/static/vendors/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
   </head>
 
 
@@ -61,7 +63,7 @@
               <li class="nav-item">
                   <!-- parent pages-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="/" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="home"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Dashboard</span></span>
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="home"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Home</span></span>
                       </div>
                   </a>
                   </div>
@@ -104,7 +106,7 @@
                   </div>
                   <!-- parent pages-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="/market-list" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="bar-chart"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Browse Markets</span></span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info nav-link-badge">New</span>
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="bar-chart"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Markets</span></span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info nav-link-badge">New</span>
                       </div>
                   </a>
                   </div>
@@ -187,104 +189,141 @@
           </ul>
         </div>
       </nav>
-            <div class="content">
-                <div class="pb-5">
-                    <div class="row g-4">
-                        <div class="col-12 col-xxl-6">
-                            <div class="mb-8">
-                <h2 class="mb-5">My Bots<span class="text-700 fw-normal ms-2">(5)</span></h2>
-                <div class="border-y" id="productWishlistTable" data-list='{"valueNames":["products","color","size","price","quantity","total"],"page":5,"pagination":true}'>
-                    <div class="table-responsive scrollbar">
-                        <table class="table fs--1 mb-0">
-                            <thead>
-                            <tr>
-                                <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:7%;"></th>
-                                <th class="sort white-space-nowrap align-middle" scope="col" style="width:30%; min-width:250px;" data-sort="products">BOT NAME</th>
-                                <th class="sort align-middle" scope="col" data-sort="color" style="width:16%;">MARKET</th>
-                                <th class="sort align-middle" scope="col" data-sort="size" style="width:10%;">EST. VOLUME</th>
-                                <th class="sort align-middle text-end" scope="col" data-sort="price" style="width:10%;">EST. PNL</th>
-                                <th class="sort align-middle text-end pe-0" scope="col" style="width:35%;"> </th>
-                            </tr>
-                            </thead>
-                            <tbody class="list" id="profile-wishlist-table-body">
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/1.png" alt="" width="53" /></a></td>
-                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Fitbit Sense Advanced</a></td>
-                                <td class="color align-middle white-space-nowrap fs--1 text-900">SOL/USDC</td>
-                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$1820</td>
-                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$57</td>
-                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
-                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2">View Bot</button>
-                                </td>
-                            </tr>
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/7.png" alt="" width="53" /></a></td>
-                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Space Gray</a></td>
-                                <td class="color align-middle white-space-nowrap fs--1 text-900">mSOL/USDC</td>
-                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$8203</td>
-                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$1,499</td>
-                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
-                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2">View Bot</button>
-                                </td>
-                            </tr>
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/6.png" alt="" width="53" /></a></td>
-                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">DualSense</a></td>
-                                <td class="color align-middle white-space-nowrap fs--1 text-900">MNGO/USDC</td>
-                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$11293</td>
-                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$299</td>
-                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
-                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2">View Bot</button>
-                                </td>
-                            </tr>
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/3.png" alt="" width="53" /></a></td>
-                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Apple</a></td>
-                                <td class="color align-middle white-space-nowrap fs--1 text-900">WBTC/USDC</td>
-                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$4500</td>
-                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$1,699</td>
-                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
-                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2">View Bot</button>
-                                </td>
-                            </tr>
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/4.png" alt="" width="53" /></a></td>
-                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">MJV83ZP/A</a></td>
-                                <td class="color align-middle white-space-nowrap fs--1 text-900">SOL/USDC</td>
-                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$21930</td>
-                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$65</td>
-                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
-                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
-                                    <button class="btn btn-primary fs--2">View Bot</button>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                        <div class="col-auto d-flex">
-                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
-                        </div>
-                        <div class="col-auto d-flex">
-                            <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
-                            <ul class="mb-0 pagination"></ul>
-                            <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
-                        </div>
-                    </div>
+      <div class="content">
+        <div class="pb-5">
+          <div class="row g-4">
+            <div class="col-12 col-xxl-6">
+              <div class="mb-8">
+                <h2 class="mb-2">Dashboard</h2>
+                <h5 class="text-700 fw-semi-bold">Here’s what’s going on at your business right now</h5>
+              </div>
+              <hr class="bg-200 mb-6 mt-4" />
+              <div class="row flex-between-center mb-4 g-3">
+                <div class="col-auto">
+                  <h3>Solana Stats</h3>
+                  <p class="text-700 lh-sm mb-0">Payment received across all channels</p>
                 </div>
+                <div class="col-8 col-sm-4">
+                  <select class="form-select form-select-sm mt-2" id="select-gross-revenue-month">
+                    <option>Mar 1 - 31, 2022</option>
+                    <option>April 1 - 30, 2022</option>
+                    <option>May 1 - 31, 2022</option>
+                  </select>
+                </div>
+              </div>
             </div>
-         </div>
+            <div class="col-12 col-xxl-6">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-1">Solana TPS<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"><span class="badge-label">-6.8%</span></span></h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                        <h4>16,247</h4>
+                      </div>
+                      <div class="d-flex justify-content-center px-4 py-6">
+                        <div class="echart-total-orders" style="height:85px;width:115px"></div>
+                      </div>
+                      <div class="mt-2">
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Completed</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">52%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-primary-100 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Pending payment</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">48%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-1">Account PnL<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"> <span class="badge-label">+26.5%</span></span></h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                        <h4>356</h4>
+                      </div>
+                      <div class="pb-0 pt-4">
+                        <div class="echarts-new-customers" style="height:180px;width:100%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-2">Account Volume</h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                      </div>
+                      <div class="pb-4 pt-3">
+                        <div class="echart-top-coupons" style="height:115px;width:100%;"></div>
+                      </div>
+                      <div>
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Percentage discount</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">72%</h6>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary-200 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Fixed card discount</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">18%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-info-500 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Fixed product discount</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">10%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-2">Arcana Premium</h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-center pt-3 flex-1">
+                        <div class="echarts-paying-customer-chart" style="height:100%;width:100%;"></div>
+                      </div>
+                      <div class="mt-3">
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Paying customer</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">30%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-primary-100 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Non-paying customer</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">70%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-
-
-        <footer class="footer position-fixed bg-white z-index-2">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                  <div class="col-12 col-sm-auto text-center" >
+          <footer class="footer position-fixed z-index:1000 bg-white">
+              <div class="row g-0 justify-content-between align-items-center h-100">
+                  <div class="col-12 col-sm-auto text-center">
                       <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
                   </div>
                   <div class="col-12 col-sm-auto text-center">
@@ -342,6 +381,7 @@
                   </div>
               </div>
           </footer>
+      </div>
       <script>
         var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
         var navbarTop = document.querySelector('.navbar-top');
@@ -355,12 +395,10 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
-      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
-
 
     <!-- ===============================================-->
     <!--    JavaScripts-->
@@ -376,7 +414,11 @@
     <script src="/static/vendors/feather-icons/feather.min.js"></script>
     <script src="/static/vendors/dayjs/dayjs.min.js"></script>
     <script src="/static/phoenix.js"></script>
-    <script src="/static/vendors/list.js/list.min.js"></script>
+    <script src="/static/vendors/echarts/echarts.min.js"></script>
+    <script src="/static/vendors/leaflet/leaflet.js"></script>
+    <script src="/static/vendors/leaflet.markercluster/leaflet.markercluster.js"></script>
+    <script src="/static/vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+    <script src="/static/ecommerce-dashboard.js"></script>
 
   </body>
 

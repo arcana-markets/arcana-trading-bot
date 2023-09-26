@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Arcana</title>
+    <title>Arcana Markets</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -216,6 +216,27 @@
         <p class="text-700 lead mb-2">View market statistics and data relevant to your trading bot</p>
         <div class="row mb-9">
 
+            <div class="bg-light p-5 rounded">
+                🤖 Bot #<span th:text="${botId + 1}"></span> / <span th:text="${botUuid}"></span>
+                <hr>
+                Strategy: <span th:text="${strategyName}"></span>
+                <hr>
+                Market ID: <span th:text="${botMarketId}"></span>
+                <hr>
+                Bps Spread: <span th:text="${botBpsSpread}"></span>
+                <hr>
+                Quote Sizes: Bid <span th:text="${botAmountBid}"></span>, Ask <span th:text="${botAmountAsk}"></span>
+                <hr>
+                OOA: <span th:text="${botOoa}"></span>, Base Wallet: <span th:text="${botBaseWallet}"></span>, Quote Wallet:
+                <span th:text="${botQuoteWallet}"></span>
+                <hr>
+                Last Bid order: <span th:text="${lastBidOrder}"></span>
+                <hr>
+                Last Ask order: <span th:text="${lastAskOrder}"></span>
+                <hr>
+                Bot Controls: <a th:href="${#strings.concat('/bots/stop/', botId)}">Remove Bot</a>
+            </div>
+
     <div class="p-5 rounded" style="padding-top: 0px!important;">
         <p>
         <div class="row">
@@ -382,7 +403,6 @@
     setInterval(updateDepthChart, 550);
 
 </script>
-<script src="/static/js/darkmode.min.js"></script>
 <script type="text/javascript" th:inline="none" class="init">
     /*<![CDATA[*/
     $(document).ready(function () {

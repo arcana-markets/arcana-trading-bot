@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Arcana</title>
+    <title>Arcana Markets</title>
 
 
     <!-- ===============================================-->
@@ -49,19 +49,18 @@
     <main class="main" id="top">
       <div class="container">
         <div class="row flex-center min-vh-100 py-5">
-          <div class="col-sm-10 col-md-8 col-lg-5 col-xxl-4"><a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
-              <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="../../../assets/img/icons/logo.png" alt="phoenix" width="58" />
+          <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3"><a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
+              <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="/static/img/icons/arcana-logo-nobg.png" alt="phoenix" width="58" />
               </div>
             </a>
-            <div class="px-xxl-5">
-              <div class="text-center mb-6">
-                <h4 class="text-1000">Forgot your password?</h4>
-                <p class="text-700 mb-5">Enter your email below and we will send <br class="d-sm-none" />you a reset link</p>
-                <form class="d-flex align-items-center mb-5">
-                  <input class="form-control flex-1" id="email" type="email" placeholder="Email" />
-                  <button class="btn btn-primary ms-2">Send<span class="fas fa-chevron-right ms-2"></span></button>
-                </form><a class="fs--1 fw-bold" href="#!">Still having problems?</a>
-              </div>
+            <div class="text-center mb-6">
+              <h4 class="text-1000">Reset new password</h4>
+              <p class="text-700">Type your new password</p>
+              <form class="mt-5">
+                <input class="form-control mb-2" id="password" type="password" placeholder="Type new password" />
+                <input class="form-control mb-4" id="confirmPassword" type="password" placeholder="Cofirm new password" />
+                <button class="btn btn-primary w-100" type="submit">Set Password</button>
+              </form>
             </div>
           </div>
         </div>
@@ -99,6 +98,7 @@
     <script src="/static/vendors/feather-icons/feather.min.js"></script>
     <script src="/static/vendors/dayjs/dayjs.min.js"></script>
     <script src="/static/phoenix.js"></script>
+
 
   </body>
 

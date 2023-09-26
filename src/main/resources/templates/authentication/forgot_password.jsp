@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Arcana</title>
+    <title>Arcana Markets</title>
 
 
     <!-- ===============================================-->
@@ -37,6 +37,7 @@
     <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
+
   </head>
 
 
@@ -46,14 +47,20 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
-      <div class="px-3">
-        <div class="row min-vh-100 flex-center p-5">
-          <div class="col-12 col-xl-10 col-xxl-8">
-            <div class="row justify-content-center g-5">
-              <div class="col-12 col-lg-6 text-center order-lg-1"><img class="img-fluid w-lg-100 d-light-none" src="/static/img/spot-illustrations/500-arcana.png" alt="" width="400" /><img class="img-fluid w-md-50 w-lg-100 d-dark-none" src="/static/img/spot-illustrations/500-arcana.png" alt="" width="540" /></div>
-              <div class="col-12 col-lg-6 text-center text-lg-start"><img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="/static/img/spot-illustrations/500.png" alt="" /><img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="/static/img/spot-illustrations/dark_500.png" alt="" />
-                <h2 class="text-800 fw-bolder mb-3">Unknown error!</h2>
-                <p class="text-900 mb-5">It's a mystery! Click the Home button to return to Arcana Markets.</p><a class="btn btn-lg btn-primary" href="/index">Go Home</a>
+      <div class="container">
+        <div class="row flex-center min-vh-100 py-5">
+          <div class="col-sm-10 col-md-8 col-lg-5 col-xxl-4"><a class="d-flex flex-center text-decoration-none mb-4" href="index.html">
+              <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="/static/img/icons/arcana-logo-nobg.png" alt="phoenix" width="58" />
+              </div>
+            </a>
+            <div class="px-xxl-5">
+              <div class="text-center mb-6">
+                <h4 class="text-1000">Forgot your password?</h4>
+                <p class="text-700 mb-5">Enter your email below and we will send <br class="d-sm-none" />you a reset link</p>
+                <form class="d-flex align-items-center mb-5">
+                  <input class="form-control flex-1" id="email" type="email" placeholder="Email" />
+                  <button class="btn btn-primary ms-2">Send<span class="fas fa-chevron-right ms-2"></span></button>
+                </form><a class="fs--1 fw-bold" href="#!">Still having problems?</a>
               </div>
             </div>
           </div>
@@ -72,6 +79,7 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
+      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
@@ -91,7 +99,6 @@
     <script src="/static/vendors/feather-icons/feather.min.js"></script>
     <script src="/static/vendors/dayjs/dayjs.min.js"></script>
     <script src="/static/phoenix.js"></script>
-
 
   </body>
 

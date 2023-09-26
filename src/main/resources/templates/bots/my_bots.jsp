@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Arcana</title>
+    <title>Arcana Markets</title>
 
 
     <!-- ===============================================-->
@@ -61,7 +61,7 @@
               <li class="nav-item">
                   <!-- parent pages-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="/" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="home"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Home</span></span>
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="home"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Dashboard</span></span>
                       </div>
                   </a>
                   </div>
@@ -104,7 +104,7 @@
                   </div>
                   <!-- parent pages-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" href="/market-list" role="button" data-bs-toggle="" aria-expanded="false">
-                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="bar-chart"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Markets</span></span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info nav-link-badge">New</span>
+                      <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="bar-chart"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Browse Markets</span></span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info nav-link-badge">New</span>
                       </div>
                   </a>
                   </div>
@@ -119,7 +119,7 @@
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="book"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Documentation</span></span>
                       </div>
                   </a>
-                </div>
+                  </div>
               </li>
             </ul>
           </div>
@@ -133,7 +133,7 @@
           <div class="navbar-logo">
 
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="/index">
+            <a class="navbar-brand me-1 me-sm-3" href="index.html">
               <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center"><img src="/static/img/icons/logo.png" alt="phoenix" width="27" />
                   <p class="logo-text ms-2 d-none d-sm-block">arcana</p>
@@ -163,8 +163,7 @@
                         <img class="rounded-circle " src="/static/img/team/72x72/57.webp" alt="" />
 
                       </div>
-                      <h6 class="mt-2 text-black">kizz</h6>
-                        <hr/>
+                      <h6 class="mt-2 text-black">Jerry Seinfield</h6>
                     </div>
                   </div>
                   <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -174,7 +173,11 @@
                       <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Settings</a></li>
                     </ul>
                   </div>
-                  <div class="card-footer pt-2 p-0 border-top">
+                  <div class="card-footer p-0 border-top">
+                    <ul class="nav d-flex flex-column my-3">
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user-plus"></span>Add another account</a></li>
+                    </ul>
+                    <hr />
                     <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
                     <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms</a>&bull;<a class="text-600 ms-1" href="#!">Cookies</a></div>
                   </div>
@@ -184,221 +187,161 @@
           </ul>
         </div>
       </nav>
-      <div class="content">
-        <div class="mb-9">
-          <div class="row g-6">
-            <div class="col-12 col-xl-4">
-              <div class="card mb-5">
-                <div class="card-header hover-actions-trigger position-relative mb-6" style="min-height: 130px; ">
-                  <div class="bg-holder rounded-top" style="background-image: linear-gradient(0deg, #000000 -3%, rgba(0, 0, 0, 0) 83%), url(../../assets/img/generic/59.png)">
-                    <input class="d-none" id="upload-settings-cover-image" type="file" />
-                    <label class="cover-image-file-input" for="upload-settings-cover-image"></label>
-                    <div class="hover-actions end-0 bottom-0 pe-1 pb-2 text-white"><span class="fa-solid fa-camera me-2"></span></div>
-                  </div>
-                  <input class="d-none" id="upload-settings-porfile-picture" type="file" />
-                  <label class="avatar avatar-4xl status-online feed-avatar-profile cursor-pointer" for="upload-settings-porfile-picture"><img class="rounded-circle img-thumbnail bg-white shadow-sm" src="/static/img/team/20.webp" width="200" alt="" /></label>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="d-flex flex-wrap mb-2 align-items-center">
-                        <h3 class="me-2">kiz</h3><span class="fw-normal fs-0">kizmet.sol</span>
-                      </div>
+            <div class="content">
+                <div class="pb-5">
+                    <div class="row g-4">
+                        <div class="col-12 col-xxl-6">
+                            <div class="mb-8">
+                <h2 class="mb-5">My Bots<span class="text-700 fw-normal ms-2">(5)</span></h2>
+                <div class="border-y" id="productWishlistTable" data-list='{"valueNames":["products","color","size","price","quantity","total"],"page":5,"pagination":true}'>
+                    <div class="table-responsive scrollbar">
+                        <table class="table fs--1 mb-0">
+                            <thead>
+                            <tr>
+                                <th class="sort white-space-nowrap align-middle fs--2" scope="col" style="width:7%;"></th>
+                                <th class="sort white-space-nowrap align-middle" scope="col" style="width:30%; min-width:250px;" data-sort="products">BOT NAME</th>
+                                <th class="sort align-middle" scope="col" data-sort="color" style="width:16%;">MARKET</th>
+                                <th class="sort align-middle" scope="col" data-sort="size" style="width:10%;">EST. VOLUME</th>
+                                <th class="sort align-middle text-end" scope="col" data-sort="price" style="width:10%;">EST. PNL</th>
+                                <th class="sort align-middle text-end pe-0" scope="col" style="width:35%;"> </th>
+                            </tr>
+                            </thead>
+                            <tbody class="list" id="profile-wishlist-table-body">
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/1.png" alt="" width="53" /></a></td>
+                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Fitbit Sense Advanced</a></td>
+                                <td class="color align-middle white-space-nowrap fs--1 text-900">SOL/USDC</td>
+                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$1820</td>
+                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$57</td>
+                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
+                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
+                                </td>
+                            </tr>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/7.png" alt="" width="53" /></a></td>
+                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Space Gray</a></td>
+                                <td class="color align-middle white-space-nowrap fs--1 text-900">mSOL/USDC</td>
+                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$8203</td>
+                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$1,499</td>
+                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
+                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
+                                </td>
+                            </tr>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/6.png" alt="" width="53" /></a></td>
+                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">DualSense</a></td>
+                                <td class="color align-middle white-space-nowrap fs--1 text-900">MNGO/USDC</td>
+                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$11293</td>
+                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$299</td>
+                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
+                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
+                                </td>
+                            </tr>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/3.png" alt="" width="53" /></a></td>
+                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">Apple</a></td>
+                                <td class="color align-middle white-space-nowrap fs--1 text-900">WBTC/USDC</td>
+                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$4500</td>
+                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$1,699</td>
+                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
+                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
+                                </td>
+                            </tr>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                <td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-2 d-inline-block" href="../../../apps/e-commerce/landing/product-details.html"><img src="/static/img//products/4.png" alt="" width="53" /></a></td>
+                                <td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" href="../../../apps/e-commerce/landing/product-details.html">MJV83ZP/A</a></td>
+                                <td class="color align-middle white-space-nowrap fs--1 text-900">SOL/USDC</td>
+                                <td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">$21930</td>
+                                <td class="price align-middle text-900 fs--1 fw-semi-bold text-end">+$65</td>
+                                <td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
+                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></button>
+                                    <button class="btn btn-primary fs--2">View Bot</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                  </div>
-                </div>
-              </div>
-                <h2 class="mb-4">Account Settings</h2>
-                <hr/>
-                <h4 class="mb-2">RPC Configuration</h4>
-                <p class="text-700">Upload your unique RPC URL to power your Arcana Bot.</p>
-                <div class="input-group">
-                    <form class="form-signin row row-cols-lg-auto g-3 align-items-center" method="POST" action="/settings" autocomplete="off" autocapitalize="none">
-                        <div class="col-12 form-icon-container">
-                            <div class="input-group">
-                                <input type="text" class="form-control" required aria-describedby="rpc-server-text" placeholder="RPC URL">
-                            </div>
+                    <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                        <div class="col-auto d-flex">
+                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                         </div>
-                        <div class="col-12" style="z-index: 1;">
-                        <button class="btn btn-secondary btn-sm" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                        </button>
+                        <div class="col-auto d-flex">
+                            <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                            <ul class="mb-0 pagination"></ul>
+                            <button class="page-link pe-0" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
                         </div>
-                    </form>
-                    <div class="input-group mt-3">
-                        <h5 class="mt-2">Active Connection:</h5>
-                        <span text="${tradingAccountPubkey}"></span><br>
                     </div>
                 </div>
-                <div class="border-bottom border-dashed pb-3 mb-4"></div>
-                <h4 class="mb-2">Wallet Configuration</h4>
-                <p class="text-700">Connect the Solana Wallet(s) you wish to trade with Arcana Bot.</p>
-                <div class="border-bottom border-dashed mb-4"></div>
-                <h5 class="mb-2">Private Keys</h5>
-                <p class="text-700">Paste directly from Phantom wallet. It's quick, easy, and secure.</p>
-                <div class="input-group mb-3">
-                    <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/privateKeyPost" autocomplete="off" autocapitalize="none">
-                            <div class="col-12 form-icon-container">
-                                <div class="input-group">
-                                    <input type="password" class="form-control" required aria-describedby="rpc-server-text" id="inlineFormInputGroupUsername" placeholder="Private Key (Base58)">
-                                </div>
-                            </div>
-                        <div class="col-12" style="z-index: 1;">
-                        <button type="submit" class="btn btn-secondary btn-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <p class="text-700">Alternatively upload from a local device for CLI users.</p>
-                <div class="input-group mb-3">
-                    <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/privateKeyUpload" enctype="multipart/form-data" autocomplete="off" autocapitalize="none">
-                        <div class="col-12 form-icon-container">
-                            <div class="input-group mb-2">
-                                <input class="form-control" required type="file" id="formFile">
-                            </div>
-                        </div>
-                        <div class="col-12" style="z-index: 1;">
-                            <button type="submit" class="btn btn-secondary btn-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="border-bottom border-dashed pb-3 mb-4"></div>
-                <div class="input-group mb-2">
-                    <h4 class="mt-2">Active Accounts</h4>
-                    <span text="${tradingAccountPubkey}"></span><br>
-                </div>
-              <div class="border-bottom border-dashed pb-3 mb-4"></div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" id="showPhone" type="checkbox" checked="checked" name="showPhone" />
-                  <label class="form-check-label fs-0" for="showPhone">Receive updates via Email.</label>
-                </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" id="permitFollow" type="checkbox" checked="checked" name="permitFollow" />
-                  <label class="form-check-label fs-0" for="permitFollow">Track my trading volume.</label>
-                </div>
-              </div>
             </div>
-            <div class="border-bottom border-dashed pb-3 mb-4"></div>
-            <div class="col-12 col-xl-8">
-              <div class="border-bottom border-300 mb-4">
-                <div class="mb-6">
-                  <div class="col-12 col-sm-6">
-                    <h4 class="mb-4">Change Password</h4>
-                    <div class="form-icon-container mb-3">
-                      <div class="form-floating">
-                        <input class="form-control form-icon-input" id="oldPassword" type="password" placeholder="Old password" />
-                        <label class="text-700 form-icon-label" for="oldPassword">Old Password</label>
-                      </div><span class="fa-solid fa-lock text-900 fs--1 form-icon"></span>
-                    </div>
-                    <div class="form-icon-container mb-3">
-                      <div class="form-floating">
-                        <input class="form-control form-icon-input" id="newPassword" type="password" placeholder="New password" />
-                        <label class="text-700 form-icon-label" for="newPassword">New Password</label>
-                      </div><span class="fa-solid fa-key text-900 fs--1 form-icon"></span>
-                    </div>
-                    <div class="form-icon-container">
-                      <div class="form-floating">
-                        <input class="form-control form-icon-input" id="newPassword2" type="password" placeholder="Confirm New password" />
-                        <label class="text-700 form-icon-label" for="newPassword2">Confirm New Password</label>
-                      </div><span class="fa-solid fa-key text-900 fs--1 form-icon"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-6">
-                  <div>
-                    <button class="btn btn-phoenix-secondary me-2">Cancel Changes</button>
-                    <button class="btn btn-phoenix-primary">Save Information</button>
-                  </div>
-                </div>
-              </div>
-              <div class="row gy-5 mt-2">
-                <div class="col-12 col-md-6">
-                  <h4 class="text-black">Transfer Ownership</h4>
-                  <p class="text-700">Transfer this account to another person or to a company repository.</p>
-                  <button class="btn btn-phoenix-warning">Transfer</button>
-                </div>
-                <div class="col-12 col-md-6">
-                  <h4 class="text-black">Account Deletion</h4>
-                  <p class="text-700">Transfer this account to another person or to a company repository.</p>
-                  <button class="btn btn-phoenix-danger">Delete account</button>
-                </div>
-              </div>
-            </div>
-          </div>
+         </div>
+        </div>
+      </div>
+
 
         <footer class="footer position-fixed bg-white z-index-2">
             <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center" >
-                    <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
-                </div>
-                <div class="col-12 col-sm-auto text-center">
+                  <div class="col-12 col-sm-auto text-center" >
+                      <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
+                  </div>
+                  <div class="col-12 col-sm-auto text-center">
 
-                    <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                      <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
                                 <img src="/static/img/bootstrap-icons/twitter-x.svg" alt="Twitter/X" >
                             </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
                                 <img src="/static/img/bootstrap-icons/discord.svg" alt="Discord" >
                             </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
                                 <img src="/static/img/bootstrap-icons/telegram.svg" alt="Telegram" >
                             </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
                                 <img src="/static/img/bootstrap-icons/github.svg" alt="GitHub" >
                             </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
                                 <img src="/static/img/bootstrap-icons/envelope.svg" alt="Email" >
                             </span>
-                                </div>
-                            </a>
-                            </div>
-                        </div>
-                    </a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-      </div>
+                                  </div>
+                              </a>
+                              </div>
+                          </div>
+                      </a>
+                      </div>
+                  </div>
+              </div>
+          </footer>
       <script>
         var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
         var navbarTop = document.querySelector('.navbar-top');
@@ -412,10 +355,12 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
+      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
     <!-- ===============================================-->
+
 
     <!-- ===============================================-->
     <!--    JavaScripts-->
@@ -431,6 +376,7 @@
     <script src="/static/vendors/feather-icons/feather.min.js"></script>
     <script src="/static/vendors/dayjs/dayjs.min.js"></script>
     <script src="/static/phoenix.js"></script>
+    <script src="/static/vendors/list.js/list.min.js"></script>
 
   </body>
 
