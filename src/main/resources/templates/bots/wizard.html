@@ -137,9 +137,9 @@
           <div class="navbar-logo">
 
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="index.html">
-              <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center"><img src="/static/img/icons/logo.png" alt="phoenix" width="27" />
+              <a class="navbar-brand ms-0 me-1 me-sm-3" href="/index">
+                  <div class="d-flex align-items-center">
+                      <div class="d-flex align-items-center"><img src="/static/img/icons/arcana-icon-outline.png" alt="arcana" style="margin-left: -14px;" width="50" />
                   <p class="logo-text ms-2 d-none d-sm-block">arcana</p>
                 </div>
               </div>
@@ -206,188 +206,11 @@
               <div class="card-header p-4 border-bottom border-300 bg-soft">
                 <div class="row g-3 justify-content-between align-items-center">
                   <div class="col-12 col-md">
-                    <h4 class="text-900 mb-0" data-anchor="data-anchor">Create New Bot</h4>
+                    <h4 class="text-900 mb-0">Create New Bot</h4>
                   </div>
                 </div>
               </div>
               <div class="card-body p-0">
-                <div class="collapse code-collapse" id="with-validation-code">
-                  <pre class="scrollbar" style="max-height:420px"><code class="language-html">&lt;div class=&quot;card theme-wizard mb-5&quot; data-theme-wizard=&quot;data-theme-wizard&quot;&gt;
-  &lt;div class=&quot;card-header bg-100 pt-3 pb-2 border-bottom-0&quot;&gt;
-    &lt;ul class=&quot;nav justify-content-between nav-wizard&quot;&gt;
-      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link active fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab1&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;1&quot;&gt;
-          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-lock&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Account&lt;/span&gt;&lt;/div&gt;
-        &lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab2&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;2&quot;&gt;
-          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-user&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Personal&lt;/span&gt;&lt;/div&gt;
-        &lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab3&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;3&quot;&gt;
-          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-file-alt&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Billing&lt;/span&gt;&lt;/div&gt;
-        &lt;/a&gt;&lt;/li&gt;
-      &lt;li class=&quot;nav-item&quot;&gt;&lt;a class=&quot;nav-link fw-semi-bold&quot; href=&quot;#bootstrap-wizard-validation-tab4&quot; data-bs-toggle=&quot;tab&quot; data-wizard-step=&quot;4&quot;&gt;
-          &lt;div class=&quot;text-center d-inline-block&quot;&gt;&lt;span class=&quot;nav-item-circle-parent&quot;&gt;&lt;span class=&quot;nav-item-circle&quot;&gt;&lt;span class=&quot;fas fa-check&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;d-none d-md-block mt-1 fs--1&quot;&gt;Done&lt;/span&gt;&lt;/div&gt;
-        &lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;card-body pt-4 pb-0&quot;&gt;
-    &lt;div class=&quot;tab-content&quot;&gt;
-      &lt;div class=&quot;tab-pane active&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab1&quot; id=&quot;bootstrap-wizard-validation-tab1&quot;&gt;
-        &lt;form class=&quot;needs-validation&quot; id=&quot;wizardValidationForm1&quot; novalidate=&quot;novalidate&quot; data-wizard-form=&quot;1&quot;&gt;
-          &lt;div class=&quot;mb-2&quot;&gt;
-            &lt;label class=&quot;form-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-name&quot;&gt;Name&lt;/label&gt;
-            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;John Smith&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-name&quot; /&gt;
-            &lt;div class=&quot;invalid-feedback&quot;&gt;Please choose a username.&lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;mb-2&quot;&gt;
-            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-email&quot;&gt;Email*&lt;/label&gt;
-            &lt;input class=&quot;form-control&quot; type=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Email address&quot; pattern=&quot;^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-email&quot; /&gt;
-            &lt;div class=&quot;invalid-feedback&quot;&gt;You must add email&lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;row g-3 mb-3&quot;&gt;
-            &lt;div class=&quot;col-sm-6&quot;&gt;
-              &lt;div class=&quot;mb-2 mb-sm-0&quot;&gt;
-                &lt;label class=&quot;form-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-password&quot;&gt;Password*&lt;/label&gt;
-                &lt;input class=&quot;form-control&quot; type=&quot;password&quot; name=&quot;password&quot; placeholder=&quot;Password&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-password&quot; data-wizard-password=&quot;true&quot; /&gt;
-                &lt;div class=&quot;invalid-feedback&quot;&gt;Please enter password&lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-sm-6&quot;&gt;
-              &lt;div class=&quot;mb-2&quot;&gt;
-                &lt;label class=&quot;form-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-confirm-password&quot;&gt;Confirm Password*&lt;/label&gt;
-                &lt;input class=&quot;form-control&quot; type=&quot;password&quot; name=&quot;confirmPassword&quot; placeholder=&quot;Confirm Password&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-confirm-password&quot; data-wizard-confirm-password=&quot;true&quot; /&gt;
-                &lt;div class=&quot;invalid-feedback&quot;&gt;Passwords need to match&lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;form-check&quot;&gt;
-            &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; name=&quot;terms&quot; required=&quot;required&quot; checked=&quot;checked&quot; id=&quot;bootstrap-wizard-validation-wizard-checkbox&quot; /&gt;
-            &lt;label class=&quot;form-check-label text-900&quot; for=&quot;bootstrap-wizard-validation-wizard-checkbox&quot;&gt;I accept the &lt;a href=&quot;#!&quot;&gt;terms &lt;/a&gt;and &lt;a href=&quot;#!&quot;&gt;privacy policy&lt;/a&gt;&lt;/label&gt;
-          &lt;/div&gt;
-        &lt;/form&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;tab-pane&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab2&quot; id=&quot;bootstrap-wizard-validation-tab2&quot;&gt;
-        &lt;form class=&quot;needs-validation&quot; id=&quot;wizardValidationForm2&quot; novalidate=&quot;novalidate&quot; data-wizard-form=&quot;2&quot;&gt;
-          &lt;div class=&quot;row g-4 mb-4&quot; data-dropzone=&quot;data-dropzone&quot; data-options='{&quot;maxFiles&quot;:1,&quot;data&quot;:[{&quot;name&quot;:&quot;avatar.webp&quot;,&quot;size&quot;:&quot;54kb&quot;,&quot;url&quot;:&quot;../../assets/img/team&quot;}]}'&gt;
-            &lt;div class=&quot;fallback&quot;&gt;
-              &lt;input type=&quot;file&quot; name=&quot;file&quot; /&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-md-auto&quot;&gt;
-              &lt;div class=&quot;dz-preview dz-preview-single&quot;&gt;
-                &lt;div class=&quot;dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0&quot;&gt;
-                  &lt;div class=&quot;avatar avatar-4xl&quot;&gt;&lt;img class=&quot;rounded-circle avatar-placeholder&quot; src=&quot;../../assets/img/team/avatar.webp&quot; alt=&quot;...&quot; data-dz-thumbnail=&quot;data-dz-thumbnail&quot; /&gt;&lt;/div&gt;
-                  &lt;div class=&quot;dz-progress&quot;&gt;&lt;span class=&quot;dz-upload&quot; data-dz-uploadprogress=&quot;&quot;&gt;&lt;/span&gt;&lt;/div&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-md&quot;&gt;
-              &lt;div class=&quot;dz-message dropzone-area px-2 py-3&quot; data-dz-message=&quot;data-dz-message&quot;&gt;
-                &lt;div class=&quot;text-center text-1100&quot;&gt;
-                  &lt;h5 class=&quot;mb-2&quot;&gt;&lt;span class=&quot;fa-solid fa-upload me-2&quot;&gt;&lt;/span&gt;Upload Profile Picture&lt;/h5&gt;
-                  &lt;p class=&quot;mb-0 fs--1 text-600 lh-sm&quot;&gt;Upload a 300x300 jpg image with &lt;br /&gt;a maximum size of 400KB&lt;/p&gt;
-                &lt;/div&gt;
-              &lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;mb-2&quot;&gt;
-            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-gender&quot;&gt;Gender&lt;/label&gt;
-            &lt;select class=&quot;form-select&quot; name=&quot;gender&quot; id=&quot;bootstrap-wizard-validation-gender&quot; required=&quot;required&quot;&gt;
-              &lt;option value=&quot;&quot;&gt;Select your gender ...&lt;/option&gt;
-              &lt;option value=&quot;Male&quot;&gt;Male&lt;/option&gt;
-              &lt;option value=&quot;Female&quot;&gt;Female&lt;/option&gt;
-              &lt;option value=&quot;Other&quot;&gt;Other&lt;/option&gt;
-            &lt;/select&gt;
-            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;mb-2&quot;&gt;
-            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-phone&quot;&gt;Phone&lt;/label&gt;
-            &lt;input class=&quot;form-control&quot; type=&quot;text&quot; name=&quot;phone&quot; placeholder=&quot;Phone&quot; id=&quot;bootstrap-wizard-validation-wizard-phone&quot; required=&quot;required&quot; /&gt;
-            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;mb-2&quot;&gt;
-            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-datepicker&quot;&gt;Date of Birth&lt;/label&gt;
-            &lt;input class=&quot;form-control datetimepicker&quot; type=&quot;text&quot; placeholder=&quot;d/m/y&quot; data-options='{&quot;dateFormat&quot;:&quot;d/m/y&quot;,&quot;disableMobile&quot;:true}' required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-wizard-datepicker&quot; /&gt;
-            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;mb-2&quot;&gt;
-            &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-wizard-address&quot;&gt;Address&lt;/label&gt;
-            &lt;textarea class=&quot;form-control&quot; rows=&quot;4&quot; id=&quot;bootstrap-wizard-validation-wizard-address&quot; required=&quot;required&quot;&gt;&lt;/textarea&gt;
-            &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/form&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;tab-pane&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab3&quot; id=&quot;bootstrap-wizard-validation-tab3&quot;&gt;
-        &lt;form class=&quot;mb-2 needs-validation&quot; id=&quot;wizardValidationForm3&quot; novalidate=&quot;novalidate&quot; data-wizard-form=&quot;3&quot;&gt;
-          &lt;div class=&quot;row gx-3 gy-2&quot;&gt;
-            &lt;div class=&quot;col-6&quot;&gt;
-              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-number&quot;&gt;Card Number&lt;/label&gt;
-              &lt;input class=&quot;form-control&quot; placeholder=&quot;XXXX XXXX XXXX XXXX&quot; type=&quot;text&quot; required=&quot;required&quot; id=&quot;bootstrap-wizard-validation-card-number&quot; /&gt;
-              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-6&quot;&gt;
-              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-name&quot;&gt;Name&lt;/label&gt;
-              &lt;input class=&quot;form-control&quot; placeholder=&quot;John Doe&quot; name=&quot;cardName&quot; type=&quot;text&quot; id=&quot;bootstrap-wizard-validation-card-name&quot; required=&quot;required&quot; /&gt;
-              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-6&quot;&gt;
-              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-holder-country&quot;&gt;Country&lt;/label&gt;
-              &lt;select class=&quot;form-select&quot; name=&quot;customSelectCountry&quot; id=&quot;bootstrap-wizard-validation-card-holder-country&quot; required=&quot;required&quot;&gt;
-                &lt;option value=&quot;&quot;&gt;Select your country ...&lt;/option&gt;
-                &lt;option value=&quot;Afghanistan&quot;&gt;Afghanistan&lt;/option&gt;
-                &lt;option value=&quot;Albania&quot;&gt;Albania&lt;/option&gt;
-                &lt;option value=&quot;Algeria&quot;&gt;Algeria&lt;/option&gt;
-                &lt;option value=&quot;American Samoa&quot;&gt;American Samoa&lt;/option&gt;
-                &lt;option value=&quot;Andorra&quot;&gt;Andorra&lt;/option&gt;
-                &lt;option value=&quot;Angola&quot;&gt;Angola&lt;/option&gt;
-                &lt;option value=&quot;Anguilla&quot;&gt;Anguilla&lt;/option&gt;
-                &lt;option value=&quot;Antarctica&quot;&gt;Antarctica&lt;/option&gt;
-                &lt;option value=&quot;Antigua and Barbuda&quot;&gt;Antigua and Barbuda&lt;/option&gt;
-                &lt;option value=&quot;Argentina&quot;&gt;Argentina&lt;/option&gt;
-              &lt;/select&gt;
-              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-6&quot;&gt;
-              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-holder-zip-code&quot;&gt;Zip&lt;/label&gt;
-              &lt;input class=&quot;form-control&quot; placeholder=&quot;1234&quot; name=&quot;zipCode&quot; type=&quot;text&quot; id=&quot;bootstrap-wizard-validation-card-holder-zip-code&quot; required=&quot;required&quot; /&gt;
-              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-6&quot;&gt;
-              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-exp-date&quot;&gt;Date of Expire&lt;/label&gt;
-              &lt;input class=&quot;form-control&quot; placeholder=&quot;15/2024&quot; name=&quot;expDate&quot; type=&quot;text&quot; id=&quot;bootstrap-wizard-validation-card-exp-date&quot; required=&quot;required&quot; /&gt;
-              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;col-6&quot;&gt;
-              &lt;label class=&quot;form-label&quot; for=&quot;bootstrap-wizard-validation-card-cvv&quot;&gt;CVV&lt;/label&gt;
-              &lt;input class=&quot;form-control&quot; placeholder=&quot;123&quot; name=&quot;cvv&quot; maxlength=&quot;3&quot; pattern=&quot;[0-9]{3}&quot; type=&quot;number&quot; id=&quot;bootstrap-wizard-validation-card-cvv&quot; required=&quot;required&quot; /&gt;
-              &lt;div class=&quot;invalid-feedback&quot;&gt;This field is required.&lt;/div&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/form&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;tab-pane&quot; role=&quot;tabpanel&quot; aria-labelledby=&quot;bootstrap-wizard-validation-tab4&quot; id=&quot;bootstrap-wizard-validation-tab4&quot;&gt;
-        &lt;div class=&quot;row flex-center pb-8 pt-4 gx-3 gy-4&quot;&gt;
-          &lt;div class=&quot;col-12 col-sm-auto&quot;&gt;
-            &lt;div class=&quot;text-center text-sm-start&quot;&gt;&lt;img class=&quot;d-dark-none&quot; src=&quot;../../assets/img/spot-illustrations/38.webp&quot; alt=&quot;&quot; width=&quot;220&quot; /&gt;&lt;img class=&quot;d-light-none&quot; src=&quot;../../assets/img/spot-illustrations/dark_38.webp&quot; alt=&quot;&quot; width=&quot;220&quot; /&gt;&lt;/div&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;col-12 col-sm-auto&quot;&gt;
-            &lt;div class=&quot;text-center text-sm-start&quot;&gt;
-              &lt;h5 class=&quot;mb-3&quot;&gt;You are all set!&lt;/h5&gt;
-              &lt;p class=&quot;text-1100 fs--1&quot;&gt;Now you can access your account&lt;br /&gt;anytime anywhere&lt;/p&gt;&lt;a class=&quot;btn btn-primary px-6&quot; href=&quot;../../modules/forms/wizard.html&quot;&gt;Start Over&lt;/a&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;card-footer border-top-0&quot; data-wizard-footer=&quot;data-wizard-footer&quot;&gt;
-    &lt;div class=&quot;d-flex pager wizard list-inline mb-0&quot;&gt;
-      &lt;button class=&quot;d-none btn btn-link ps-0&quot; type=&quot;button&quot; data-wizard-prev-btn=&quot;data-wizard-prev-btn&quot;&gt;&lt;span class=&quot;fas fa-chevron-left me-1&quot; data-fa-transform=&quot;shrink-3&quot;&gt;&lt;/span&gt;Previous&lt;/button&gt;
-      &lt;div class=&quot;flex-1 text-end&quot;&gt;
-        &lt;button class=&quot;btn btn-primary px-6 px-sm-6&quot; type=&quot;submit&quot; data-wizard-next-btn=&quot;data-wizard-next-btn&quot;&gt;Next&lt;span class=&quot;fas fa-chevron-right ms-1&quot; data-fa-transform=&quot;shrink-3&quot;&gt; &lt;/span&gt;&lt;/button&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-                </div>
                 <div class="p-4 code-to-copy">
                   <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
                     <div class="card-header bg-100 pt-3 pb-2 border-bottom-0">
@@ -486,8 +309,8 @@
                               <label class="form-label" for="bootstrap-wizard-validation-gender">Strategy</label>
                               <select class="form-select" name="gender" id="bootstrap-wizard-validation-gender" required="required">
                                 <option value="">Select a strategy...</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="Male">Jupiter Strat</option>
+                                <option value="Female">Orderbook Strat</option>
                                 <option value="Other">Other</option>
                               </select>
                               <div class="invalid-feedback">This field is required.</div>
@@ -565,7 +388,7 @@
               </div>
             </div>
           </div>
-         </div>
+
           <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
               <div class="modal-content position-relative">
@@ -665,6 +488,7 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
+      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
