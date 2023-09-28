@@ -61,6 +61,15 @@ public class ArcanaWebConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public ViewResolver htmlViewResolver() {
+        InternalResourceViewResolver bean = new InternalResourceViewResolver();
+        bean.setViewClass(JstlView.class);
+        bean.setPrefix("/templates/");
+        bean.setSuffix(".html");
+        return bean;
+    }
+
+    @Bean
     public BeanNameViewResolver beanNameViewResolver() {
         return new BeanNameViewResolver();
     }

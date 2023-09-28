@@ -29,10 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Controller
 @Slf4j
@@ -203,7 +201,7 @@ public class ArcanaController {
             model.addAttribute("lastAskOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastAskOrder().toString());
         }
 
-        return "view_bot";
+        return "bots/view_bot";
     }
 
     @RequestMapping("/bots/stop/{id}")
