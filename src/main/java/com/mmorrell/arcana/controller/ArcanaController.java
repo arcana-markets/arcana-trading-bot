@@ -180,7 +180,7 @@ public class ArcanaController {
         model.addAttribute("newBot", newBot);
         model.addAttribute("marketId", marketId);
 
-        return "add_bot";
+        return "bots/wizard";
     }
 
     @RequestMapping("/bots/view/{id}")
