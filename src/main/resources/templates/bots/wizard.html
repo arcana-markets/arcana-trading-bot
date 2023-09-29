@@ -41,12 +41,37 @@
     <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet">
+      <style>
+          .img-flag {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+          }
 
+          .img-overlap {
+              position: relative;
+              left: -15px;
+          }
+
+      </style>
+      <style>
+          .select2-container--default .select2-selection--single {
+            height: 45px; /* Adjust as needed */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 45px; /* Same as above */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 45px; /* Same as above */
+        }
+      </style>
   </head>
 
 
   <body>
-
     <!-- ===============================================-->
     <!--    Main Content-->
     <!-- ===============================================-->
@@ -200,19 +225,12 @@
       <div class="content">
         <h2 class="mb-2 lh-sm">The Wizard</h2>
         <p class="text-700 lead mb-2">Follow the Wizard to create your new Arcana trading bots</p>
-        <div class="row mb-9">
+        <div class="row mb-2">
           <div class="col-12 col-xxl-6">
             <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
-              <div class="card-header p-4 border-bottom border-300 bg-soft">
-                <div class="row g-3 justify-content-between align-items-center">
-                  <div class="col-12 col-md">
-                    <h4 class="text-900 mb-0">Create New Bot</h4>
-                  </div>
-                </div>
-              </div>
               <div class="card-body p-0">
-                <div class="p-4 code-to-copy">
-                  <div class="card theme-wizard mb-5" data-theme-wizard="data-theme-wizard">
+                <div class="p-4">
+                  <div class="card theme-wizard mb-1" data-theme-wizard="data-theme-wizard">
                     <div class="card-header bg-100 pt-3 pb-2 border-bottom-0">
                       <ul class="nav justify-content-between nav-wizard">
                         <li class="nav-item"><a class="nav-link active fw-semi-bold" href="#bootstrap-wizard-validation-tab1" data-bs-toggle="tab" data-wizard-step="1">
@@ -233,74 +251,58 @@
                       <div class="tab-content">
                         <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab1" id="bootstrap-wizard-validation-tab1">
                           <form class="needs-validation" id="wizardValidationForm1" novalidate="novalidate" data-wizard-form="1">
-                            <div class="mb-2">
-                              <label class="form-label" for="bootstrap-wizard-validation-gender">Markets</label>
-                              <select class="form-select" name="presetMarkets" id="presetMarkets" required="required">
-                                <option value="">Select a Market</option>
-                                <option value="8BnEgHoWFysVcuFFX7QztDmzuH8r5ZFvyP3sYwn1XTh6">SOL/USDC</option>
-                                <option value="9Lyhks5bQQxb9EyyX55NtgKQzpM4WK7JCmeaWuQ5MoXD">MSOL/USDC</option>
-                                <option value="BbJgE7HZMaDp5NTYvRh5jZSkQPVDTU8ubPFtpogUkEj4">ETH/USDC</option>
-                                <option value="3BAKsQd3RuhZKES2DGysMhjBdwjZYKYmxRqnSMtZ4KSN">WBTC/USDC</option>
-                                <option value="72h8rWaWwfPUL36PAFqyQZU8RT1V3FKG7Nc45aK89xTs">RLB/USDC</option>
-                                <option value="3NnxQvDcZXputNMxaxsGvqiKpqgPfSYXpNigZNFcknmD">MNGO/USDC</option>
-                                <option value="JAmhJbmBzLp2aTp9mNJodPsTcpCJsmq5jpr6CuCbWHvR">JitoSOL/USDC</option>
-                              </select>
-                              <script>
-                        $("#presetMarkets").on('change', function() {
-                            $("#inputAddress").val(this.value);
-                        });
-                    </script>
-                              <div class="invalid-feedback">This field is required.</div>
-                            </div>
-                            <div class="mb-4">
-                              <label class="form-label" for="inputAddress">Market ID</label>
-                              <input type="text" class="form-control" placeholder="Market Address" id="inputAddress" th:field="*{marketId}">
-                            </div>
-                            <div class="form-row mb-2">
-                              <div class="form-group col-md-12">
-                                <input class="form-control btn btn-secondary" type="button" id="autoFillButton" value="Autofill accounts (0-30 seconds)"
-                                       onclick="autoFill()"/>
-                                <script>
-                        function autoFill() {
-                            $("#autoFillButton").prop('disabled', true);
-                            var marketId = $("#inputAddress").val();
-                            $.get('/getAccountsByMarket/' + marketId, function (data,
-                                                                                textStatus,
-                                                                                jqXHR) {
-                                $("#baseWallet").val(data.baseWallet);
-                                $("#quoteWallet").val(data.quoteWallet);
-                                $("#ooa").val(data.ooa);
-                                $("#autoFillButton").prop('disabled', false);
-                            }).fail(function() {
-                                $("#autoFillButton").prop('disabled', false);
-                            });
-                        }
-                    </script>
+                              <div class="row g-3 mb-3">
+                                  <!-- First item: Markets dropdown -->
+                                  <div class="col-md-4 col-sm-6 d-flex align-items-center">
+                                      <div>
+                                          <label class="form-label" for="bootstrap-wizard-validation-gender">Markets</label>
+                                          <select class="form-select form-select-lg" id="imageSelect" style="width: 100%;">
+                                              <option value="sol/usdc" data-image-src="/static/img/token-icons/SOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOL/USDC</option>
+                                              <!-- ... additional options ... -->
+                                          </select>
+
+                                          <script>
+                                              $("#presetMarkets").on('change', function() {
+                                                  $("#inputAddress").val(this.value);
+                                              });
+                                          </script>
+                                      </div>
+                                  </div>
+                                      <div class="col-md-6 d-flex align-items-center">
+                                          <div class="mt-3">
+
+                                          <input
+                                                  class="btn btn-lg btn-secondary"
+                                                  type="button"
+                                                  id="autoFillButton"
+                                                  value="Get Account Data"
+                                                  onclick="autoFill()" />
+                                      </div>
+                                      </div>
                               </div>
-                            </div>
-                            <div class="row g-3 mb-3">
-                              <div class="col-sm-6">
-                                <div class="mb-2 mb-sm-0">
-                                  <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Open Orders Account</label>
-                                  <input class="form-control" type="password" name="password" placeholder="Open Orders Account" required="required" id="bootstrap-wizard-validation-wizard-password" data-wizard-password="true" />
-                                  <div class="invalid-feedback">Fill your Open Orders Account</div>
-                                </div>
+                              <div class="row g-3 mb-3">
+                                  <!-- First item: Markets dropdown -->
+                                  <div class="col-md-6">
+                                  <label class="form-label" for="inputAddress">Market ID</label>
+                                  <input type="text" class="form-control form-control-lg" placeholder="Market Address" id="inputAddress" th:field="*{marketId}">
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Base Wallet</label>
+                                      <input class="form-control form-control-lg" type="password" name="confirmPassword" placeholder="Solana Public Address" required="required" id="bootstrap-wizard-validation-wizard-confirm-password" data-wizard-confirm-password="true" />
+                                  </div>
                               </div>
-                              <div class="col-sm-6">
-                                <div class="mb-2">
-                                  <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Base Wallet Account</label>
-                                  <input class="form-control" type="password" name="confirmPassword" placeholder="Base Wallet Account" required="required" id="bootstrap-wizard-validation-wizard-confirm-password" data-wizard-confirm-password="true" />
-                                  <div class="invalid-feedback">Fill your Base Wallet</div>
-                                </div>
+                              <div class="row g-3 mb-3">
+                                  <div class="col-md-6">
+                                      <!-- First item: Open Orders Account -->
+                                          <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Open Orders Account</label>
+                                          <input class="form-control" type="password" name="password" placeholder="Open Orders Account" required="required" id="bootstrap-wizard-validation-wizard-password" data-wizard-password="true" />
+                                  </div>
+                                  <div class="col-md-6">
+                                      <!-- Third item: Quote Wallet Account -->
+                                          <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Quote Wallet</label>
+                                          <input class="form-control" type="password" name="confirmPassword" placeholder="Quote Wallet" required="required" data-wizard-confirm-password="true" />
+                                  </div>
                               </div>
-                            </div>
-                            <div class="col-sm-6">
-                              <div class="mb-2">
-                                <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Quote Wallet Account</label>
-                                <input class="form-control" type="password" name="confirmPassword" placeholder="Quote Wallet" required="required" data-wizard-confirm-password="true" />
-                                <div class="invalid-feedback">Fill your Quote Wallet</div>
-                              </div>
-                            </div>
                           </form>
                         </div>
                         <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
@@ -415,7 +417,7 @@
             </div>
           </div>
         </div>
-          <footer class="footer position-fixed z-index:1000 bg-white">
+          <footer class="footer position-fixed z-index:100 bg-white">
               <div class="row g-0 justify-content-between align-items-center h-100">
                   <div class="col-12 col-sm-auto text-center">
                       <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
@@ -475,6 +477,7 @@
                   </div>
               </div>
           </footer>
+      </div>
       <script>
         var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
         var navbarTop = document.querySelector('.navbar-top');
@@ -488,7 +491,6 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
-      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
@@ -510,6 +512,48 @@
     <script src="/static/phoenix.js"></script>
     <script src="/static/vendors/prism/prism.js"></script>
     <script src="/static/vendors/dropzone/dropzone.min.js"></script>
+    <!-- jQuery (Select2 requires jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+    function formatState (state) {
+        if (!state.id) { return state.text; }
+
+        var imgSrc1 = $(state.element).data('image-src');
+        var imgSrc2 = $(state.element).data('image-src2');
+
+        var $state = $(
+            '<span><img src="' + imgSrc1 + '" class="img-flag" /> <img src="' + imgSrc2 + '" class="img-flag img-overlap" />' + state.text + '</span>'
+        );
+
+        return $state;
+    }
+
+    $(document).ready(function() {
+    $('#imageSelect').select2({
+    templateResult: formatState,
+    templateSelection: formatState
+        });
+    });
+
+</script>
+    <script>
+          function autoFill() {
+        $("#autoFillButton").prop('disabled', true);
+
+        var marketId = $("#inputAddress").val();
+
+        $.get('/getAccountsByMarket/' + marketId, function(data, textStatus, jqXHR) {
+            $("#baseWallet").val(data.baseWallet);
+            $("#quoteWallet").val(data.quoteWallet);
+            $("#ooa").val(data.ooa);
+            $("#autoFillButton").prop('disabled', false);
+        }).fail(function() {
+            $("#autoFillButton").prop('disabled', false);
+        });
+    }
+    </script>
   </body>
 
 </html>
