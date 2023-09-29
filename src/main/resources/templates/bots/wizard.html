@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
@@ -112,7 +111,6 @@
           .select2-results__options::-webkit-scrollbar-track {
               background: #f1f1f1;
           }
-
           /* Styling for option states */
           .select2-results__option--highlighted[aria-selected],
           .select2-results__option:hover {
@@ -135,20 +133,7 @@
           .select2-search--dropdown .select2-search__field {
               display: none;
           }
-            .select2-dropdown {
-                background-color: #f7f9fc;
-                color: #333;
-            }
-            body[dark] .select2-dropdown {
-                background-color: #333;
-                color: #f7f9fc;
-            }
-
-            /* ... Repeat this pattern for other select2 elements ... */
-
-
       </style>
-
 
   </head>
 
@@ -594,14 +579,6 @@
     templateSelection: formatState
         });
     });
-    document.getElementById('themeControlToggle').addEventListener('change', function() {
-        if (this.checked) {
-            document.body.setAttribute('dark', '');  // Enable dark mode
-        } else {
-            document.body.removeAttribute('dark');  // Switch back to light mode
-        }
-    });
-
 </script>
     <script>
           function autoFill() {
