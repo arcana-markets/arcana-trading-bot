@@ -47,6 +47,7 @@
               width: 30px;
               height: 30px;
               border-radius: 50%;
+              position: relative;
           }
 
           .img-overlap {
@@ -54,20 +55,101 @@
               left: -15px;
           }
 
+          /* This pulls the left image in front */
+          .img-flag:not(.img-overlap) {
+              z-index: 1;
+          }
       </style>
       <style>
+          /* General select2 container and dropdown styles */
           .select2-container--default .select2-selection--single {
-            height: 45px; /* Adjust as needed */
-        }
+              height: 45px;
+              border: 1px solid #ddd;
+              border-radius: 8px; /* Rounded borders for a smoother appearance */
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+          }
 
-        .select2-container--default .select2-selection--single .select2-selection__rendered {
-            line-height: 45px; /* Same as above */
-        }
+          .select2-container--default .select2-selection--single .select2-selection__rendered,
+          .select2-container--default .select2-selection--single .select2-selection__arrow {
+              height: 45px;
+              line-height: 45px;
+          }
 
-        .select2-container--default .select2-selection--single .select2-selection__arrow {
-            height: 45px; /* Same as above */
-        }
+          .select2-results__option {
+              padding: 8px 20px;
+              font-size: 16px;
+              border-radius: 5px;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Slight shadow on each dropdown item for separation */
+          }
+
+          .select2-dropdown {
+              border: 1px solid #ddd;
+              border-radius: 8px; /* Same border radius as main container */
+              background-color: #f7f9fc;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for the dropdown depth */
+          }
+
+          /* Scrollbar styles */
+          .select2-results__options {
+              overflow-y: auto;
+              scrollbar-width: thin;
+              scrollbar-color: #888 #f1f1f1;
+          }
+
+          .select2-results__options::-webkit-scrollbar {
+              width: 5px;
+          }
+
+          .select2-results__options::-webkit-scrollbar-thumb {
+              background: #888;
+              border-radius: 2px;
+          }
+
+          .select2-results__options::-webkit-scrollbar-thumb:hover {
+              background: #555;
+          }
+
+          .select2-results__options::-webkit-scrollbar-track {
+              background: #f1f1f1;
+          }
+
+          /* Styling for option states */
+          .select2-results__option--highlighted[aria-selected],
+          .select2-results__option:hover {
+              background-color: #428bca;
+              color: white;
+          }
+
+          .select2-results__option[aria-selected=true] {
+              background-color: #ddd;
+          }
+
+          .select2-results__option:nth-child(even) {
+              background-color: #f7f7f7;
+          }
+
+          .select2-results__option:nth-child(odd) {
+              background-color: #fff;
+          }
+
+          .select2-search--dropdown .select2-search__field {
+              display: none;
+          }
+            .select2-dropdown {
+                background-color: #f7f9fc;
+                color: #333;
+            }
+            body[dark] .select2-dropdown {
+                background-color: #333;
+                color: #f7f9fc;
+            }
+
+            /* ... Repeat this pattern for other select2 elements ... */
+
+
       </style>
+
+
   </head>
 
 
@@ -239,9 +321,6 @@
                         <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-validation-tab2" data-bs-toggle="tab" data-wizard-step="2">
                             <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><img src="/static/img/bootstrap-icons/magic.svg" alt="Magic" ...></span></span></span></span><span class="d-none d-md-block mt-1 fs--1">Strategy</span></div>
                           </a></li>
-                        <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-validation-tab3" data-bs-toggle="tab" data-wizard-step="3">
-                            <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><img src="/static/img/bootstrap-icons/person-badge.svg" alt="Person Badge" ...></span></span></span><span class="d-none d-md-block mt-1 fs--1">Personalize</span></div>
-                          </a></li>
                         <li class="nav-item"><a class="nav-link fw-semi-bold" href="#bootstrap-wizard-validation-tab4" data-bs-toggle="tab" data-wizard-step="4">
                             <div class="text-center d-inline-block"><span class="nav-item-circle-parent"><span class="nav-item-circle"><span class="fas fa-check"></span></span></span><span class="d-none d-md-block mt-1 fs--1">Done</span></div>
                           </a></li>
@@ -257,7 +336,13 @@
                                       <div>
                                           <label class="form-label" for="bootstrap-wizard-validation-gender">Markets</label>
                                           <select class="form-select form-select-lg" id="imageSelect" style="width: 100%;">
-                                              <option value="sol/usdc" data-image-src="/static/img/token-icons/SOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOL/USDC</option>
+                                              <option value="8BnEgHoWFysVcuFFX7QztDmzuH8r5ZFvyP3sYwn1XTh6" data-image-src="/static/img/token-icons/SOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOL/USDC</option>
+                                              <option value="BbJgE7HZMaDp5NTYvRh5jZSkQPVDTU8ubPFtpogUkEj4" data-image-src="/static/img/token-icons/ETH.png" data-image-src2="/static/img/token-icons/WUSDC.png">ETH/USDC</option>
+                                              <option value="3BAKsQd3RuhZKES2DGysMhjBdwjZYKYmxRqnSMtZ4KSN" data-image-src="/static/img/token-icons/WBTC.png" data-image-src2="/static/img/token-icons/WUSDC.png">WBTC/USDC</option>
+                                              <option value="9Lyhks5bQQxb9EyyX55NtgKQzpM4WK7JCmeaWuQ5MoXD" data-image-src="/static/img/token-icons/mSOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">MSOL/USDC</option>
+                                              <option value="72h8rWaWwfPUL36PAFqyQZU8RT1V3FKG7Nc45aK89xTs" data-image-src="/static/img/token-icons/RLB.png" data-image-src2="/static/img/token-icons/WUSDC.png">RLB/USDC</option>
+                                              <option value="3NnxQvDcZXputNMxaxsGvqiKpqgPfSYXpNigZNFcknmD" data-image-src="/static/img/token-icons/MNGO.png" data-image-src2="/static/img/token-icons/WUSDC.png">MNGO/USDC</option>
+                                              <option value="8rUvvjhtyjiJYTVhNn8usWDAQn1RHwt2adChzk7ANeT4" data-image-src="/static/img/token-icons/SOLAPE.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOLAPE/USDC</option>
                                               <!-- ... additional options ... -->
                                           </select>
 
@@ -269,38 +354,44 @@
                                       </div>
                                   </div>
                                       <div class="col-md-6 d-flex align-items-center">
-                                          <div class="mt-3">
-
-                                          <input
-                                                  class="btn btn-lg btn-secondary"
-                                                  type="button"
-                                                  id="autoFillButton"
-                                                  value="Get Account Data"
-                                                  onclick="autoFill()" />
-                                      </div>
+                                          <div class="col-md-6">
+                                              <label class="form-label" for="autoFillButton">Accounts</label>
+                                              <input
+                                                      class="btn btn-lg btn-secondary"
+                                                      type="button"
+                                                      id="autoFillButton"
+                                                      value="Fetch Accounts"
+                                                      onclick="autoFill()" />
+                                          </div>
+                                          <div class="col-md-6 ">
+                                              <label class="form-label invisible" for="autoFillButton">Accounts</label>
+                                              <input
+                                                      class="btn btn-lg btn-secondary"
+                                                      type="button"
+                                                      id=""
+                                                      value="Generate Accounts"
+                                                      onclick="autoFill()" />
+                                          </div>
                                       </div>
                               </div>
                               <div class="row g-3 mb-3">
-                                  <!-- First item: Markets dropdown -->
                                   <div class="col-md-6">
                                   <label class="form-label" for="inputAddress">Market ID</label>
-                                  <input type="text" class="form-control form-control-lg" placeholder="Market Address" id="inputAddress" th:field="*{marketId}">
+                                  <input type="text" class="form-control" placeholder="Market Address" id="inputAddress" th:field="*{marketId}">
                                   </div>
                                   <div class="col-md-6">
                                       <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Base Wallet</label>
-                                      <input class="form-control form-control-lg" type="password" name="confirmPassword" placeholder="Solana Public Address" required="required" id="bootstrap-wizard-validation-wizard-confirm-password" data-wizard-confirm-password="true" />
+                                      <input class="form-control" type="text" placeholder="Solana Public Address" required="required" data-wizard-confirm-password="true" />
                                   </div>
                               </div>
                               <div class="row g-3 mb-3">
                                   <div class="col-md-6">
-                                      <!-- First item: Open Orders Account -->
                                           <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Open Orders Account</label>
-                                          <input class="form-control" type="password" name="password" placeholder="Open Orders Account" required="required" id="bootstrap-wizard-validation-wizard-password" data-wizard-password="true" />
+                                          <input class="form-control" type="text" placeholder="Open Orders Account" required="required" data-wizard-password="true" />
                                   </div>
                                   <div class="col-md-6">
-                                      <!-- Third item: Quote Wallet Account -->
-                                          <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-confirm-password">Quote Wallet</label>
-                                          <input class="form-control" type="password" name="confirmPassword" placeholder="Quote Wallet" required="required" data-wizard-confirm-password="true" />
+                                          <label class="form-label text-900" for="bootstrap-wizard-validation-wizard-password">Quote Wallet</label>
+                                          <input class="form-control" type="text" placeholder="Quote Wallet" required="required" data-wizard-confirm-password="true" />
                                   </div>
                               </div>
                           </form>
@@ -329,40 +420,8 @@
                             </div>
                           </form>
                         </div>
-                        <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab3" id="bootstrap-wizard-validation-tab3">
-                          <form class="mb-2 needs-validation" id="wizardValidationForm3" novalidate="novalidate" data-wizard-form="3">
-                            <div class="row g-4 mb-4" data-dropzone="data-dropzone" data-options='{"maxFiles":1,"data":[{"name":"avatar.webp","size":"54kb","url":"/static/img/team"}]}'>
-                              <div class="fallback">
-                                <input type="file" name="file" />
-                              </div>
-                              <div class="col-md-auto">
-                                <div class="dz-preview dz-preview-single">
-                                  <div class="dz-preview-cover d-flex align-items-center justify-content-center mb-2 mb-md-0">
-                                    <div class="avatar avatar-4xl"><img class="rounded-circle avatar-placeholder" src="/static/img/team/avatar.webp" alt="..." data-dz-thumbnail="data-dz-thumbnail" /></div>
-                                    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md">
-                                <div class="dz-message dropzone-area px-2 py-3" data-dz-message="data-dz-message">
-                                  <div class="text-center text-1100">
-                                    <h5 class="mb-2"><span class="fa-solid fa-upload me-2"></span>Upload a Bot Profile Picture</h5>
-                                    <p class="mb-0 fs--1 text-600 lh-sm">Upload a 300x300 jpg image with <br />a maximum size of 400KB</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row gx-3 gy-2">
-                              <div class="col-6">
-                                <label class="form-label" for="bootstrap-wizard-validation-card-name">Bot Name (Optional)</label>
-                                <input class="form-control" placeholder="BagCrusher69" name="cardName" type="text" id="bootstrap-wizard-validation-card-name"/>
-                              </div>
-                              <div class="col-6">
-                              </div>
-                            </div>
-                          </form>
-                        </div>
                         <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab4" id="bootstrap-wizard-validation-tab4">
+                            <form class="needs-validation" id="wizardValidationForm4" novalidate="novalidate" data-wizard-form="2">
                           <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
                           <div class="col-12 col-sm-auto">
                               <div class="text-center text-sm-start">
@@ -374,6 +433,7 @@
                               <div class="text-end text-sm-end"><img class="d-dark-none" src="/static/img/spot-illustrations/arcana-finales.webp" alt="" width="250" /><img class="d-light-none" src="/static/img/spot-illustrations/arcana-finales.webp" alt="" width="250" /></div>
                             </div>
                           </div>
+                            </form>
                         </div>
                       </div>
                     </div>
@@ -512,9 +572,7 @@
     <script src="/static/phoenix.js"></script>
     <script src="/static/vendors/prism/prism.js"></script>
     <script src="/static/vendors/dropzone/dropzone.min.js"></script>
-    <!-- jQuery (Select2 requires jQuery) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
     function formatState (state) {
@@ -535,6 +593,13 @@
     templateResult: formatState,
     templateSelection: formatState
         });
+    });
+    document.getElementById('themeControlToggle').addEventListener('change', function() {
+        if (this.checked) {
+            document.body.setAttribute('dark', '');  // Enable dark mode
+        } else {
+            document.body.removeAttribute('dark');  // Switch back to light mode
+        }
     });
 
 </script>
