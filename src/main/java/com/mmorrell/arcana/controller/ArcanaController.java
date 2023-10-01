@@ -61,6 +61,22 @@ public class ArcanaController {
         return "index";
     }
 
+    @RequestMapping("/bots")
+    public String arcanaBots(Model model) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        model.addAttribute("botList", botManager.getBotList());
+        return "bots/my_bots";
+    }
+
+    @RequestMapping("/market-list")
+    public String arcanaMarkets(Model model) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        model.addAttribute("markets", arcanaBackgroundCache.getCachedMarkets()
+                .stream().sorted((o1, o2) -> (int) (o2.getReferrerRebatesAccrued() - o1.getReferrerRebatesAccrued()))
+                .toList());
+        return "markets";
+    }
+
     @RequestMapping("/settings")
     public String arcanaSettings(Model model, @RequestParam(required = false) String rpc) {
         if (rpc != null && rpc.length() > 10) {
@@ -175,7 +191,7 @@ public class ArcanaController {
         model.addAttribute("newBot", newBot);
         model.addAttribute("marketId", marketId);
 
-        return "add_bot";
+        return "bots/wizard";
     }
 
     @RequestMapping("/bots/view/{id}")
@@ -203,7 +219,7 @@ public class ArcanaController {
             model.addAttribute("lastAskOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastAskOrder().toString());
         }
 
-        return "view_bot";
+        return "bots/view_bot";
     }
 
     @RequestMapping("/bots/stop/{id}")
