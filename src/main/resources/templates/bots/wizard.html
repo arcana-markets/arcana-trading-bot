@@ -25,7 +25,7 @@
     <script src="/static/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="/static/vendors/simplebar/simplebar.min.js"></script>
     <script src="/static/js/config.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
@@ -409,8 +409,14 @@
                                               <option value="8rUvvjhtyjiJYTVhNn8usWDAQn1RHwt2adChzk7ANeT4" data-image-src="/static/img/token-icons/SOLAPE.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOLAPE/USDC</option>
                                           </select>
                                           <script>
-                                              $("#presetMarkets").on('change', function() {
-                                                  $("#inputAddress").val(this.value);
+                                              $(document).ready(function() {
+                                                  // Autofill the inputAddress with the default value from presetMarkets when the page loads
+                                                  $("#inputAddress").val($("#presetMarkets").val());
+
+                                                  // Update inputAddress when presetMarkets changes
+                                                  $("#presetMarkets").on('change', function() {
+                                                      $("#inputAddress").val(this.value);
+                                                  });
                                               });
                                           </script>
                                       </div>
@@ -685,7 +691,6 @@
     <script src="/static/js/phoenix.js"></script>
     <script src="/static/vendors/prism/prism.js"></script>
     <script src="/static/vendors/dropzone/dropzone.min.js"></script>
-    <script src="/static/vendors/jQuery/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         // Script for handling select2 dropdown
