@@ -391,14 +391,14 @@
                       </ul>
                     </div>
                     <div class="card-body pt-4 pb-0">
-                        <form class="needs-validation" id="wizardValidationMainForm" method="POST" action="YOUR_SERVER_ENDPOINT" novalidate="novalidate">
+                        <form class="needs-validation" id="wizardValidationMainForm" novalidate="novalidate" action="#" method="POST" th:action="@{/bots/add/post}" th:object="${newBot}">
                             <div class="tab-content">
                                 <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab1" id="bootstrap-wizard-validation-tab1">
                                 <div class="row g-3 mb-3">
                                   <!-- First item: Markets dropdown -->
                                   <div class="col-md-4 col-sm-6 d-flex align-items-center">
                                       <div>
-                                          <label class="form-label">Markets</label>
+                                          <label class="form-label" for="presetMarkets">Markets</label>
                                           <select class="form-select form-select-lg imageSelect" id="presetMarkets" style="width: 100%;">
                                               <option value="8BnEgHoWFysVcuFFX7QztDmzuH8r5ZFvyP3sYwn1XTh6" data-image-src="/static/img/token-icons/SOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOL/USDC</option>
                                               <option value="BbJgE7HZMaDp5NTYvRh5jZSkQPVDTU8ubPFtpogUkEj4" data-image-src="/static/img/token-icons/ETH.png" data-image-src2="/static/img/token-icons/WUSDC.png">ETH/USDC</option>
@@ -409,8 +409,8 @@
                                               <option value="8rUvvjhtyjiJYTVhNn8usWDAQn1RHwt2adChzk7ANeT4" data-image-src="/static/img/token-icons/SOLAPE.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOLAPE/USDC</option>
                                           </select>
                                           <script>
-                                              document.getElementById("presetMarkets").addEventListener("change", function() {
-                                                  document.getElementById("inputAddress").value = this.value;
+                                              $("#presetMarkets").on('change', function() {
+                                                  $("#inputAddress").val(this.value);
                                               });
                                           </script>
                                       </div>
@@ -425,12 +425,29 @@
                                                       value="Fetch Accounts"
                                                       onclick="autoFill()" />
                                           </div>
+                                          <script>
+                                              function autoFill() {
+                                                  $("#autoFillButton").prop('disabled', true);
+                                                  var marketId = $("#inputAddress").val();
+                                                  $.get('/getAccountsByMarket/' + marketId, function (data,
+                                                                                                      textStatus,
+                                                                                                      jqXHR) {
+                                                      $("#baseWallet").val(data.baseWallet);
+                                                      $("#quoteWallet").val(data.quoteWallet);
+                                                      $("#ooa").val(data.ooa);
+                                                      $("#autoFillButton").prop('disabled', false);
+                                                  }).fail(function() {
+                                                      $("#autoFillButton").prop('disabled', false);
+                                                  });
+                                              }
+                                          </script>
                                           <div class="col-md-6 ">
                                               <label class="form-label invisible" for="autoFillButton">Accounts</label>
                                               <input
                                                       class="btn btn-lg btn-secondary"
                                                       type="button"
                                                       id=""
+                                                      disabled
                                                       value="Generate Accounts"
                                                       onclick="autoFill()" />
                                           </div>
@@ -443,26 +460,26 @@
                                   </div>
                                   <div class="col-md-6">
                                       <label class="form-label text-900">Base Wallet</label>
-                                      <input class="form-control" type="text" placeholder="Solana Public Address" required="required"/>
+                                      <input class="form-control" type="text" placeholder="Solana Public Address" required="required" th:field="*{baseWallet}"/>
                                   </div>
                               </div>
                               <div class="row g-3 mb-3">
                                   <div class="col-md-6">
                                           <label class="form-label text-900">Open Orders Account</label>
-                                          <input class="form-control" type="text" placeholder="Open Orders Account" required="required" />
+                                          <input class="form-control" type="text" placeholder="Open Orders Account" required="required" th:field="*{ooa}"/>
                                   </div>
                                   <div class="col-md-6">
                                           <label class="form-label text-900">Quote Wallet</label>
-                                          <input class="form-control" type="text" placeholder="Quote Wallet" required="required" />
+                                          <input class="form-control" type="text" placeholder="Quote Wallet" required="required" th:field="*{quoteWallet}"/>
                                   </div>
                               </div>
                         </div>
                         <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                               <div class="row mb-3">
                                   <div class="col-md-4">
-                                      <div class="form-check option-box text-center p-3 border rounded">
+                                      <div class="form-check option-box text-center p-3 border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="zap" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio1" value="Jupiter Surge" checked>
+                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio1" checked th:value="'jupiter'" th:text="'Jupiter + Spread'">
                                           <label class="form-check-label d-block" for="inlineRadio1">
                                               Jupiter Surge
                                           </label>
@@ -472,9 +489,9 @@
                                       </div>
                                   </div>
                                   <div class="col-md-4">
-                                      <div class="form-check option-box text-center p-3 border rounded">
+                                      <div class="form-check option-box text-center p-3 border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="cloud" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio2" value="ETH/USDC">
+                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio2" th:value="'tob'" th:text="'Top of Book + Spread'">
                                           <label class="form-check-label d-block" for="inlineRadio2">
                                               Orderbook Slicer
                                           </label>
@@ -484,9 +501,9 @@
                                       </div>
                                   </div>
                                   <div class="col-md-4">
-                                      <div class="form-check option-box text-center p-3 border rounded">
+                                      <div class="form-check option-box text-center p-3 border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="sun" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio3" value="WBTC/USDC">
+                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio3" disabled>
                                           <label class="form-check-label d-block" for="inlineRadio3">
                                               Pyth Frenzy
                                           </label>
@@ -500,18 +517,18 @@
                                   <div class="row">
                                       <!-- Text Input 1 -->
                                       <div class="col-md-4">
-                                          <label class="form-label">BPS</label>
-                                          <input type="number" class="form-control" required="required" placeholder="Enter your Spread Size">
+                                          <label class="form-label" for="inputAddress2">BPS</label>
+                                          <input type="number" class="form-control" required="required" id="inputAddress2" placeholder="Enter your Spread Size" th:field="*{bpsSpread}">
                                       </div>
                                       <!-- Text Input 2 -->
                                       <div class="col-md-4">
-                                          <label class="form-label">Bid Size</label>
-                                          <input type="number" class="form-control" required="required" placeholder="Enter your Bid Size">
+                                          <label class="form-label" for="amountBid">Bid Size</label>
+                                          <input type="number" class="form-control" required="required" id="amountBid" placeholder="Enter your Bid Size" th:field="*{amountBid}">
                                       </div>
                                       <!-- Text Input 3 -->
                                       <div class="col-md-4">
-                                          <label class="form-label">Ask Size</label>
-                                          <input type="number" class="form-control" required="required" placeholder="Enter your Ask Size">
+                                          <label class="form-label" for="amountAsk">Ask Size</label>
+                                          <input type="number" class="form-control" required="required" id="amountAsk" placeholder="Enter your Ask Size" th:field="*{amountAsk}">
                                       </div>
                                   </div>
                               </div>
@@ -520,13 +537,13 @@
                           <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
                           <div class="col-12 col-sm-auto">
                               <div class="text-center text-sm-start">
-                                <h5 class="mb-3">You are all set!</h5>
-                                  <p class="text-1100 fs--1">Now you can access your Bot<br />anytime anywhere</p>
+                                <h4 class="mb-3">You're all set!</h4>
+                                  <p class="text-700 fs--1">Click 'Launch' to being trading<br />with Arcana Markets</p>
                                   <button type="submit" class="btn btn-primary px-6">Launch Bot</button>
                               </div>
                             </div>
                             <div class="col-12 col-sm-auto">
-                              <div class="text-end text-sm-end"><img class="d-dark-none" src="/static/img/spot-illustrations/arcana-finales.webp" alt="" width="250" /><img class="d-light-none" src="/static/img/spot-illustrations/arcana-finales.webp" alt="" width="250" /></div>
+                              <div class="text-end text-sm-end"><img class="d-dark-none" src="/static/img/spot-illustrations/arcana-finales.webp" alt="" width="280" /><img class="d-light-none" src="/static/img/spot-illustrations/arcana-finales.webp" alt="" width="250" /></div>
                             </div>
                           </div>
                         </div>
@@ -668,7 +685,7 @@
     <script src="/static/js/phoenix.js"></script>
     <script src="/static/vendors/prism/prism.js"></script>
     <script src="/static/vendors/dropzone/dropzone.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/vendors/jQuery/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         // Script for handling select2 dropdown
@@ -700,21 +717,6 @@
             });
         });
 
-        // Script for auto-filling form inputs
-        function autoFill() {
-            $("#autoFillButton").prop('disabled', true);
-            var marketId = $("#inputAddress").val();
-
-            $.get('/getAccountsByMarket/' + marketId, function(data, textStatus, jqXHR) {
-                $("#baseWallet").val(data.baseWallet);
-                $("#quoteWallet").val(data.quoteWallet);
-                $("#ooa").val(data.ooa);
-                $("#autoFillButton").prop('disabled', false);
-            }).fail(function() {
-                $("#autoFillButton").prop('disabled', false);
-            });
-        }
-
         // Script for handling option-box clicks
         $('.option-box').click(function() {
             // Find the radio within the clicked box and check it
@@ -729,6 +731,7 @@
 
         // Highlight the initially checked radio's box
         $('.option-box input[type="radio"]:checked').closest('.option-box').addClass('selected');
+
     </script>
 
   </body>
