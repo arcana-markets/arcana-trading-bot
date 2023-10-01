@@ -25,7 +25,7 @@
     <meta name="theme-color" content="#ffffff">
     <script src="/static/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="/static/vendors/simplebar/simplebar.min.js"></script>
-    <script src="/static/config.js"></script>
+    <script src="/static/js/config.js"></script>
 
 
     <!-- ===============================================-->
@@ -37,7 +37,6 @@
     <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-
   </head>
 
 
@@ -47,48 +46,16 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
-      <div class="container">
-        <div class="row flex-center min-vh-100 py-5">
-          <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3"><a class="d-flex flex-center text-decoration-none mb-4" href="index.html">
-              <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="/static/img/icons/arcana-logo-nobg.png" alt="phoenix" width="58" />
+      <div class="px-3">
+        <div class="row min-vh-100 flex-center p-5">
+          <div class="col-12 col-xl-10 col-xxl-8">
+            <div class="row justify-content-center g-5">
+              <div class="col-12 col-lg-6 text-center order-lg-1"><img class="img-fluid w-lg-100 d-light-none" src="/static/img/spot-illustrations/arcana-error-500.png" alt="" width="700" /><img class="img-fluid w-md-50 w-lg-100 d-dark-none" src="/static/img/spot-illustrations/arcana-error-500.png" alt="" width="700" /></div>
+              <div class="col-12 col-lg-6 text-center text-lg-start"><img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="/static/img/spot-illustrations/500.png" alt="" /><img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="/static/img/spot-illustrations/dark_500.png" alt="" />
+                <h2 class="text-800 fw-bolder mb-3">Unknown error!</h2>
+                <p class="text-900 mb-5">It seems you've encountered an unexpected error.<br/>You can report this issue to support@makolabs.xyz</p><a class="btn btn-lg btn-primary" href="/index">Go Home</a>
               </div>
-            </a>
-            <div class="text-center mb-7">
-              <h3 class="text-1000">Sign Up</h3>
-              <p class="text-700">Create your account today</p>
             </div>
-            <button class="btn btn-phoenix-secondary w-100 mb-3"><span class="fab fa-google text-danger me-2 fs--1"></span>Sign up with google</button>
-            <button class="btn btn-phoenix-secondary w-100"><span class="fab fa-facebook text-primary me-2 fs--1"></span>Sign up with facebook</button>
-            <div class="position-relative mt-4">
-              <hr class="bg-200" />
-              <div class="divider-content-center">or use email</div>
-            </div>
-            <form>
-              <div class="mb-3 text-start">
-                <label class="form-label" for="name">Name</label>
-                <input class="form-control" id="name" type="text" placeholder="Name" />
-              </div>
-              <div class="mb-3 text-start">
-                <label class="form-label" for="email">Email address</label>
-                <input class="form-control" id="email" type="email" placeholder="name@example.com" />
-              </div>
-              <div class="row g-3 mb-3">
-                <div class="col-sm-6">
-                  <label class="form-label" for="password">Password</label>
-                  <input class="form-control form-icon-input" id="password" type="password" placeholder="Password" />
-                </div>
-                <div class="col-sm-6">
-                  <label class="form-label" for="confirmPassword">Confirm Password</label>
-                  <input class="form-control form-icon-input" id="confirmPassword" type="password" placeholder="Confirm Password" />
-                </div>
-              </div>
-              <div class="form-check mb-3">
-                <input class="form-check-input" id="termsService" type="checkbox" />
-                <label class="form-label fs--1 text-none" for="termsService">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
-              </div>
-              <button class="btn btn-primary w-100 mb-3">Sign up</button>
-              <div class="text-center"><a class="fs--1 fw-bold" href="../../../pages/authentication/simple/sign-in.html">Sign in to an existing account</a></div>
-            </form>
           </div>
         </div>
       </div>
@@ -105,7 +72,6 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
-      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
@@ -124,7 +90,8 @@
     <script src="/static/vendors/list.js/list.min.js"></script>
     <script src="/static/vendors/feather-icons/feather.min.js"></script>
     <script src="/static/vendors/dayjs/dayjs.min.js"></script>
-    <script src="/static/phoenix.js"></script>
+    <script src="/static/js/phoenix.js"></script>
+
 
   </body>
 
