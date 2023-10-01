@@ -225,7 +225,7 @@
                         <h4>16,247</h4>
                       </div>
                       <div class="d-flex justify-content-center px-4 py-6">
-                        <div class="echart-total-orders" style="height:85px;width:115px"></div>
+                        <div class="echart-total-orders" style="height:85px;width:150px"></div>
                       </div>
                       <div class="mt-2">
                         <div class="d-flex align-items-center mb-2">
