@@ -27,10 +27,10 @@
     <script src="/static/js/config.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
+
     <!-- ===============================================-->
     <!--    Stylesheets-->
     <!-- ===============================================-->
-
     <link href="/static/vendors/flatpickr/flatpickr.min.css" rel="stylesheet">
     <link href="/static/vendors/dropzone/dropzone.min.css" rel="stylesheet">
     <link href="/static/vendors/prism/prism-okaidia.css" rel="stylesheet">
@@ -203,15 +203,6 @@
         background: #23272b;
     }
 
-    .option-box {
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
-
-    .option-box.selected {
-        background-color: #f5f5f5;  /* You can adjust this to whatever color you prefer for the highlight */
-        border-color: #007bff;     /* You can adjust the border color as well */
-    }
       </style>
 
   </head>
@@ -308,7 +299,7 @@
           <div class="navbar-logo">
 
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-              <a class="navbar-brand ms-0 me-1 me-sm-3" href="/index">
+              <a class="navbar-brand ms-0 me-1 me-sm-3" href="/">
                   <div class="d-flex align-items-center">
                       <div class="d-flex align-items-center"><img src="/static/img/icons/arcana-icon-outline.png" alt="arcana" style="margin-left: -14px;" width="50" />
                   <p class="logo-text ms-2 d-none d-sm-block">arcana</p>
@@ -326,7 +317,7 @@
             </li>
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="/static/img/team/KismetToad.png" alt="" />
+                  <img class="rounded-circle " src="/static/img/team/kiz.png" alt="" />
 
                 </div>
               </a>
@@ -335,7 +326,7 @@
                   <div class="card-body p-0">
                     <div class="text-center pt-4 pb-3">
                       <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="/static/img/team/KismetToad.png" alt="" />
+                        <img class="rounded-circle " src="/static/img/team/kiz.png" alt="" />
 
                       </div>
                       <h6 class="mt-2 text-black">Jerry Seinfield</h6>
@@ -393,7 +384,7 @@
                     <div class="card-body pt-4 pb-0">
                         <form class="needs-validation" id="wizardValidationMainForm" novalidate="novalidate" action="#" method="POST" th:action="@{/bots/add/post}" th:object="${newBot}">
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab1" id="bootstrap-wizard-validation-tab1">
+                                <div class="tab-pane active show fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab1" id="bootstrap-wizard-validation-tab1">
                                 <div class="row g-3 mb-3">
                                   <!-- First item: Markets dropdown -->
                                   <div class="col-md-4 col-sm-6 d-flex align-items-center">
@@ -480,12 +471,12 @@
                                   </div>
                               </div>
                         </div>
-                        <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
+                        <div class="tab-pane fade " role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                               <div class="row mb-3">
                                   <div class="col-md-4">
-                                      <div class="form-check option-box text-center p-3 border rounded" th:field="*{priceStrategy}">
+                                      <div class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="zap" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio1" checked th:value="'jupiter'" th:text="'Jupiter + Spread'">
+                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio1" checked="checked" th:value="'jupiter'" th:text="'Jupiter + Spread'">
                                           <label class="form-check-label d-block" for="inlineRadio1">
                                               Jupiter Surge
                                           </label>
@@ -495,7 +486,7 @@
                                       </div>
                                   </div>
                                   <div class="col-md-4">
-                                      <div class="form-check option-box text-center p-3 border rounded" th:field="*{priceStrategy}">
+                                      <div class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="cloud" class="mb-2" style="width: 36px; height: 36px;"></i>
                                           <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio2" th:value="'tob'" th:text="'Top of Book + Spread'">
                                           <label class="form-check-label d-block" for="inlineRadio2">
@@ -507,7 +498,7 @@
                                       </div>
                                   </div>
                                   <div class="col-md-4">
-                                      <div class="form-check option-box text-center p-3 border rounded" th:field="*{priceStrategy}">
+                                      <div class="form-check text-center p-3 disabled btn d-block btn-secondary border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="sun" class="mb-2" style="width: 36px; height: 36px;"></i>
                                           <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio3" disabled>
                                           <label class="form-check-label d-block" for="inlineRadio3">
@@ -539,7 +530,7 @@
                                   </div>
                               </div>
                         </div>
-                        <div class="tab-pane" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab4" id="bootstrap-wizard-validation-tab4">
+                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab4" id="bootstrap-wizard-validation-tab4">
                           <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
                           <div class="col-12 col-sm-auto">
                               <div class="text-center text-sm-start">
@@ -693,8 +684,8 @@
     <script src="/static/vendors/dropzone/dropzone.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
-        // Script for handling select2 dropdown
         $(document).ready(function() {
+            // Script for handling select2 dropdown
             function formatState(state) {
                 if (!state.id) { return state.text; }
                 var imgSrc1 = $(state.element).data('image-src');
@@ -703,40 +694,28 @@
                 return $state;
             }
 
-            // Change from #imageSelect to .imageSelect
             $('.imageSelect').select2({
                 templateResult: formatState,
                 templateSelection: formatState
             });
 
+            // Theme control toggle script
             $("#themeControlToggle").on('change', function() {
-                if ($(this).is(":checked")) {
-                    $('body').addClass('dark');
-                } else {
-                    $('body').removeClass('dark');
-                }
+                $('body').toggleClass('dark', $(this).is(":checked"));
 
                 // Force select2 to update its appearance without destroying it
-                // Again, change from #imageSelect to .imageSelect
                 $('.imageSelect').trigger("change");
             });
+                // Add the 'selected' class to the clicked box
+                $(this).addClass('selected');
+            });
+
+         $(document).ready(function() {
+            $('.btn').on('click', function() {
+                $('.btn').removeClass('active');  // Remove active class from all buttons
+                $(this).addClass('active');  // Add active class to clicked button
+            });
         });
-
-        // Script for handling option-box clicks
-        $('.option-box').click(function() {
-            // Find the radio within the clicked box and check it
-            $(this).find('input[type="radio"]').prop('checked', true);
-
-            // Remove the 'selected' class from all option boxes
-            $('.option-box').removeClass('selected');
-
-            // Add the 'selected' class to the clicked box
-            $(this).addClass('selected');
-        });
-
-        // Highlight the initially checked radio's box
-        $('.option-box input[type="radio"]:checked').closest('.option-box').addClass('selected');
-
     </script>
 
   </body>

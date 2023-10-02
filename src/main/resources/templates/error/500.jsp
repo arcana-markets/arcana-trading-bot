@@ -53,7 +53,7 @@
               <div class="col-12 col-lg-6 text-center order-lg-1"><img class="img-fluid w-lg-100 d-light-none" src="/static/img/spot-illustrations/arcana-error-500.png" alt="" width="700" /><img class="img-fluid w-md-50 w-lg-100 d-dark-none" src="/static/img/spot-illustrations/arcana-error-500.png" alt="" width="700" /></div>
               <div class="col-12 col-lg-6 text-center text-lg-start"><img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="/static/img/spot-illustrations/500.png" alt="" /><img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="/static/img/spot-illustrations/dark_500.png" alt="" />
                 <h2 class="text-800 fw-bolder mb-3">Unknown error!</h2>
-                <p class="text-900 mb-5">It seems you've encountered an unexpected error.<br/>You can report this issue to support@makolabs.xyz</p><a class="btn btn-lg btn-primary" href="/index">Go Home</a>
+                <p class="text-900 mb-5">It seems you've encountered an unexpected error.<br/>You can report this issue to hello@makolabs.xyz</p><a class="btn btn-lg btn-primary" href="/">Go Home</a>
               </div>
             </div>
           </div>
