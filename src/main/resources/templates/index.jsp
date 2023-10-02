@@ -68,7 +68,7 @@
                   </a>
                   </div>
                   <!-- parent pages-->
-                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/" role="button" data-bs-toggle="" aria-expanded="false">
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/onboarding" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="play"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Getting started</span></span>
                       </div>
                   </a>
@@ -153,7 +153,7 @@
             </li>
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="/static/img/team/40x40/57.webp" alt="" />
+                  <img class="rounded-circle " src="/static/img/team/kiz.png" alt="" />
 
                 </div>
               </a>
@@ -162,7 +162,7 @@
                   <div class="card-body p-0">
                     <div class="text-center pt-4 pb-3">
                       <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="/static/img/team/72x72/57.webp" alt="" />
+                        <img class="rounded-circle " src="/static/img/team/kiz.png" alt="" />
 
                       </div>
                       <h6 class="mt-2 text-black">Jerry Seinfield</h6>
