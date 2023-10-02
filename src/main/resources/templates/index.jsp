@@ -68,7 +68,7 @@
                   </a>
                   </div>
                   <!-- parent pages-->
-                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/" role="button" data-bs-toggle="" aria-expanded="false">
+                  <div class="nav-item-wrapper"><a class="nav-link label-1" href="/onboarding" role="button" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="play"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Getting started</span></span>
                       </div>
                   </a>

@@ -476,7 +476,7 @@
                                   <div class="col-md-4">
                                       <div class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="zap" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio1" checked="checked" th:value="'jupiter'" th:text="'Jupiter + Spread'">
+                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio1" checked="checked" th:value="'jupiter'">
                                           <label class="form-check-label d-block" for="inlineRadio1">
                                               Jupiter Surge
                                           </label>
@@ -488,7 +488,7 @@
                                   <div class="col-md-4">
                                       <div class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded" th:field="*{priceStrategy}">
                                           <i data-feather="cloud" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio2" th:value="'tob'" th:text="'Top of Book + Spread'">
+                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio2" th:value="'tob'">
                                           <label class="form-check-label d-block" for="inlineRadio2">
                                               Orderbook Slicer
                                           </label>
