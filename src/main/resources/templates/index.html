@@ -26,7 +26,6 @@
     <script src="/static/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="/static/vendors/simplebar/simplebar.min.js"></script>
     <script src="/static/js/config.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 
     <!-- ===============================================-->
@@ -38,7 +37,9 @@
     <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-
+    <link href="/static/vendors/leaflet/leaflet.css" rel="stylesheet">
+    <link href="/static/vendors/leaflet.markercluster/MarkerCluster.css" rel="stylesheet">
+    <link href="/static/vendors/leaflet.markercluster/MarkerCluster.Default.css" rel="stylesheet">
   </head>
 
 
@@ -48,7 +49,7 @@
     <!--    Main Content-->
     <!-- ===============================================-->
     <main class="main" id="top">
-      <nav class="navbar navbar-vertical navbar-expand-lg">
+      <nav class="navbar navbar-vertical position-fixed navbar-expand-lg">
         <script>
           var navbarStyle = window.config.config.phoenixNavbarStyle;
           if (navbarStyle && navbarStyle !== 'transparent') {
@@ -58,7 +59,7 @@
         <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
           <!-- scrollbar removed-->
           <div class="navbar-vertical-content">
-            <ul class="navbar-nav flex-column position-fixed" id="navbarVerticalNav">
+            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
               <li class="nav-item">
                   <!-- parent pages-->
                   <div class="nav-item-wrapper"><a class="nav-link label-1" style="margin-left: 8px;" href="/" role="button" data-bs-toggle="" aria-expanded="false">
@@ -179,12 +180,12 @@
           <div class="navbar-logo">
 
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand ms-0 me-1 me-sm-3" href="/index">
-              <div class="d-flex align-items-center">
-                  <div class="d-flex align-items-center"><img src="/static/img/icons/arcana-icon-outline.png" alt="arcana" style="margin-left: -18px;" width="50" />
-                      <img src="/static/img/banners/arcana.png" alt="arcana" style="margin-left: 14px;" width="100" />
-                </div>
-              </div>
+              <a class="navbar-brand ms-0 me-1 me-sm-3" href="/index">
+                  <div class="d-flex align-items-center">
+                      <div class="d-flex align-items-center"><img src="/static/img/icons/arcana-icon-outline.png" alt="arcana" style="margin-left: -18px;" width="50" />
+                          <img src="/static/img/banners/arcana.png" alt="arcana" style="margin-left: 14px;" width="100" />
+                      </div>
+                  </div>
             </a>
           </div>
           <ul class="navbar-nav navbar-nav-icons flex-row">
@@ -197,7 +198,7 @@
             </li>
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="/static/img/team/kiz.png" alt="" />
+                  <img class="rounded-circle " src="/static/img/team/Profiles/profile-pic.png" alt="" />
 
                 </div>
               </a>
@@ -206,11 +207,10 @@
                   <div class="card-body p-0">
                     <div class="text-center pt-4 pb-3">
                       <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="/static/img/team/kiz.png" alt="" />
+                        <img class="rounded-circle " src="/static/img/team/Profiles/profile-pic.png" alt="" />
 
                       </div>
-                      <h6 class="mt-2 text-black">kizz</h6>
-                        <hr/>
+                      <h6 class="mt-2 text-black">kiz</h6>
                     </div>
                   </div>
                   <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -220,7 +220,11 @@
                       <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Settings</a></li>
                     </ul>
                   </div>
-                  <div class="card-footer pt-2 p-0 border-top">
+                  <div class="card-footer p-0 border-top">
+                    <ul class="nav d-flex flex-column my-3">
+                      <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user-plus"></span>Add another account</a></li>
+                    </ul>
+                    <hr />
                     <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"> <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
                     <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms</a>&bull;<a class="text-600 ms-1" href="#!">Cookies</a></div>
                   </div>
@@ -231,218 +235,207 @@
         </div>
       </nav>
       <div class="content">
-        <div class="mb-9">
-          <div class="row g-6">
-            <div class="col-12 col-xl-6">
-              <div class="card mb-5">
-                <div class="card-header hover-actions-trigger position-relative mb-6" style="min-height: 130px; ">
-                  <div class="bg-holder rounded-top" style="background-image: linear-gradient(0deg, #000000 -3%, rgba(0, 0, 0, 0) 83%), url(/static/img/banners/profile-banner.png)">
-                    <input class="d-none" id="upload-settings-cover-image" type="file" />
-                    <label class="cover-image-file-input" for="upload-settings-cover-image"></label>
-                    <div class="hover-actions end-0 bottom-0 pe-1 pb-2 text-white" ><span class="fa-solid fa-camera me-2"></span></div>
-                  </div>
-                  <input class="d-none" id="upload-settings-profile-picture" type="file" />
-                  <label class="avatar avatar-4xl status-online feed-avatar-profile cursor-pointer" for="upload-settings-profile-picture"><img class="rounded-circle img-thumbnail bg-white shadow-sm" src="/static/img/team/kiz.png" width="200" alt="" /></label>
+        <div class="pb-5">
+          <div class="row g-4">
+            <div class="col-12 col-xxl-6">
+              <div class="mb-8">
+                <h2 class="mb-2">Dashboard</h2>
+                <h5 class="text-700 fw-semi-bold">Here’s what’s going on at your business right now</h5>
+              </div>
+              <hr class="bg-200 mb-6 mt-4" />
+              <div class="row flex-between-center mb-4 g-3">
+                <div class="col-auto">
+                  <h3>Solana Stats</h3>
+                  <p class="text-700 lh-sm mb-0">Payment received across all channels</p>
                 </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="d-flex flex-wrap mb-2 align-items-center">
-                        <h3 class="me-2">kiz</h3><span class="fw-normal fs-0">kizmet.sol</span>
+                <div class="col-8 col-sm-4">
+                  <select class="form-select form-select-sm mt-2" id="select-gross-revenue-month">
+                    <option>Mar 1 - 31, 2022</option>
+                    <option>April 1 - 30, 2022</option>
+                    <option>May 1 - 31, 2022</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xxl-6">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-1">Solana TPS<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"><span class="badge-label">-6.8%</span></span></h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                        <h4>16,247</h4>
+                      </div>
+                      <div class="d-flex justify-content-center px-4 py-6">
+                        <div class="echart-total-orders" style="height:85px;width:150px"></div>
+                      </div>
+                      <div class="mt-2">
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Completed</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">52%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-primary-100 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Pending payment</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">48%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-1">Account PnL<span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"> <span class="badge-label">+26.5%</span></span></h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                        <h4>356</h4>
+                      </div>
+                      <div class="pb-0 pt-4">
+                        <div class="echarts-new-customers" style="height:180px;width:100%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-2">Account Volume</h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                      </div>
+                      <div class="pb-4 pt-3">
+                        <div class="echart-top-coupons" style="height:115px;width:100%;"></div>
+                      </div>
+                      <div>
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Percentage discount</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">72%</h6>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary-200 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Fixed card discount</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">18%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-info-500 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Fixed product discount</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">10%</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                      <div class="d-flex justify-content-between">
+                        <div>
+                          <h5 class="mb-2">Arcana Premium</h5>
+                          <h6 class="text-700">Last 7 days</h6>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-center pt-3 flex-1">
+                        <div class="echarts-paying-customer-chart" style="height:100%;width:100%;"></div>
+                      </div>
+                      <div class="mt-3">
+                        <div class="d-flex align-items-center mb-2">
+                          <div class="bullet-item bg-primary me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Paying customer</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">30%</h6>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="bullet-item bg-primary-100 me-2"></div>
+                          <h6 class="text-900 fw-semi-bold flex-1 mb-0">Non-paying customer</h6>
+                          <h6 class="text-900 fw-semi-bold mb-0">70%</h6>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-                <h2 class="mb-4">Account Settings</h2>
-                <hr/>
-                <h4 class="mb-2">RPC Configuration</h4>
-                <p class="text-700">Upload your unique RPC URL to power your Arcana Bot.</p>
-                <div class="input-group">
-                    <form class="form-signin row row-cols-lg-auto g-3 align-items-center" method="POST" action="/settings" autocomplete="off" autocapitalize="none">
-                        <div class="col-12 form-icon-container">
-                            <div class="input-group">
-                                <input class="form-control" type="text" required aria-describedby="rpc-server-text" id="inlineFormInputGroupUsername" name="rpc" placeholder"RPC Link">
-                            </div>
-                        </div>
-                        <div class="col-12" style="z-index: 1;">
-                        <button class="btn btn-secondary btn-sm" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                        </button>
-                        </div>
-                    </form>
-                    <div class="input-group mt-3">
-                        <h5 class="mt-2">Active Connection:</h5>
-                        <span th:text="${rpcEndpoint}"<br>
-                    </div>
-                </div>
-                <div class="border-bottom border-dashed pb-3 mb-4"></div>
-                <h4 class="mb-2">Wallet Configuration</h4>
-                <p class="text-700">Connect the Solana Wallet(s) you wish to trade with Arcana Bot.</p>
-                <div class="border-bottom border-dashed mb-4"></div>
-                <h5 class="mb-2">Private Keys</h5>
-                <p class="text-700">Paste directly from Phantom wallet. It's quick, easy, and secure.</p>
-                <div class="input-group mb-3">
-                    <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/privateKeyPost" autocomplete="off" autocapitalize="none">
-                            <div class="col-12 form-icon-container">
-                                <div class="input-group">
-                                    <input type="password" class="form-control" id="inlineFormInputGroupUsername" name="privateKey" placeholder="Private Key (Base58)">
-                                </div>
-                            </div>
-                        <div class="col-12" style="z-index: 1;">
-                        <input type="submit" class="btn btn-primary btn-block"/>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                            </input>
-                        </div>
-                    </form>
-                </div>
-                <p class="text-700">Alternatively upload from a local device for CLI users.</p>
-                <div class="input-group mb-3">
-                    <form class="row row-cols-lg-auto g-3 align-items-center" method="POST" action="/privateKeyUpload" enctype="multipart/form-data" autocomplete="off" autocapitalize="none">
-                        <div class="col-12 form-icon-container">
-                            <div class="input-group mb-2">
-                                <input class="form-control" type="file" id="formFile" name="file"/>
-                            </div>
-                        </div>
-                        <div class="col-12" style="z-index: 1;">
-                        <input type="submit" class="btn btn-primary btn-block"/>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                            </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="input-group mb-2">
-                    <h4 class="mt-2">Active Accounts:</h4>
-                    <span th:text="${tradingAccountPubkey}"></span><br>
-                </div>
-              <div class="border-bottom border-dashed pb-3 mb-4"></div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" id="showPhone" type="checkbox" checked="checked" name="showPhone" />
-                  <label class="form-check-label fs-0" for="showPhone">Receive updates via Email.</label>
-                </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" id="permitFollow" type="checkbox" checked="checked" name="permitFollow" />
-                  <label class="form-check-label fs-0" for="permitFollow">Track my trading volume.</label>
-                </div>
-              </div>
-            </div>
-            <div class="border-bottom border-dashed pb-3 mb-4"></div>
-            <div class="col-12 col-xl-8">
-              <div class="border-bottom border-300 mb-4">
-                <div class="mb-6">
-                  <div class="col-12 col-sm-6">
-                    <h4 class="mb-4">Change Password</h4>
-                    <div class="form-icon-container mb-3">
-                      <div class="form-floating">
-                        <input class="form-control form-icon-input" id="oldPassword" type="password" placeholder="Old password" />
-                        <label class="text-700 form-icon-label" for="oldPassword">Old Password</label>
-                      </div><span class="fa-solid fa-lock text-900 fs--1 form-icon"></span>
-                    </div>
-                    <div class="form-icon-container mb-3">
-                      <div class="form-floating">
-                        <input class="form-control form-icon-input" id="newPassword" type="password" placeholder="New password" />
-                        <label class="text-700 form-icon-label" for="newPassword">New Password</label>
-                      </div><span class="fa-solid fa-key text-900 fs--1 form-icon"></span>
-                    </div>
-                    <div class="form-icon-container">
-                      <div class="form-floating">
-                        <input class="form-control form-icon-input" id="newPassword2" type="password" placeholder="Confirm New password" />
-                        <label class="text-700 form-icon-label" for="newPassword2">Confirm New Password</label>
-                      </div><span class="fa-solid fa-key text-900 fs--1 form-icon"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-6">
-                  <div>
-                    <button class="btn btn-phoenix-secondary me-2">Cancel Changes</button>
-                    <button class="btn btn-phoenix-primary">Save Information</button>
-                  </div>
-                </div>
-              </div>
-              <div class="row gy-5 mt-2">
-                <div class="col-12 col-md-6">
-                  <h4 class="text-black">Transfer Ownership</h4>
-                  <p class="text-700">Transfer this account to another person or to a company repository.</p>
-                  <button class="btn btn-phoenix-warning">Transfer</button>
-                </div>
-                <div class="col-12 col-md-6">
-                  <h4 class="text-black">Account Deletion</h4>
-                  <p class="text-700">Transfer this account to another person or to a company repository.</p>
-                  <button class="btn btn-phoenix-danger">Delete account</button>
-                </div>
-              </div>
             </div>
           </div>
+        </div>
+          <footer class="footer position-fixed z-index:1000 bg-white">
+              <div class="row g-0 justify-content-between align-items-center h-100">
+                  <div class="col-12 col-sm-auto text-center">
+                      <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
+                  </div>
+                  <div class="col-12 col-sm-auto text-center">
 
-        <footer class="footer position-fixed bg-white z-index-2">
-            <div class="row g-0 justify-content-between align-items-center h-100">
-                <div class="col-12 col-sm-auto text-center" >
-                    <p class="mb-0 mt-2 mt-sm-0 text-400 " style="font-size: 14px">&copy; Arcana Markets<span class="d-none d-sm-inline-block"></span><span class="d-none d-sm-inline-block mx-1">|</span><br class="d-sm-none" />2023 </p>
-                </div>
-                <div class="col-12 col-sm-auto text-center">
-
-                    <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                      <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://x.com/arcanamarkets" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
-                                <img src="/static/img/bootstrap-icons/twitter-x.svg" alt="Twitter/X" >
-                            </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                                  <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
+                                </svg>
+                                </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
-                                <img src="/static/img/bootstrap-icons/discord.svg" alt="Discord" >
-                            </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16">
+                                  <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/>
+                                </svg>
+                                </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
-                                <img src="/static/img/bootstrap-icons/telegram.svg" alt="Telegram" >
-                            </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
+                                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z"/>
+                                    </svg>
+                                </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://github.com/makolabs-xyz/arcana" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
-                                <img src="/static/img/bootstrap-icons/github.svg" alt="GitHub" >
-                            </span>
-                                </div>
-                            </a>
-                            </div>
-                            <span class="d-none d-sm-inline-block invisible mx-1">|</span>
-                            <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
-                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                                    </svg>
+                                </span>
+                                  </div>
+                              </a>
+                              </div>
+                              <span class="d-none d-sm-inline-block invisible mx-1">|</span>
+                              <div class="nav-item-wrapper"><a class="nav-link" href="https://discord.gg/VUFVCEAm" target="_blank" rel="noopener noreferrer" role="button" data-bs-toggle="" aria-expanded="false">
+                                  <div class="d-flex align-items-center">
                                 <span class="nav-link-icon d-none d-sm-inline-block">
-                                <img src="/static/img/bootstrap-icons/envelope.svg" alt="Email" >
-                            </span>
-                                </div>
-                            </a>
-                            </div>
-                        </div>
-                    </a>
-                    </div>
-                </div>
-            </div>
-        </footer>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                                </svg>
+                                </span>
+                                  </div>
+                              </a>
+                              </div>
+                          </div>
+                      </a>
+                      </div>
+                  </div>
+              </div>
+          </footer>
       </div>
       <script>
         var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
@@ -476,6 +469,11 @@
     <script src="/static/vendors/feather-icons/feather.min.js"></script>
     <script src="/static/vendors/dayjs/dayjs.min.js"></script>
     <script src="/static/js/phoenix.js"></script>
+    <script src="/static/vendors/echarts/echarts.min.js"></script>
+    <script src="/static/vendors/leaflet/leaflet.js"></script>
+    <script src="/static/vendors/leaflet.markercluster/leaflet.markercluster.js"></script>
+    <script src="/static/vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js"></script>
+    <script src="/static/js/ecommerce-dashboard.js"></script>
 
   </body>
 
