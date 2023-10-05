@@ -208,14 +208,14 @@
                   <div class="col-md-6 py-2">
                     <div class="h-100">
                       <a href="https://phantom.app/download" target="_blank">
-                        <img src="/static/img/banners/tester55.png" class="card-img" alt="..." />
+                        <img src="/static/img/banners/phantom-banners.png" class="card-img" alt="..." />
                       </a>
                     </div>
                   </div>
                   <div class="col-md-6 py-2">
                     <div class="h-100">
                       <a href="https://dev.helius.xyz/dashboard/app" target="_blank">
-                        <img src="/static/img/banners/tester54.png" class="card-img" alt="...">
+                        <img src="/static/img/banners/helius-banners-2.png" class="card-img" alt="...">
                       </a>
                     </div>
                   </div>
@@ -223,7 +223,7 @@
                     <div class="col-md-12">
                       <div class="h-100">
                         <a href="/settings">
-                          <img src="/static/img/banners/tester59.png" class="card-img" alt="...">
+                          <img src="/static/img/banners/arcana-banners-shadow.png" class="card-img" alt="...">
                         </a>
                       </div>
                     </div>
