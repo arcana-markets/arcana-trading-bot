@@ -2,6 +2,7 @@ package com.mmorrell.arcana.controller;
 
 import com.mmorrell.arcana.background.ArcanaBackgroundCache;
 import com.mmorrell.arcana.background.MarketCache;
+import com.mmorrell.arcana.background.TokenManager;
 import com.mmorrell.arcana.pricing.JupiterPricingSource;
 import com.mmorrell.arcana.strategies.BotManager;
 import com.mmorrell.arcana.strategies.OpenBookBot;
@@ -54,16 +55,19 @@ public class ArcanaController {
     private final JupiterPricingSource jupiterPricingSource;
     private final ArcanaBackgroundCache arcanaBackgroundCache;
     private final MarketCache marketCache;
+    private final TokenManager tokenManager;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
                             SerumManager serumManager, JupiterPricingSource jupiterPricingSource,
-                            ArcanaBackgroundCache arcanaBackgroundCache, MarketCache marketCache) {
+                            ArcanaBackgroundCache arcanaBackgroundCache, MarketCache marketCache,
+                            TokenManager tokenManager) {
         this.rpcClient = rpcClient;
         this.botManager = botManager;
         this.serumManager = serumManager;
         this.jupiterPricingSource = jupiterPricingSource;
         this.arcanaBackgroundCache = arcanaBackgroundCache;
         this.marketCache = marketCache;
+        this.tokenManager = tokenManager;
     }
 
     @RequestMapping("/")
@@ -262,7 +266,7 @@ public class ArcanaController {
         return "redirect:/settings";
     }
 
-    @GetMapping(value = "/api/openbook/market/{marketId}")
+    @RequestMapping(value = "/api/openbook/market/{marketId}")
     public Map<String, Object> getMarket(@PathVariable String marketId) {
         final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
         Optional<Market> market = marketCache.getMarket(marketPublicKey);

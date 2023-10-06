@@ -2,7 +2,6 @@ package com.mmorrell.arcana.util;
 
 import com.mmorrell.model.OpenBookOrder;
 import com.mmorrell.serum.model.OrderBook;
-import com.mmorrell.serumdata.model.SerumOrder;
 import org.p2p.solanaj.core.PublicKey;
 
 import java.util.List;
