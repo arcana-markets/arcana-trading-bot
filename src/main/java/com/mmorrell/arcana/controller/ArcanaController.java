@@ -252,7 +252,7 @@ public class ArcanaController {
             byte[] bytes = file.getBytes();
             botManager.setTradingAccount(Account.fromJson(new String(bytes)));
         } catch (IOException e) {
-            e.printStackTrace();
+            redirectAttributes.addAttribute("status", e.getMessage());
         }
 
         return "redirect:/settings";
@@ -266,7 +266,8 @@ public class ArcanaController {
         return "redirect:/settings";
     }
 
-    @RequestMapping(value = "/api/openbook/market/{marketId}")
+    @GetMapping(value = "/api/openbook/market/{marketId}")
+    @ResponseBody
     public Map<String, Object> getMarket(@PathVariable String marketId) {
         final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
         Optional<Market> market = marketCache.getMarket(marketPublicKey);
