@@ -1,24 +1,32 @@
 package com.mmorrell.arcana.controller;
 
 import com.mmorrell.arcana.background.ArcanaBackgroundCache;
+import com.mmorrell.arcana.background.MarketCache;
 import com.mmorrell.arcana.pricing.JupiterPricingSource;
 import com.mmorrell.arcana.strategies.BotManager;
 import com.mmorrell.arcana.strategies.OpenBookBot;
 import com.mmorrell.arcana.strategies.openbook.OpenBookSplUsdc;
+import com.mmorrell.arcana.util.MarketUtil;
 import com.mmorrell.model.OpenBookContext;
+import com.mmorrell.model.OpenBookOrder;
 import com.mmorrell.serum.manager.SerumManager;
 import com.mmorrell.serum.model.Market;
 import com.mmorrell.serum.model.OpenOrdersAccount;
+import com.mmorrell.serum.model.OrderBook;
 import com.mmorrell.serum.model.SerumUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.core.Base58;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
+import org.p2p.solanaj.rpc.types.AccountInfo;
 import org.p2p.solanaj.rpc.types.TokenAccountInfo;
+import org.p2p.solanaj.rpc.types.config.Commitment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,10 +37,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -43,15 +53,17 @@ public class ArcanaController {
     private final SerumManager serumManager;
     private final JupiterPricingSource jupiterPricingSource;
     private final ArcanaBackgroundCache arcanaBackgroundCache;
+    private final MarketCache marketCache;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
                             SerumManager serumManager, JupiterPricingSource jupiterPricingSource,
-                            ArcanaBackgroundCache arcanaBackgroundCache) {
+                            ArcanaBackgroundCache arcanaBackgroundCache, MarketCache marketCache) {
         this.rpcClient = rpcClient;
         this.botManager = botManager;
         this.serumManager = serumManager;
         this.jupiterPricingSource = jupiterPricingSource;
         this.arcanaBackgroundCache = arcanaBackgroundCache;
+        this.marketCache = marketCache;
     }
 
     @RequestMapping("/")
@@ -229,7 +241,6 @@ public class ArcanaController {
     }
 
 
-
     @PostMapping("/privateKeyUpload")
     public String privateKeyUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
@@ -249,6 +260,100 @@ public class ArcanaController {
         botManager.setTradingAccount(new Account(bytes));
 
         return "redirect:/settings";
+    }
+
+    @GetMapping(value = "/api/openbook/market/{marketId}")
+    public Map<String, Object> getMarket(@PathVariable String marketId) {
+        final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
+        Optional<Market> market = marketCache.getMarket(marketPublicKey);
+
+        return market.<Map<String, Object>>map(value -> Map.of(
+                "bids",
+                value.getBids().toBase58(),
+                "asks",
+                value.getAsks().toBase58())).orElse(Collections.emptyMap());
+
+    }
+//
+//    @GetMapping(value = "/api/openbook/market/{bidAccountId}/bids")
+//    public List<OpenBookOrder> getMarketBids(@PathVariable String bidAccountId) throws RpcException {
+//        final PublicKey bidPublicKey = PublicKey.valueOf(bidAccountId);
+//        // create a Optional<OrderBook> without cache
+//
+//        AccountInfo accountInfo = rpcClient.getApi()
+//                .getAccountInfo(
+//                        bidPublicKey,
+//                        Map.of(
+//                                "commitment",
+//                                Commitment.CONFIRMED
+//                        )
+//                );
+//
+//        return buildOrderBook(
+//                Base64.getDecoder().decode(
+//                        accountInfo.getValue()
+//                                .getData()
+//                                .get(0)
+//                ),
+//                cachedMarket
+//        );
+//
+//        if (orderBook.isPresent()) {
+//            List<OpenBookOrder> serumOrders = MarketUtil.convertOrderBookToSerumOrders(orderBook.get(), true);
+//
+//            // Calculate aggregate percentages for each quote, add to metadata
+//            float aggregateNotional = serumOrders.stream()
+//                    .map(order -> order.getQuantity() * order.getPrice())
+//                    .reduce(0f, Float::sum);
+//
+//            float currentTotal = 0.0f;
+//            for (OpenBookOrder order : serumOrders) {
+//                float notional = order.getPrice() * order.getQuantity();
+//                currentTotal += notional;
+//                order.addMetadata("percent", currentTotal / aggregateNotional);
+//            }
+//
+//            return serumOrders;
+//        } else {
+//            return Collections.emptyList();
+//        }
+//    }
+
+//    @GetMapping(value = "/api/openbook/market/{marketId}/asks")
+//    public List<SerumOrder> getMarketAsks(@PathVariable String marketId, HttpServletResponse response) {
+//        final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
+//        final Optional<OrderBook> orderBook = marketManager.getCachedAskOrderBook(marketPublicKey);
+//
+//        if (orderBook.isPresent()) {
+//            List<SerumOrder> serumOrders = MarketUtil.convertOrderBookToSerumOrders(orderBook.get(), false);
+//
+//            // Calculate aggregate percentages for each quote, add to metadata
+//            float aggregateNotional = serumOrders.stream()
+//                    .map(order -> order.getQuantity() * order.getPrice())
+//                    .reduce(0f, Float::sum);
+//
+//            float currentTotal = 0.0f;
+//            for (SerumOrder order : serumOrders) {
+//                float notional = order.getPrice() * order.getQuantity();
+//                currentTotal += notional;
+//                order.addMetadata("percent", currentTotal / aggregateNotional);
+//            }
+//
+//            identityManager.reverseOwnerLookup(serumOrders);
+//            return serumOrders;
+//        } else {
+//            return Collections.emptyList();
+//        }
+//    }
+
+    private OrderBook buildOrderBook(byte[] data, Market market) {
+        OrderBook orderBook = OrderBook.readOrderBook(data);
+        orderBook.setBaseDecimals(market.getBaseDecimals());
+        orderBook.setQuoteDecimals(market.getQuoteDecimals());
+        orderBook.setBaseLotSize(market.getBaseLotSize());
+        orderBook.setQuoteLotSize(market.getQuoteLotSize());
+
+        return orderBook;
     }
 
 }
