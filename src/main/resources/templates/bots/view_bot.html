@@ -455,7 +455,7 @@
         </script>
         <script type="text/javascript" th:inline="none" class="init">
             /*<![CDATA[*/
-            var jsonData;
+            var jsonData, bidTable, askTable;
 
             function getOrderBooks() {
                 $.ajax({
@@ -466,7 +466,7 @@
                     async: false
                 });
                 // pass in the data to each datatable, instead of 2 requests
-                var bidTable = $('#bidsTable').DataTable({
+                bidTable = $('#bidsTable').DataTable({
                     paging: false,
                     info: false,
                     "aaData": jsonData.bidOrders,// <-- your array of objects
@@ -542,7 +542,7 @@
                     }
                 });
 
-                var askTable = $('#asksTable').DataTable({
+                askTable = $('#asksTable').DataTable({
                     paging: false,
                     info: false,
                     "aaData": jsonData.askOrders,// <-- your array of objects
@@ -619,12 +619,22 @@
             }
             $(document).ready(function () {
                 getOrderBooks()
-                
+                setInterval(function () {
+                    $.ajax({
+                        url: "/api/openbook/market/" + initialMarketId,
+                        success: function (result) {
+                            jsonData = result;
+                            $('#bidsTable').dataTable().fnClearTable();
+                            $('#bidsTable').dataTable().fnAddData(result.bidOrders);
 
-                    setInterval(function () {
-                        // call the above code again
-                    }, 4000);
-                }
+                            $('#asksTable').dataTable().fnClearTable();
+                            $('#asksTable').dataTable().fnAddData(result.askOrders);
+
+                        },
+                        async: false
+                    });
+                }, 2000);
+            }
             );
             /*]]>*/
         </script>
