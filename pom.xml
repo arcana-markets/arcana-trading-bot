@@ -23,7 +23,6 @@
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
         <junit.platform.native.version>0.9.28-SNAPSHOT</junit.platform.native.version>
         <imageName>arcanaJ</imageName>
-        <mainClass>com.mmorrell.ArcanaApplication</mainClass> <!-- Adjusted mainClass -->
     </properties>
 
     <dependencies>
