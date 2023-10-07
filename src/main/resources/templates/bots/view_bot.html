@@ -459,8 +459,16 @@
             $(document).ready(function () {
                 // ajax get the market
                 // initialMarketId
-                $.get( "/api/openbook/market/" + initialMarketId, function( data ) {
-                    jsonData = data;
+                // $.ajax( "/api/openbook/market/" + initialMarketId, function( data ) {
+                //     jsonData = data;
+                // });
+
+                $.ajax({
+                    url: "/api/openbook/market/" + initialMarketId,
+                    success: function (result) {
+                        jsonData = result;
+                    },
+                    async: false
                 });
                 // pass in the data to each datatable, instead of 2 requests
                     var bidTable = $('#bidsTable').DataTable({
