@@ -17,6 +17,7 @@ import java.util.Optional;
 public class MarketCache {
 
     private final RpcClient rpcClient;
+    private final Map<PublicKey, Market> marketCache = new HashMap<>();
 
     public MarketCache(RpcClient rpcClient) {
         this.rpcClient = rpcClient;
@@ -29,6 +30,9 @@ public class MarketCache {
 
     public Optional<Market> getMarket(PublicKey marketId) {
         //Market market = Market.readMarket(programAccount.getAccount().getDecodedData());
+        if (marketCache.containsKey(marketId)) {
+            return Optional.of(marketCache.get(marketId));
+        }
         AccountInfo accountInfo;
         try {
             accountInfo = rpcClient.getApi().getAccountInfo(marketId);
@@ -38,6 +42,7 @@ public class MarketCache {
         }
 
         Market market = Market.readMarket(accountInfo.getDecodedData());
+        marketCache.put(marketId, market);
         return Optional.of(market);
     }
 }
