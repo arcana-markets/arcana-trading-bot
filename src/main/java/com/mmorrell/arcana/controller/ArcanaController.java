@@ -10,6 +10,7 @@ import com.mmorrell.arcana.strategies.openbook.OpenBookSplUsdc;
 import com.mmorrell.arcana.util.MarketUtil;
 import com.mmorrell.model.OpenBookContext;
 import com.mmorrell.model.OpenBookOrder;
+import com.mmorrell.serum.manager.OrderBookCacheManager;
 import com.mmorrell.serum.manager.SerumManager;
 import com.mmorrell.serum.model.Market;
 import com.mmorrell.serum.model.OpenOrdersAccount;
@@ -56,6 +57,7 @@ public class ArcanaController {
     private final ArcanaBackgroundCache arcanaBackgroundCache;
     private final MarketCache marketCache;
     private final TokenManager tokenManager;
+    private final OrderBookCacheManager orderBookCacheManager;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
                             SerumManager serumManager, JupiterPricingSource jupiterPricingSource,
@@ -68,6 +70,7 @@ public class ArcanaController {
         this.arcanaBackgroundCache = arcanaBackgroundCache;
         this.marketCache = marketCache;
         this.tokenManager = tokenManager;
+        this.orderBookCacheManager = new OrderBookCacheManager(rpcClient);
     }
 
     @RequestMapping("/")
@@ -347,16 +350,58 @@ public class ArcanaController {
          */
         final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
         Optional<Market> market = marketCache.getMarket(marketPublicKey);
+        final Map<String, Object> results = new HashMap<>();
 
-        // get bids
+        if (market.isPresent()) {
+            Market ourMarket = market.get();
+            OrderBook bidOrderBook = orderBookCacheManager.getOrderBook(ourMarket.getBids());
+            bidOrderBook.setBaseDecimals((byte) tokenManager.getDecimals(ourMarket.getBaseMint()));
+            bidOrderBook.setQuoteDecimals((byte) tokenManager.getDecimals(ourMarket.getQuoteMint()));
+            bidOrderBook.setBaseLotSize(ourMarket.getBaseLotSize());
+            bidOrderBook.setQuoteLotSize(ourMarket.getQuoteLotSize());
 
-        // get asks
+            List<OpenBookOrder> openBookBidOrders = MarketUtil.convertOrderBookToSerumOrders(bidOrderBook, true);
 
-        return market.<Map<String, Object>>map(value -> Map.of(
-                "bids",
-                value.getBids().toBase58(),
-                "asks",
-                value.getAsks().toBase58())).orElse(Collections.emptyMap());
+            // Calculate aggregate percentages for each quote, add to metadata
+            float aggregateNotional = openBookBidOrders.stream()
+                    .map(order -> order.getQuantity() * order.getPrice())
+                    .reduce(0f, Float::sum);
+
+            float currentTotal = 0.0f;
+            for (OpenBookOrder order : openBookBidOrders) {
+                float notional = order.getPrice() * order.getQuantity();
+                currentTotal += notional;
+                order.addMetadata("percent", currentTotal / aggregateNotional);
+            }
+
+            results.put("bidOrders", openBookBidOrders);
+
+            // asks
+            OrderBook askOrderBook = orderBookCacheManager.getOrderBook(ourMarket.getAsks());
+            askOrderBook.setBaseDecimals((byte) tokenManager.getDecimals(ourMarket.getBaseMint()));
+            askOrderBook.setQuoteDecimals((byte) tokenManager.getDecimals(ourMarket.getQuoteMint()));
+            askOrderBook.setBaseLotSize(ourMarket.getBaseLotSize());
+            askOrderBook.setQuoteLotSize(ourMarket.getQuoteLotSize());
+
+            List<OpenBookOrder> openBookAskOrders = MarketUtil.convertOrderBookToSerumOrders(askOrderBook, false);
+
+            // Calculate aggregate percentages for each quote, add to metadata
+            float aggregateNotionalAsk = openBookAskOrders.stream()
+                    .map(order -> order.getQuantity() * order.getPrice())
+                    .reduce(0f, Float::sum);
+
+            float currentTotalAsk = 0.0f;
+            for (OpenBookOrder order : openBookAskOrders) {
+                float notional = order.getPrice() * order.getQuantity();
+                currentTotalAsk += notional;
+                order.addMetadata("percent", currentTotalAsk / aggregateNotionalAsk);
+            }
+
+            results.put("askOrders", openBookAskOrders);
+        }
+
+        results.put("marketId", marketId);
+        return results;
 
     }
 
