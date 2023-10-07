@@ -266,19 +266,6 @@ public class ArcanaController {
         return "redirect:/settings";
     }
 
-    @GetMapping(value = "/api/openbook/market/{marketId}")
-    @ResponseBody
-    public Map<String, Object> getMarket(@PathVariable String marketId) {
-        final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
-        Optional<Market> market = marketCache.getMarket(marketPublicKey);
-
-        return market.<Map<String, Object>>map(value -> Map.of(
-                "bids",
-                value.getBids().toBase58(),
-                "asks",
-                value.getAsks().toBase58())).orElse(Collections.emptyMap());
-
-    }
 //
 //    @GetMapping(value = "/api/openbook/market/{bidAccountId}/bids")
 //    public List<OpenBookOrder> getMarketBids(@PathVariable String bidAccountId) throws RpcException {
@@ -350,6 +337,28 @@ public class ArcanaController {
 //            return Collections.emptyList();
 //        }
 //    }
+
+    @RequestMapping("/api/openbook/market/{marketId}")
+    @ResponseBody
+    public Map<String, Object> getMarket(@PathVariable String marketId) {
+        /*
+        This is called in an AJAX loop
+        Returns: bid orderbook + ask orderbook
+         */
+        final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
+        Optional<Market> market = marketCache.getMarket(marketPublicKey);
+
+        // get bids
+
+        // get asks
+
+        return market.<Map<String, Object>>map(value -> Map.of(
+                "bids",
+                value.getBids().toBase58(),
+                "asks",
+                value.getAsks().toBase58())).orElse(Collections.emptyMap());
+
+    }
 
     private OrderBook buildOrderBook(byte[] data, Market market) {
         OrderBook orderBook = OrderBook.readOrderBook(data);
