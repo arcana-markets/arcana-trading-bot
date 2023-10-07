@@ -23,13 +23,7 @@ public class MarketCache {
         this.rpcClient = rpcClient;
     }
 
-
-    // Each market is only loaded once
-    private final Map<PublicKey, Market> marketMap = new HashMap<>();
-
-
     public Optional<Market> getMarket(PublicKey marketId) {
-        //Market market = Market.readMarket(programAccount.getAccount().getDecodedData());
         if (marketCache.containsKey(marketId)) {
             return Optional.of(marketCache.get(marketId));
         }
