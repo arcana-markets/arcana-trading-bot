@@ -22,6 +22,7 @@
     <link rel="manifest" href="/static/img/favicons/manifest.json">
     <meta name="msapplication-TileImage" content="/static/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
+    <script src="/static/vendors/jQuery/jquery-3.6.0.min.js"></script>
     <script src="/static/vendors/imagesloaded/imagesloaded.pkgd.min.js"></script>
     <script src="/static/vendors/simplebar/simplebar.min.js"></script>
     <script src="/static/js/config.js"></script>
@@ -40,32 +41,8 @@
     <!-- inlined vars from controller -->
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var initialMarketId = /*[[${marketId}]]*/ '';
-        var defaultTokenId = /*[[${defaultTokenId}]]*/ '';
+        var initialMarketId = /*[[${botMarketId}]]*/ '';
         /*]]>*/
-
-
-        $(document).ready(function () {
-            var options = $("#tokenSelect option");                    // Collect options
-            options.detach().sort(function (a, b) {               // Detach from select, then Sort
-                var at = $(a).data("rank");
-                var bt = $(b).data("rank");
-                return (at > bt) ? 1 : ((at < bt) ? -1 : 0);            // Tell the sort function how to order
-            });
-            options.appendTo("#tokenSelect");                          // Re-attach to select
-            $("#tokenSelect").val($("#tokenSelect option:first").val());
-            $("#tokenSelect").show();
-
-            $('#tokenSelect').select2({
-                templateResult: formatToken,
-                templateSelection: formatToken
-            });
-
-            // todo - async?
-            loadMarkets(defaultTokenId);
-            setMarket(initialMarketId);
-            updateDepthChart();
-        });
     </script>
 </head>
 
@@ -478,15 +455,23 @@
         </script>
         <script type="text/javascript" th:inline="none" class="init">
             /*<![CDATA[*/
+            var jsonData;
             $(document).ready(function () {
+                // ajax get the market
+                // initialMarketId
+                $.get( "/api/openbook/market/" + initialMarketId, function( data ) {
+                    jsonData = data;
+                });
+                // pass in the data to each datatable, instead of 2 requests
                     var bidTable = $('#bidsTable').DataTable({
                         paging: false,
                         info: false,
-                        ajax: {
-                            url: '/api/serum/market/' + activeMarketId + '/bids',
-                            cache: true,
-                            dataSrc: ''
-                        },
+                        "aaData": jsonData.bidOrders,// <-- your array of objects
+                        "aoColumns": [
+                            { "mData": "owner" }, // <-- which values to use inside object
+                            { "mData": "quantity" },
+                            { "mData": "price" }
+                        ],
                         columns: [
                             {
                                 data: 'owner',
@@ -553,214 +538,93 @@
                             }
                         }
                     });
+                    //
+                    // var askTable = $('#asksTable').DataTable({
+                    //     paging: false,
+                    //     info: false,
+                    //     ajax: {
+                    //         url: '/api/serum/market/' + activeMarketId + '/asks',
+                    //         cache: true,
+                    //         dataSrc: ''
+                    //     },
+                    //     columns: [
+                    //         {
+                    //             data: 'price',
+                    //             render: function (data, type, row) {
+                    //                 return marketCurrencySymbol + data;
+                    //             }
+                    //         },
+                    //         {data: 'quantity'},
+                    //         {
+                    //             data: 'owner',
+                    //             render: function (data, type, row) {
+                    //                 if (typeof row.metadata.name !== 'undefined') {
+                    //                     if (row.metadata.name === 'Mango') {
+                    //                         var externalUrl = location.href.replace("#", "") + 'mango/lookup/' + row.metadata.mangoKey;
+                    //                         return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
+                    //                             row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
+                    //                             row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
+                    //                     }
+                    //
+                    //                     return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
+                    //                         row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
+                    //                         row.metadata.name + "</a>";
+                    //                 } else {
+                    //                     return "<a class='coloredlink' href=\"https://solana.fm/account/" +
+                    //                         row.owner.publicKey + "\" target=_blank>" +
+                    //                         row.owner.publicKey.substring(0, 3) +
+                    //                         ".." +
+                    //                         row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
+                    //                         "</a>";
+                    //                 }
+                    //             }
+                    //         }
+                    //     ],
+                    //     order: [[0, 'asc']],
+                    //     columnDefs: [
+                    //         {
+                    //             targets: [0],
+                    //             className: 'dt-left',
+                    //             width: '25%'
+                    //         },
+                    //         {
+                    //             targets: [1],
+                    //             className: 'dt-left',
+                    //             width: '25%'
+                    //         },
+                    //         {
+                    //             targets: [2],
+                    //             className: 'dt-left',
+                    //             width: '50%'
+                    //         }
+                    //     ],
+                    //     rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
+                    //         // Calculate percentage of bids for this row
+                    //         // Global has this calculated called `totalBids`
+                    //         var total = totalAsks ?? 0;
+                    //         if (total !== 0) {
+                    //             // 0.5 percentage of lead, since top of book can look empty
+                    //             var percentage = ((data.metadata.percent ?? 0) * 100) + 0.5;
+                    //             var rowSelector = $(row);
+                    //             rowSelector.css("background", "linear-gradient(90deg, rgb(199 6 2) " + percentage.toFixed(0) +
+                    //                 "%, rgba(0, 0, 0, 0.00) 0%)"
+                    //             );
+                    //         }
+                    //     }
+                    // });
 
-                    var askTable = $('#asksTable').DataTable({
-                        paging: false,
-                        info: false,
-                        ajax: {
-                            url: '/api/serum/market/' + activeMarketId + '/asks',
-                            cache: true,
-                            dataSrc: ''
-                        },
-                        columns: [
-                            {
-                                data: 'price',
-                                render: function (data, type, row) {
-                                    return marketCurrencySymbol + data;
-                                }
-                            },
-                            {data: 'quantity'},
-                            {
-                                data: 'owner',
-                                render: function (data, type, row) {
-                                    if (typeof row.metadata.name !== 'undefined') {
-                                        if (row.metadata.name === 'Mango') {
-                                            var externalUrl = location.href.replace("#", "") + 'mango/lookup/' + row.metadata.mangoKey;
-                                            return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
-                                                row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                                row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
-                                        }
-
-                                        return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
-                                            row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                            row.metadata.name + "</a>";
-                                    } else {
-                                        return "<a class='coloredlink' href=\"https://solana.fm/account/" +
-                                            row.owner.publicKey + "\" target=_blank>" +
-                                            row.owner.publicKey.substring(0, 3) +
-                                            ".." +
-                                            row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
-                                            "</a>";
-                                    }
-                                }
-                            }
-                        ],
-                        order: [[0, 'asc']],
-                        columnDefs: [
-                            {
-                                targets: [0],
-                                className: 'dt-left',
-                                width: '25%'
-                            },
-                            {
-                                targets: [1],
-                                className: 'dt-left',
-                                width: '25%'
-                            },
-                            {
-                                targets: [2],
-                                className: 'dt-left',
-                                width: '50%'
-                            }
-                        ],
-                        rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
-                            // Calculate percentage of bids for this row
-                            // Global has this calculated called `totalBids`
-                            var total = totalAsks ?? 0;
-                            if (total !== 0) {
-                                // 0.5 percentage of lead, since top of book can look empty
-                                var percentage = ((data.metadata.percent ?? 0) * 100) + 0.5;
-                                var rowSelector = $(row);
-                                rowSelector.css("background", "linear-gradient(90deg, rgb(199 6 2) " + percentage.toFixed(0) +
-                                    "%, rgba(0, 0, 0, 0.00) 0%)"
-                                );
-                            }
-                        }
-                    });
-
-                    // Trade history table
-                    var tradeHistoryTable = $('#tradeHistoryTable').DataTable({
-                        ordering: false,
-                        searching: false,
-                        paging: false,
-                        info: false,
-                        ajax: {
-                            url: '/api/serum/market/' + activeMarketId + '/tradeHistory',
-                            cache: true,
-                            dataSrc: ''
-                        },
-                        columns: [
-                            {
-                                data: 'price',
-                                render: function (data, type, row) {
-                                    return marketCurrencySymbol + data;
-                                }
-                            },
-                            {data: 'quantity'},
-                            {
-                                data: 'owner',
-                                render: function (data, type, row) {
-                                    if (row.takerEntityName) {
-                                        var externalLink = '';
-                                        if (row.takerEntityName === 'Mango') {
-                                            // Add external link
-                                            var externalUrl = location.href.replace("#", "") + 'mango/lookup/' + row.takerOoa.publicKey;
-                                            externalLink = "<a href=\"" + externalUrl + "\" target=_blank>" +
-                                                "<img src=\"static/entities/" +
-                                                row.takerEntityIcon +
-                                                ".png\" width=16 height=16 style=\"margin-right: 6px;\"></a>"
-                                            return externalLink +
-                                                "<a target=_blank href=\"" + externalUrl + "\">" +
-                                                row.takerEntityName + "</a>";
-                                        }
-
-                                        return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
-                                            row.takerEntityIcon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                            row.takerEntityName + "</a>" + externalLink;
-                                    } else {
-                                        if (row.owner) {
-                                            return "<a class='coloredlink' href=\"https://solana.fm/account/" +
-                                                row.owner.publicKey + "\" target=_blank>" +
-                                                row.owner.publicKey.substring(0, 3) +
-                                                ".." +
-                                                row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
-                                                "</a>";
-                                        } else {
-                                            return "Unknown";
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                data: 'maker',
-                                render: function (data, type, row) {
-                                    if (row.makerEntityName) {
-                                        var externalLink = '';
-                                        if (row.makerEntityName === 'Mango') {
-                                            // Add external link
-                                            var externalUrl = location.href.replace("#", "") + 'mango/lookup/' + row.makerOoa.publicKey;
-                                            externalLink = "<a href=\"" + externalUrl + "\" target=_blank>" +
-                                                "<img src=\"static/entities/" +
-                                                row.makerEntityIcon +
-                                                ".png\" width=16 height=16 style=\"margin-right: 6px;\"></a>"
-                                            return externalLink +
-                                                "<a target=_blank href=\"" + externalUrl + "\">" +
-                                                row.makerEntityName + "</a>";
-                                        }
-
-                                        return "<a target=_blank href=\"https://solana.fm/account/" +
-                                            row.makerOwner.publicKey + "\"><img src=\"static/entities/" +
-                                            row.makerEntityIcon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                            row.makerEntityName + "</a>";
-                                    } else {
-                                        if (row.makerOwner) {
-                                            return "<a class='coloredlink' href=\"https://solana.fm/account/" +
-                                                row.makerOwner.publicKey + "\" target=_blank>" +
-                                                row.makerOwner.publicKey.substring(0, 3) +
-                                                ".." +
-                                                row.makerOwner.publicKey.substring(row.makerOwner.publicKey.toString().length - 3) +
-                                                "</a>";
-                                        } else {
-                                            return "Unknown";
-                                        }
-                                    }
-                                }
-                            }
-                        ],
-                        columnDefs: [
-                            {
-                                targets: [0],
-                                className: 'dt-left',
-                                width: '30%'
-                            },
-                            {
-                                targets: [1],
-                                className: 'dt-left',
-                                width: '20%'
-                            },
-                            {
-                                targets: [2],
-                                className: 'dt-left',
-                                width: '25%'
-                            },
-                            {
-                                targets: [3],
-                                className: 'dt-left',
-                                width: '25%'
-                            }
-                        ],
-                        rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
-                            var node = this.api().row(row).nodes().to$();
-                            if (data.bid) {
-                                node.addClass('table-success')
-                            } else {
-                                node.addClass('table-danger')
-                            }
-                        }
-                    });
-
-                    setInterval(function () {
-                        bidTable.ajax.url('/api/serum/market/' + activeMarketId + '/bids');
-                        bidTable.ajax.reload();
-                    }, 400);
-                    setInterval(function () {
-                        askTable.ajax.url('/api/serum/market/' + activeMarketId + '/asks');
-                        askTable.ajax.reload();
-                    }, 400);
-                    setInterval(function () {
-                        tradeHistoryTable.ajax.url('/api/serum/market/' + activeMarketId + '/tradeHistory');
-                        tradeHistoryTable.ajax.reload();
-                    }, 2500);
+                    // setInterval(function () {
+                    //     bidTable.ajax.url('/api/serum/market/' + activeMarketId + '/bids');
+                    //     bidTable.ajax.reload();
+                    // }, 400);
+                    // setInterval(function () {
+                    //     askTable.ajax.url('/api/serum/market/' + activeMarketId + '/asks');
+                    //     askTable.ajax.reload();
+                    // }, 400);
+                    // setInterval(function () {
+                    //     tradeHistoryTable.ajax.url('/api/serum/market/' + activeMarketId + '/tradeHistory');
+                    //     tradeHistoryTable.ajax.reload();
+                    // }, 2500);
                 }
             );
             /*]]>*/
@@ -858,6 +722,7 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
+    <script src="/static/vendors/jQuery/jquery-3.6.0.min.js"></script>
     <script src="/static/vendors/popper/popper.min.js"></script>
     <script src="/static/vendors/bootstrap/bootstrap.min.js"></script>
     <script src="/static/vendors/anchorjs/anchor.min.js"></script>
@@ -871,7 +736,6 @@
     <script src="/static/js/phoenix.js"></script>
 
     <!-- jquery & chartjs -->
-    <script src="/static/vendors/jQuery/jquery-3.6.0.min.js"></script>
     <script src="/static/vendors/chart/chart.min.js"></script>
 
     <!-- depth -->
