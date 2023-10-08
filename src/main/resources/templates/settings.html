@@ -27,6 +27,29 @@
     <script src="/static/vendors/simplebar/simplebar.min.js"></script>
     <script src="/static/js/config.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="/static/js/accounts.js"></script>
+      <script>
+          // push our LocalStorage our keys into the backend.
+          $.post("/settings/localStorage", {localStorage: localStorage.getItem('arcanaAccounts')})
+              .done(function (data) {
+                  //alert("Data Loaded: " + data);
+              });
+      </script>
+      <script>
+          // on page load, load private keys from back end and persist them.
+          // this occurs on pkey add, otherwise is idempotent (no effect)
+          $.get('/accounts/getAllPrivateAccounts', function (data, textStatus, jqXHR) {
+              $.each(data, function (index, val) {
+                  if (!arcanaAccountsArray.includes(val.privatekey)) {
+                      addArcanaAccount(val.privatekey);
+                  }
+              });
+
+              // TODO make this sync with the backend
+              // alert(getLoadedArcanaAccounts());
+          });
+
+      </script>
 
 
     <!-- ===============================================-->
@@ -349,6 +372,18 @@
                         <!-- Active Wallets (Pubkey) -->
                         <div class="input-group">
                             <h4 class="mb-2">Active Wallets (Pubkey)</h4>
+                            <ul id="tradingAccounts">
+
+                            </ul>
+                            <script>
+                                // HTTP Get to load all accounts we have on the backend (show their public key)
+                                $.get('/accounts/getAllAccounts', function (data, textStatus, jqXHR) {
+                                    $.each(data, function (index, val) {
+                                        $("#tradingAccounts").append("<li>" +
+                                            "<a href=\"/bots/use/" + index + "\">" + val.pubkey + "</a>");
+                                    });
+                                });
+                            </script>
                         </div>
                         <span class="badge bg-secondary text-white" th:text="${tradingAccountPubkey}"></span><br>
                     </div>

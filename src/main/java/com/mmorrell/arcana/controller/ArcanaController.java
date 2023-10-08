@@ -3,6 +3,7 @@ package com.mmorrell.arcana.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
+import com.mmorrell.arcana.background.ArcanaAccountManager;
 import com.mmorrell.arcana.background.ArcanaBackgroundCache;
 import com.mmorrell.arcana.background.MarketCache;
 import com.mmorrell.arcana.background.TokenManager;
@@ -21,6 +22,7 @@ import com.mmorrell.serum.model.OrderBook;
 import com.mmorrell.serum.model.SerumUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.core.Base58;
+import org.json.JSONArray;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.rpc.RpcClient;
@@ -59,11 +61,12 @@ public class ArcanaController {
     private final MarketCache marketCache;
     private final TokenManager tokenManager;
     private final OrderBookCacheManager orderBookCacheManager;
+    private final ArcanaAccountManager arcanaAccountManager;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
                             SerumManager serumManager, JupiterPricingSource jupiterPricingSource,
                             ArcanaBackgroundCache arcanaBackgroundCache, MarketCache marketCache,
-                            TokenManager tokenManager) {
+                            TokenManager tokenManager, ArcanaAccountManager arcanaAccountManager) {
         this.rpcClient = rpcClient;
         this.botManager = botManager;
         this.serumManager = serumManager;
@@ -72,6 +75,7 @@ public class ArcanaController {
         this.marketCache = marketCache;
         this.tokenManager = tokenManager;
         this.orderBookCacheManager = new OrderBookCacheManager(rpcClient);
+        this.arcanaAccountManager = arcanaAccountManager;
     }
 
     @RequestMapping("/")
@@ -108,6 +112,7 @@ public class ArcanaController {
 
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
         model.addAttribute("tradingAccountPubkey", botManager.getTradingAccount().getPublicKey().toBase58());
+        model.addAttribute("arcanaAccounts", arcanaAccountManager.getArcanaAccounts());
 
         return "settings";
     }
@@ -349,6 +354,59 @@ public class ArcanaController {
         results.put("marketId", marketId);
         return results;
 
+    }
+
+    @RequestMapping("/settings/localStorage")
+    public String localStorage(Model model, @RequestParam String localStorage) {
+        log.info("localStorage: " + localStorage);
+
+        JSONArray jsonArray = new JSONArray(localStorage);
+        jsonArray.forEach(privateKey -> {
+            byte[] privateKeyBytes = Base58.decode(privateKey.toString());
+            Account newAccount = new Account(privateKeyBytes);
+            log.info("New account from LS: " + newAccount.getPublicKey().toBase58());
+            if (arcanaAccountManager.getArcanaAccounts().stream()
+                    .noneMatch(account -> account.getPublicKey().toBase58()
+                            .equals(newAccount.getPublicKey().toBase58()))) {
+                arcanaAccountManager.getArcanaAccounts().add(newAccount);
+            }
+        });
+
+        return "redirect:/settings";
+    }
+
+    @RequestMapping("/bots/use/{id}")
+    public String useTradingAccount(Model model, @PathVariable("id") long botId) {
+        botManager.setTradingAccount(arcanaAccountManager.getArcanaAccounts().get((int) botId));
+        return "redirect:/settings";
+    }
+
+    @RequestMapping("/wrap/{amountSol}")
+    @ResponseBody
+    public Map<String, String> wrapSol(Model model, @PathVariable Double amountSol) {
+        return Map.of(
+                "wsolPubkey",
+                arcanaBackgroundCache.wrapSol(
+                        botManager.getTradingAccount(),
+                        amountSol
+                ).toBase58()
+        );
+    }
+
+    @RequestMapping("/accounts/getAllAccounts")
+    @ResponseBody
+    public List<Map<String, String>> getAllAccounts(Model model) {
+        return arcanaAccountManager.getArcanaAccounts().stream()
+                .map(account -> Map.of("pubkey", account.getPublicKey().toBase58()))
+                .toList();
+    }
+
+    @RequestMapping("/accounts/getAllPrivateAccounts")
+    @ResponseBody
+    public List<Map<String, String>> getAllPrivateAccounts(Model model) {
+        return arcanaAccountManager.getArcanaAccounts().stream()
+                .map(account -> Map.of("privatekey", Base58.encode(account.getSecretKey())))
+                .toList();
     }
 
 }
