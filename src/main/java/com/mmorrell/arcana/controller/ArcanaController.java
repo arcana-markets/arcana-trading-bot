@@ -277,6 +277,13 @@ public class ArcanaController {
         try {
             byte[] bytes = file.getBytes();
             botManager.setTradingAccount(Account.fromJson(new String(bytes)));
+
+            // if a new account, add to our cache / like a Set
+            if (arcanaAccountManager.getArcanaAccounts().stream()
+                    .noneMatch(account -> account.getPublicKey().toBase58()
+                            .equals(botManager.getTradingAccount().getPublicKey().toBase58()))) {
+                arcanaAccountManager.getArcanaAccounts().add(botManager.getTradingAccount());
+            }
         } catch (IOException e) {
             redirectAttributes.addAttribute("status", e.getMessage());
         }
@@ -288,6 +295,13 @@ public class ArcanaController {
     public String privateKeyPost(Model model, @RequestParam String privateKey) {
         byte[] bytes = Base58.decode(privateKey);
         botManager.setTradingAccount(new Account(bytes));
+
+        // if a new account, add to our cache
+        if (arcanaAccountManager.getArcanaAccounts().stream()
+                .noneMatch(account -> account.getPublicKey().toBase58()
+                        .equals(botManager.getTradingAccount().getPublicKey().toBase58()))) {
+            arcanaAccountManager.getArcanaAccounts().add(botManager.getTradingAccount());
+        }
 
         return "redirect:/settings";
     }
