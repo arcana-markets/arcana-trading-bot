@@ -188,7 +188,7 @@ public class ArcanaController {
         botManager.addBot(newBot);
         log.info("New strategy created/started: " + newBot);
 
-        return "redirect:/";
+        return "redirect:/bots";
     }
 
     @RequestMapping("/openbook")
