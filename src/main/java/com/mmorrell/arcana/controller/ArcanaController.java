@@ -19,19 +19,15 @@ import com.mmorrell.serum.model.Market;
 import com.mmorrell.serum.model.OpenOrdersAccount;
 import com.mmorrell.serum.model.OrderBook;
 import com.mmorrell.serum.model.SerumUtils;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.core.Base58;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
-import org.p2p.solanaj.rpc.types.AccountInfo;
 import org.p2p.solanaj.rpc.types.TokenAccountInfo;
-import org.p2p.solanaj.rpc.types.config.Commitment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -274,78 +270,6 @@ public class ArcanaController {
         return "redirect:/settings";
     }
 
-//
-//    @GetMapping(value = "/api/openbook/market/{bidAccountId}/bids")
-//    public List<OpenBookOrder> getMarketBids(@PathVariable String bidAccountId) throws RpcException {
-//        final PublicKey bidPublicKey = PublicKey.valueOf(bidAccountId);
-//        // create a Optional<OrderBook> without cache
-//
-//        AccountInfo accountInfo = rpcClient.getApi()
-//                .getAccountInfo(
-//                        bidPublicKey,
-//                        Map.of(
-//                                "commitment",
-//                                Commitment.CONFIRMED
-//                        )
-//                );
-//
-//        return buildOrderBook(
-//                Base64.getDecoder().decode(
-//                        accountInfo.getValue()
-//                                .getData()
-//                                .get(0)
-//                ),
-//                cachedMarket
-//        );
-//
-//        if (orderBook.isPresent()) {
-//            List<OpenBookOrder> serumOrders = MarketUtil.convertOrderBookToSerumOrders(orderBook.get(), true);
-//
-//            // Calculate aggregate percentages for each quote, add to metadata
-//            float aggregateNotional = serumOrders.stream()
-//                    .map(order -> order.getQuantity() * order.getPrice())
-//                    .reduce(0f, Float::sum);
-//
-//            float currentTotal = 0.0f;
-//            for (OpenBookOrder order : serumOrders) {
-//                float notional = order.getPrice() * order.getQuantity();
-//                currentTotal += notional;
-//                order.addMetadata("percent", currentTotal / aggregateNotional);
-//            }
-//
-//            return serumOrders;
-//        } else {
-//            return Collections.emptyList();
-//        }
-//    }
-
-//    @GetMapping(value = "/api/openbook/market/{marketId}/asks")
-//    public List<SerumOrder> getMarketAsks(@PathVariable String marketId, HttpServletResponse response) {
-//        final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
-//        final Optional<OrderBook> orderBook = marketManager.getCachedAskOrderBook(marketPublicKey);
-//
-//        if (orderBook.isPresent()) {
-//            List<SerumOrder> serumOrders = MarketUtil.convertOrderBookToSerumOrders(orderBook.get(), false);
-//
-//            // Calculate aggregate percentages for each quote, add to metadata
-//            float aggregateNotional = serumOrders.stream()
-//                    .map(order -> order.getQuantity() * order.getPrice())
-//                    .reduce(0f, Float::sum);
-//
-//            float currentTotal = 0.0f;
-//            for (SerumOrder order : serumOrders) {
-//                float notional = order.getPrice() * order.getQuantity();
-//                currentTotal += notional;
-//                order.addMetadata("percent", currentTotal / aggregateNotional);
-//            }
-//
-//            identityManager.reverseOwnerLookup(serumOrders);
-//            return serumOrders;
-//        } else {
-//            return Collections.emptyList();
-//        }
-//    }
-
     @RequestMapping("/api/openbook/market/{marketId}")
     @ResponseBody
     public Map<String, Object> getMarket(@PathVariable String marketId) {
@@ -408,16 +332,6 @@ public class ArcanaController {
         results.put("marketId", marketId);
         return results;
 
-    }
-
-    private OrderBook buildOrderBook(byte[] data, Market market) {
-        OrderBook orderBook = OrderBook.readOrderBook(data);
-        orderBook.setBaseDecimals(market.getBaseDecimals());
-        orderBook.setQuoteDecimals(market.getQuoteDecimals());
-        orderBook.setBaseLotSize(market.getBaseLotSize());
-        orderBook.setQuoteLotSize(market.getQuoteLotSize());
-
-        return orderBook;
     }
 
 }
