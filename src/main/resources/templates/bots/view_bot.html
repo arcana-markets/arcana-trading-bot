@@ -467,8 +467,9 @@
                 });
                 // pass in the data to each datatable, instead of 2 requests
                 bidTable = $('#bidsTable').DataTable({
-                    paging: false,
+                    paging: true,
                     info: false,
+                    pageLength: 6,
                     "aaData": jsonData.bidOrders,// <-- your array of objects
                     "aoColumns": [
                         { "mData": "owner" }, // <-- which values to use inside object
@@ -543,8 +544,9 @@
                 });
 
                 askTable = $('#asksTable').DataTable({
-                    paging: false,
+                    paging: true,
                     info: false,
+                    pageLength: 6,
                     "aaData": jsonData.askOrders,// <-- your array of objects
                     "aoColumns": [
                         { "mData": "owner" }, // <-- which values to use inside object
