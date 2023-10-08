@@ -28,7 +28,7 @@ public class ArcanaWebConfig implements WebMvcConfigurer {
 
     @Bean
     public RpcClient rpcClient() {
-        return new RpcClient(Cluster.BLOCKDAEMON);
+        return new RpcClient(Cluster.BLOCKDAEMON.getEndpoint(), 60);
     }
 
     @Bean

@@ -39,6 +39,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
@@ -126,24 +127,40 @@ public class ArcanaController {
             log.info("Base Mint: " + market.getBaseMint());
             log.info("Quote Mint: " + market.getQuoteMint());
 
+            log.info("Searching for tokens accounts for: " + pubkey.toBase58());
             Map<String, Object> requiredParams = Map.of("mint", market.getBaseMint());
             TokenAccountInfo tokenAccount = rpcClient.getApi().getTokenAccountsByOwner(pubkey, requiredParams,
                     new HashMap<>());
+            log.info(Arrays.toString(tokenAccount.getValue().toArray()));
             requiredParams = Map.of("mint", market.getQuoteMint());
             TokenAccountInfo quoteTokenAccount = rpcClient.getApi().getTokenAccountsByOwner(pubkey, requiredParams,
                     new HashMap<>());
-
-            log.info("Our base wallet: " + tokenAccount.getValue().get(0).getPubkey());
-            log.info("Our quote wallet: " + quoteTokenAccount.getValue().get(0).getPubkey());
-
-            results.put("baseWallet", tokenAccount.getValue().get(0).getPubkey());
-            results.put("quoteWallet", quoteTokenAccount.getValue().get(0).getPubkey());
-            results.put("ooa", null);
+            log.info(Arrays.toString(quoteTokenAccount.getValue().toArray()));
 
             OpenBookContext openBookContext = new OpenBookContext();
-            openBookContext.setBaseWallet(tokenAccount.getValue().get(0).getPubkey());
-            openBookContext.setQuoteWallet(quoteTokenAccount.getValue().get(0).getPubkey());
 
+            // if base wallet found
+            TokenAccountInfo.Value baseValue = !tokenAccount.getValue().isEmpty() ? tokenAccount.getValue().get(0) :
+                    null;
+            if (baseValue != null) {
+                log.info("Our base wallet: " + baseValue.getPubkey());
+                results.put("baseWallet", baseValue.getPubkey());
+                openBookContext.setBaseWallet(baseValue.getPubkey());
+
+            }
+
+            // if quote wallet found
+            TokenAccountInfo.Value quoteValue = !quoteTokenAccount.getValue().isEmpty() ? quoteTokenAccount.getValue().get(0) :
+                    null;
+            if (quoteValue != null) {
+                log.info("Our quote wallet: " + quoteValue.getPubkey());
+                results.put("quoteWallet", quoteValue.getPubkey());
+                openBookContext.setQuoteWallet(quoteValue.getPubkey());
+            }
+
+            results.put("ooa", null);
+
+            // todo handle timeout exception
             // OOA
             final OpenOrdersAccount openOrdersAccount = SerumUtils.findOpenOrdersAccountForOwner(
                     rpcClient,
