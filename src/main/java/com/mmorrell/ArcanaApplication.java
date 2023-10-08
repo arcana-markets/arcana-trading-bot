@@ -17,8 +17,5 @@ import java.util.Map;
 public class ArcanaApplication {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(ArcanaApplication.class, args);
-        String markets = Resources.toString(Resources.getResource("static/js/markets.json"), StandardCharsets.UTF_8);
-        List<Map<String, Object>> map = new ObjectMapper().readValue(markets, new TypeReference<>() {});
-        log.info(map.toString());
     }
 }

@@ -1,5 +1,8 @@
 package com.mmorrell.arcana.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.Resources;
 import com.mmorrell.arcana.background.ArcanaBackgroundCache;
 import com.mmorrell.arcana.background.MarketCache;
 import com.mmorrell.arcana.background.TokenManager;
@@ -39,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
@@ -87,12 +91,13 @@ public class ArcanaController {
         return "bots/my_bots";
     }
 
-    @RequestMapping("/market-list")
-    public String arcanaMarkets(Model model) {
+    @RequestMapping("/markets")
+    public String arcanaMarkets(Model model) throws IOException {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
-        model.addAttribute("markets", arcanaBackgroundCache.getCachedMarkets()
-                .stream().sorted((o1, o2) -> (int) (o2.getReferrerRebatesAccrued() - o1.getReferrerRebatesAccrued()))
-                .toList());
+        String marketsString = Resources.toString(Resources.getResource("static/js/markets.json"),
+                StandardCharsets.UTF_8);
+        List<Map<String, Object>> markets = new ObjectMapper().readValue(marketsString, new TypeReference<>() {});
+        model.addAttribute("markets", markets);
         return "markets";
     }
 
