@@ -375,6 +375,7 @@
                             <ul id="tradingAccounts">
 
                             </ul>
+                            <br>
                             <script>
                                 // HTTP Get to load all accounts we have on the backend (show their public key)
                                 $.get('/accounts/getAllAccounts', function (data, textStatus, jqXHR) {
@@ -384,6 +385,7 @@
                                     });
                                 });
                             </script>
+                            <a href="/accounts/clear" onclick="clearAccounts()">Clear Accounts</a>
                         </div>
                         <span class="badge bg-secondary text-white" th:text="${tradingAccountPubkey}"></span><br>
                     </div>

@@ -8,7 +8,7 @@ function addArcanaAccount(newAccount){
 
 function clearAccounts() {
     arcanaAccountsArray = [];
-    localStorage.setItem('arcanaAccounts', JSON.stringify(arcanaAccountsArray));
+    localStorage.setItem('arcanaAccounts', JSON.stringify([]));
 }
 
 function getLoadedArcanaAccounts() {

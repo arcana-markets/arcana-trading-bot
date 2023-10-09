@@ -41,6 +41,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
@@ -435,6 +436,12 @@ public class ArcanaController {
         return arcanaAccountManager.getArcanaAccounts().stream()
                 .map(account -> Map.of("privatekey", Base58.encode(account.getSecretKey())))
                 .toList();
+    }
+
+    @RequestMapping("/accounts/clear")
+    public String clearAccounts(Model model) {
+        arcanaAccountManager.setArcanaAccounts(new ArrayList<>());
+        return "settings";
     }
 
 }
