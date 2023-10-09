@@ -240,9 +240,9 @@
             <!-- First Div -->
             <div class="col-md-6">
             <div class="card p-4 mb-4 rounded d-flex flex-column pr-md-3">
-                <div class="row">
+                <div class="row small">
                     <div class="col-6 font-weight-bold align-items-center justify-content-start">
-                        🤖 Bot #
+                        <strong>🤖 Bot #</strong>
                         <span style="display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;" th:text="${botId + 1}"></span>
                         /
                         <span style="display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;" th:text="${botUuid}"></span>
@@ -260,11 +260,13 @@
                 <div class="card p-4 mb-4 rounded d-flex flex-column pr-md-3">
                     <div class="row mb-1 small">
                         <div class="col-6">
-                            <strong>Market ID:</strong> <span th:text="${botMarketId}"></span>
+                            <strong>Market ID:</strong>
+                            <div class="text-truncate" style="max-width: 200px;"> <span th:text="${botMarketId}"></span></div>
                         </div>
-                        <div class="col-6">
-                            <strong>Strategy:</strong> <span th:text="${strategyName}"></span>
-                        </div>
+                            <div class="col-6">
+                                <strong>Base Wallet:&nbsp;</strong>
+                                <div class="text-truncate" style="max-width: 200px;"> <span th:text="${botBaseWallet}"></span></div>
+                            </div>
                     </div>
                     <hr class="my-2">
                     <div class="row mb-1 small">
@@ -274,8 +276,8 @@
                         </div>
                         <div class="col-6 d-flex align-items-center">
                             <strong>Quote Sizes:&nbsp;</strong>Bid
-                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountBid}"> </div>, Ask
-                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountAsk}"></div>
+                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountBid}">&nbsp;</div>, Ask
+                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountAsk}">&nbsp;</div>
                         </div>
                     </div>
                     <hr class="my-2">
@@ -300,23 +302,16 @@
                         <div class="text-truncate" style="max-width: 150px;" th:text="${lastAskOrder}"></div>
                     </div>
                 </div>
-                <hr class="my-2">
-                <div class="row mb-1 small align-items-center">
-                    <div class="col-6">
-                        <strong>Base Wallet:&nbsp;</strong>
-                        <div class="d-inline text-truncate" style="max-width: 200px;"> <span class="d-inline" th:text="${botBaseWallet}"></span></div>
-                    </div>
-                </div>
             </div>
             </div>
 
             <!-- Second Div -->
             <div class="col-md-6 card bg-soft p-3 rounded">
-                <div style="font-size: 1rem; font-weight: 500; display: inline" id="orderBookHeader">
-                    Order Book: <span class="small align-items-center" th:text="${botMarketId}"></span>
+                <div style="font-size: 1rem; font-weight: 500; display: inline" id="orderBookHeader"><strong>
+                    Orderbook: </strong><span class="align-items-center" th:text="${botMarketId}"><strong>SOL/USDC</strong></span>
                 </div>
                 <hr>
-                <div id="container"></div>
+                <div id="container">
                 <div class="row g-0">  <!-- g-0 to eliminate the gap between columns -->
                     <div class="col-6 orderBook">
                         <!-- Bids Column Title -->
@@ -351,6 +346,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         <script th:inline="javascript">
