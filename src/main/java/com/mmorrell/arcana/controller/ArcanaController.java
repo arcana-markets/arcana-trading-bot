@@ -85,6 +85,20 @@ public class ArcanaController {
         return "index";
     }
 
+    @RequestMapping("/onboarding")
+    public String arcanaOnBoarding(Model model) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        model.addAttribute("botList", botManager.getBotList());
+        return "onboarding";
+    }
+
+    @RequestMapping("/quests")
+    public String arcanaQuests(Model model) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        model.addAttribute("botList", botManager.getBotList());
+        return "quests";
+    }
+
     @RequestMapping("/bots")
     public String arcanaBots(Model model) {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
