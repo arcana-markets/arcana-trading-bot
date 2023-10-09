@@ -253,31 +253,25 @@
                             </tr>
                             </thead>
                             <tbody class="list" id="profile-wishlist-table-body">
-                            <tr class="hover-actions-trigger btn-reveal-trigger position-static"
-                                th:each="bot, count : ${botList}">
-                                <!-- logo --><td class="align-middle white-space-nowrap ps-0 py-0"><a
-                                    class="border rounded-5 d-inline-block"
-                                    th:href="${#strings.concat('/bots/view/', count.index + 1)}"><img
-                                    src="/static/img/team/Profiles/sample1.png" class="rounded-5" alt="" width="53" /></a></td>
-                                <!-- name --><td th:text="${bot.getStrategy().uuid}" class="products align-middle pe-11"><a
-                                    class="fw-semi-bold mb-0
-                                line-clamp-1" href="/bots/view/1"></a></td>
-                                <!-- market --><td th:text="${bot.getMarketId().toBase58().substring(0, 8)}"
-                                                   class="color align-middle white-space-nowrap fs--1 text-900"><span
-                                    class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label"></span></span></td>
-                                <!-- volume --><td class="size align-middle white-space-nowrap text-700 fs--1
-                                fw-semi-bold"><span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label">$1820</span></span></td>
-                                <!-- pnl --><td class="price align-middle text-900 fs--1 fw-semi-bold text-end"><span
-                                         class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2"><span class="badge-label">-$57</span></span></td>
-                                <!-- stop btn --><td
-                                    class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
-                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span
-                                            class="fas fa-trash"
-                                            th:href="${#strings.concat('/bots/stop/', count.index + 1)}"></span></button>
-                                    <button class="btn btn-sm text-500 hover-text-600 me-2"><span
-                                            class="fas fa-search"
-                                            th:href="${#strings.concat('/bots/view/', count.index + 1)}"></span></button>
-                                </td>
+                            <tr class="hover-actions-trigger btn-reveal-trigger position-static" th:each="bot, count : ${botList}">
+                                <!-- logo --><td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-5 d-inline-block" th:href="${#strings.concat('/bots/view/', count.index + 1)}">
+                                <img src="/static/img/team/Profiles/sample1.png" class="rounded-5" alt="" width="53" /></a>
+                                            </td>
+                                <!-- name --><td th:text="${bot.getStrategy().uuid}" class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" th:href="${#strings.concat('/bots/view/', count.index + 1)}"></a>
+                                            </td>
+                                <!-- market --><td th:text="${bot.getMarketId().toBase58().substring(0, 8)}" class="color align-middle white-space-nowrap fs--1 text-900">
+                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label"></span></span>
+                                            </td>
+                                <!-- volume --><td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">
+                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label">$1820</span></span>
+                                            </td>
+                                <!-- pnl --><td class="price align-middle text-900 fs--1 fw-semi-bold text-end"><span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2">
+                                <span class="badge-label">-$57</span></span>
+                                             </td>
+                                <!-- stop btn --><td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
+                                <a th:href="${#strings.concat('/bots/stop/', botId)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></a>
+                                <a th:href="${#strings.concat('/bots/view/', count.index + 1)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-search"></span></a>
+                                            </td>
                             </tr>
                             </tbody>
                         </table>
