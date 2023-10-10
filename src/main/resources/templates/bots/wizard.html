@@ -470,26 +470,22 @@
                                       <div class="col-md-6 d-flex align-items-center">
                                           <div class="col-md-6">
                                               <label class="form-label" for="autoFillButton">Accounts</label>
-                                              <input
-                                                      class="btn btn-lg btn-secondary"
-                                                      type="button"
-                                                      id="autoFillButton"
-                                                      value="Fetch Accounts"
-                                                      onclick="autoFill()" />
+                                              <button class="btn btn-lg btn-secondary" type="button" id="autoFillButton" onclick="autoFill()">
+                                                  Fetch Accounts
+                                              </button>
                                           </div>
                                           <script>
                                               function autoFill() {
-                                                  $("#autoFillButton").prop('disabled', true);
+                                                  $("#autoFillButton").prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+
                                                   var marketId = $("#inputAddress").val();
-                                                  $.get('/getAccountsByMarket/' + marketId, function (data,
-                                                                                                      textStatus,
-                                                                                                      jqXHR) {
+                                                  $.get('/getAccountsByMarket/' + marketId, function (data, textStatus, jqXHR) {
                                                       $("#baseWallet").val(data.baseWallet);
                                                       $("#quoteWallet").val(data.quoteWallet);
                                                       $("#ooa").val(data.ooa);
-                                                      $("#autoFillButton").prop('disabled', false);
+                                                      $("#autoFillButton").prop('disabled', false).html('Fetch Accounts');
                                                   }).fail(function() {
-                                                      $("#autoFillButton").prop('disabled', false);
+                                                      $("#autoFillButton").prop('disabled', false).html('Fetch Accounts');
                                                   });
                                               }
                                           </script>

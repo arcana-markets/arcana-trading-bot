@@ -37,7 +37,7 @@
     <link href="/static/vendors/simplebar/simplebar.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
-
+    <link href="/static/vendors/dropzone/dropzone.min.css" rel="stylesheet" />
   </head>
 
 
@@ -255,30 +255,26 @@
                             <tbody class="list" id="profile-wishlist-table-body">
                             <tr class="hover-actions-trigger btn-reveal-trigger position-static" th:each="bot, count : ${botList}">
                                 <!-- logo --><td class="align-middle white-space-nowrap ps-0 py-0"><a class="border rounded-5 d-inline-block" th:href="${#strings.concat('/bots/view/', count.index + 1)}">
-                                <img src="/static/img/team/Profiles/sample1.png" class="rounded-5" alt="" width="53" /></a>
-                                            </td>
-                                <!-- name --><td th:text="${bot.getStrategy().uuid}" class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" th:href="${#strings.concat('/bots/view/', count.index + 1)}"></a>
-                                            </td>
+                                <img src="/static/img/team/Profiles/sample1.png" class="rounded-5" alt="" width="53" /></a></td>
+                                <!-- name --><td class="products align-middle pe-11"><a class="fw-semi-bold mb-0 line-clamp-1" th:href="${#strings.concat('/bots/view/', count.index + 1)}" th:text="${bot.getStrategy().uuid}"></a></td>
                                 <!-- market --><td th:text="${bot.getMarketId().toBase58().substring(0, 8)}" class="color align-middle white-space-nowrap fs--1 text-900">
-                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label"></span></span>
-                                            </td>
+                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label"></span></span></td>
                                 <!-- volume --><td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">
-                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label">$1820</span></span>
-                                            </td>
+                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label">$1820</span></span></td>
                                 <!-- pnl --><td class="price align-middle text-900 fs--1 fw-semi-bold text-end"><span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2">
-                                <span class="badge-label">-$57</span></span>
-                                             </td>
+                                <span class="badge-label">-$57</span></span></td>
                                 <!-- stop btn --><td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
-                                <a th:href="${#strings.concat('/bots/stop/', botId)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></a>
                                 <a th:href="${#strings.concat('/bots/view/', count.index + 1)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-search"></span></a>
-                                            </td>
+                                <a th:href="${#strings.concat('/bots/stop/', botId)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></a></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
                         <div class="col-auto d-flex">
-                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p><a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a><a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info"></p>
+                            <a class="fw-semi-bold" href="#!" data-list-view="*">View all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
+                            <a class="fw-semi-bold d-none" href="#!" data-list-view="less">View Less<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
                         </div>
                         <div class="col-auto d-flex">
                             <button class="page-link" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
@@ -398,6 +394,7 @@
     <script src="/static/vendors/dayjs/dayjs.min.js"></script>
     <script src="/static/js/phoenix.js"></script>
     <script src="/static/vendors/list.js/list.min.js"></script>
+    <script src="/static/vendors/dropzone/dropzone.min.js"></script>
 
   </body>
 
