@@ -315,7 +315,7 @@
 
                 <!-- Step 2: Wallet Configuration remains the same -->
                 <h4 class="mb-2">Wallet Configuration</h4>
-                <p class="mb-5 text-700">Choose between the two options for connecting the Solana Wallet(s) you wish to trade with Arcana Bot.</p>
+                <p class="col-6 mb-5 text-700">Choose between the two options for connecting the Solana Wallet(s) you wish to trade with Arcana Bot.</p>
                 <div class="row mb-4">
                     <img src="/static/img/banners/setup-banner.png" style="width: 500px; height: 130px;">
                 </div>
@@ -369,14 +369,24 @@
 
                 <div class="row">
                     <div class="col-12 mt-2">
-                        <!-- Active Wallets (Pubkey) -->
-                        <h4 class="mb-2">Active Wallets (Pubkey)</h4>
+                        <!-- Active Wallet (Pubkey) -->
+                        <h4 class="mb-2">Active Wallet</h4>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
-                        <ul id="tradingAccounts">
-                        </ul>
+                    <div class="col-12 mb-2 ">
+                        <span class="badge badge-phoenix fs--1 badge-phoenix-primary" th:text="${tradingAccountPubkey}">kizxTb6LufntwojFgiD99BcHuGsWnfSmcLCQoPU6KbZ</span><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <!-- Active Wallet (Pubkey) -->
+                        <h5 class="mb-2">Saved Wallets</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-2" id="tradingAccounts">
+                        </div>
                         <script>
                             // HTTP Get to load all accounts we have on the backend (show their public key)
                             $.get('/accounts/getAllAccounts', function (data, textStatus, jqXHR) {
@@ -384,22 +394,16 @@
                                     $("#tradingAccounts").append(
                                         "<li>" +
                                             "<a href=\"/bots/use/" + index + "\">" +
-                                                "<span class=\"badge bg-secondary text-white\">" + val.pubkey + "</span>" +
+                                                "<span class=\"badge btn btn-outline-secondary text-white\">" + val.pubkey + "</span>" +
                                             "</a>" +
                                         "</li>"
                                     );
                                 });
                             });
                         </script>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <span class="badge bg-primary text-white" th:text="${tradingAccountPubkey}"></span><br>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 text-center">
                         <a href="/accounts/clear" onclick="clearAccounts()" class="btn btn-sm btn-danger">Clear Accounts</a>
                     </div>
                 </div>
@@ -532,7 +536,6 @@
                 </div>
             </div>
         </footer>
-      </div>
       <script>
         var navbarTopStyle = window.config.config.phoenixNavbarTopStyle;
         var navbarTop = document.querySelector('.navbar-top');
@@ -546,6 +549,7 @@
           navbarVertical.classList.add('navbar-darker');
         }
       </script>
+      </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
