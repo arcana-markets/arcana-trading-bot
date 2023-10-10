@@ -385,22 +385,23 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 mb-2" id="tradingAccounts">
-                        </div>
-                        <script>
-                            // HTTP Get to load all accounts we have on the backend (show their public key)
-                            $.get('/accounts/getAllAccounts', function (data, textStatus, jqXHR) {
-                                $.each(data, function (index, val) {
-                                    $("#tradingAccounts").append(
-                                        "<li>" +
-                                            "<a href=\"/bots/use/" + index + "\">" +
-                                                "<span class=\"badge btn btn-outline-secondary text-white\">" + val.pubkey + "</span>" +
-                                            "</a>" +
-                                        "</li>"
-                                    );
-                                });
+                    <div class="col-12 mb-2"></div>
+                    <ul id="tradingAccounts" style="list-style-type: none; padding-left: 4;">
+                    </ul>
+                    <script>
+                        // HTTP Get to load all accounts we have on the backend (show their public key)
+                        $.get('/accounts/getAllAccounts', function (data, textStatus, jqXHR) {
+                            $.each(data, function (index, val) {
+                                $("#tradingAccounts").append(
+                                    "<li style='margin-bottom: 10px;'>" +
+                                        "<a href=\"/bots/use/" + index + "\">" +
+                                            "<span class=\"badge btn btn-sm btn-outline-secondary\">" + val.pubkey + "</span>" +
+                                        "</a>" +
+                                    "</li>"
+                                );
                             });
-                        </script>
+                        });
+                    </script>
                 </div>
                 <div class="row">
                     <div class="col-12">
