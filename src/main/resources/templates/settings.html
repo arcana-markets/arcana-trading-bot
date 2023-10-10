@@ -370,24 +370,37 @@
                 <div class="row">
                     <div class="col-12 mt-2">
                         <!-- Active Wallets (Pubkey) -->
-                        <div class="input-group">
-                            <h4 class="mb-2">Active Wallets (Pubkey)</h4>
-                            <ul id="tradingAccounts">
-
-                            </ul>
-                            <br>
-                            <script>
-                                // HTTP Get to load all accounts we have on the backend (show their public key)
-                                $.get('/accounts/getAllAccounts', function (data, textStatus, jqXHR) {
-                                    $.each(data, function (index, val) {
-                                        $("#tradingAccounts").append("<li>" +
-                                            "<a href=\"/bots/use/" + index + "\">" + val.pubkey + "</a>");
-                                    });
+                        <h4 class="mb-2">Active Wallets (Pubkey)</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <ul id="tradingAccounts">
+                        </ul>
+                        <script>
+                            // HTTP Get to load all accounts we have on the backend (show their public key)
+                            $.get('/accounts/getAllAccounts', function (data, textStatus, jqXHR) {
+                                $.each(data, function (index, val) {
+                                    $("#tradingAccounts").append(
+                                        "<li>" +
+                                            "<a href=\"/bots/use/" + index + "\">" +
+                                                "<span class=\"badge bg-secondary text-white\">" + val.pubkey + "</span>" +
+                                            "</a>" +
+                                        "</li>"
+                                    );
                                 });
-                            </script>
-                            <a href="/accounts/clear" onclick="clearAccounts()">Clear Accounts</a>
-                        </div>
-                        <span class="badge bg-secondary text-white" th:text="${tradingAccountPubkey}"></span><br>
+                            });
+                        </script>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <span class="badge bg-primary text-white" th:text="${tradingAccountPubkey}"></span><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <a href="/accounts/clear" onclick="clearAccounts()" class="btn btn-sm btn-danger">Clear Accounts</a>
                     </div>
                 </div>
               <div class="border-bottom border-dashed pb-3 mb-4"></div>
