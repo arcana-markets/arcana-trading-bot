@@ -367,20 +367,20 @@
 
         /* Striped styles for bids table */
         .custom-bids-table tbody tr:nth-child(odd) {
-            background-color: #BEFFB8 !important; /* Lighter green */
+            background-color: #D0FFCC !important; /* Lighter green */
         }
 
         .custom-bids-table tbody tr:nth-child(even) {
-            background-color: #8DFF83 !important; /* Darker green */
+            background-color: #ACFFA5 !important; /* Darker green */
         }
 
         /* Striped styles for asks table */
         .custom-asks-table tbody tr:nth-child(odd) {
-            background-color: #FFB1B1 !important; /* Lighter red */
+            background-color: #FFBDBF !important; /* Lighter red */
         }
 
         .custom-asks-table tbody tr:nth-child(even) {
-            background-color: #FF7676 !important; /* Darker red */
+            background-color: #FF878A !important; /* Darker red */
         }
             /* Bold text for Price and Quantity columns in Bids table */
         .custom-bids-table tbody tr td:nth-child(1),
@@ -833,6 +833,23 @@
                 }
             });
         }
+
+    </script>
+    <script>
+        function toggleMode() {
+            const currentMode = document.documentElement.getAttribute('class');
+            if (currentMode === 'light-mode') {
+                document.documentElement.setAttribute('class', 'dark-mode');
+            } else {
+                document.documentElement.setAttribute('class', 'light-mode');
+            }
+        }
+
+        // Assume you have a button with id "toggleButton" to switch modes
+        document.getElementById('toggleButton').addEventListener('click', toggleMode);
+
+        // Set initial mode
+        document.documentElement.setAttribute('class', 'light-mode');
 
     </script>
 
