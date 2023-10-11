@@ -467,39 +467,51 @@
                                           </script>
                                       </div>
                                   </div>
-                                      <div class="col-md-6 d-flex align-items-center">
-                                          <div class="col-md-6">
-                                              <label class="form-label" for="autoFillButton">Accounts</label>
-                                              <button class="btn btn-lg btn-secondary" type="button" id="autoFillButton" onclick="autoFill()">
-                                                  Fetch Accounts
-                                              </button>
-                                          </div>
-                                          <script>
-                                              function autoFill() {
-                                                  $("#autoFillButton").prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
-
-                                                  var marketId = $("#inputAddress").val();
-                                                  $.get('/getAccountsByMarket/' + marketId, function (data, textStatus, jqXHR) {
-                                                      $("#baseWallet").val(data.baseWallet);
-                                                      $("#quoteWallet").val(data.quoteWallet);
-                                                      $("#ooa").val(data.ooa);
-                                                      $("#autoFillButton").prop('disabled', false).html('Fetch Accounts');
-                                                  }).fail(function() {
-                                                      $("#autoFillButton").prop('disabled', false).html('Fetch Accounts');
-                                                  });
-                                              }
-                                          </script>
-                                          <div class="col-md-6 ">
-                                              <label class="form-label invisible" for="autoFillButton">Accounts</label>
-                                              <input
-                                                      class="btn btn-lg btn-secondary"
-                                                      type="button"
-                                                      id=""
-                                                      disabled
-                                                      value="Generate Accounts"
-                                                      onclick="" />
-                                          </div>
-                                      </div>
+                                    <div class="col-md-6 d-flex align-items-center">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class="form-label" for="autoFillButton">Accounts</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input
+                                                            class="btn btn-lg btn-secondary"
+                                                            type="button"
+                                                            id="autoFillButton"
+                                                            value="Fetch Accounts"
+                                                            onclick="autoFill()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            function autoFill() {
+                                                $("#autoFillButton").prop('disabled', true).val('Loading...');
+                                                var marketId = $("#inputAddress").val();
+                                                $.get('/getAccountsByMarket/' + marketId, function (data, textStatus, jqXHR) {
+                                                    $("#baseWallet").val(data.baseWallet);
+                                                    $("#quoteWallet").val(data.quoteWallet);
+                                                    $("#ooa").val(data.ooa);
+                                                    $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
+                                                }).fail(function() {
+                                                    $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
+                                                });
+                                            }
+                                        </script>
+                                        <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label invisible" for="autoFillButton">Accounts</label>
+                                            <input
+                                                    class="btn btn-lg btn-secondary"
+                                                    type="button"
+                                                    id="CreateOOA"
+                                                    disabled
+                                                    value="Generate Accounts"
+                                                    onclick="" />
+                                        </div>
+                                        </div>
+                                    </div>
                               </div>
                               <div class="row g-3 mb-3">
                                   <div class="col-md-6">

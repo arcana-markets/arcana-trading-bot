@@ -37,13 +37,366 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link href="/static/css/theme.min.css" type="text/css" rel="stylesheet" id="style-default">
 
-
     <!-- inlined vars from controller -->
     <script th:inline="javascript">
         /*<![CDATA[*/
         var initialMarketId = /*[[${botMarketId}]]*/ '';
         /*]]>*/
     </script>
+
+    <script th:inline="javascript">
+        var activeMarketId, lastLoadedMarketId, lastLoadedChartId;
+        var marketCurrencySymbol = '$';
+        var totalBids, totalAsks;
+        var bidTotal, askTotal;
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Price',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgb(41,98,255)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                },
+                animation: false,
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        $('#searchForMarkets').click(function () {
+            var baseMint = $('#tokenSelect').val();
+            loadMarkets(baseMint);
+        });
+
+        // DRAW DEPTH CHART AND SET INTERVAL
+
+        var formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+        });
+
+        var depthChart = Highcharts.chart('container', {
+            chart: {
+                type: 'area',
+                zoomType: 'xy',
+                backgroundColor: '#222222'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                minPadding: 0,
+                maxPadding: 0,
+                min: 0,
+                max: 0,
+                plotLines: [{
+                    color: '#888',
+                    value: 0,
+                    width: 1,
+                    label: {
+                        text: '',
+                        rotation: 90
+                    }
+                }]
+            },
+            yAxis: [{
+                lineWidth: 1,
+                gridLineWidth: 0,
+                title: null,
+                tickWidth: 1,
+                tickLength: 5,
+                tickPosition: 'inside',
+                labels: {
+                    align: 'left',
+                    x: 8
+                }
+            }, {
+                color: '#ffffff',
+                opposite: true,
+                linkedTo: 0,
+                lineWidth: 1,
+                gridLineWidth: 0,
+                title: null,
+                tickWidth: 1,
+                tickLength: 5,
+                tickPosition: 'inside',
+                labels: {
+                    align: 'right',
+                    x: -8
+                }
+            }],
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillOpacity: 0.2,
+                    lineWidth: 1,
+                    step: 'center'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size=10px;">Price: {point.key}</span><br/>',
+                valueDecimals: 2
+            },
+            series: [{
+                name: 'Total Quantity',
+                data: [],
+                color: '#03a7a8'
+            }, {
+                name: 'Total Quantity',
+                data: [],
+                color: '#fc5857'
+            }]
+        });
+
+        setInterval(updateDepthChart, 550);
+
+    </script>
+    <script type="text/javascript" th:inline="none" class="init">
+        /*<![CDATA[*/
+        var jsonData, bidTable, askTable;
+
+        function getOrderBooks() {
+            $.ajax({
+                url: "/api/openbook/market/" + initialMarketId,
+                success: function (result) {
+                    jsonData = result;
+                },
+                async: false
+            });
+            // pass in the data to each datatable, instead of 2 requests
+            bidTable = $('#bidsTable').DataTable({
+                paging: false,  // Set paging to false for a more compact look
+                info: false,
+                pageLength: 6,
+                "aaData": jsonData.bidOrders,// <-- your array of objects
+                "aoColumns": [
+                    { "mData": "owner" }, // <-- which values to use inside object
+                    { "mData": "quantity" },
+                    { "mData": "price" }
+                ],
+                    language: {
+                    sSearch: "",  // This will remove the "Search" label text
+                    searchPlaceholder: "",  // This will set the search input placeholder text to an empty string
+                    sSearchPlaceholder: ""  // This will also set the search input placeholder text to an empty string
+                },
+                columns: [
+                    {
+                        data: 'owner',
+                        render: function (data, type, row) {
+                            if (typeof row.metadata.name !== 'undefined') {
+                                if (row.metadata.name === 'Mango') {
+                                    var externalUrl = location.href.replace("#", "") + 'mango/lookup/' +
+                                        row.metadata.mangoKey;
+                                    return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
+                                        row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
+                                        row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
+                                }
+
+                                return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
+                                    row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
+                                    row.metadata.name + "</a>";
+                            } else {
+                                return "<a class='coloredlink' href=\"https://solana.fm/account/" + row.owner.publicKey
+                                    + "\" target=_blank>" +
+                                    row.owner.publicKey.substring(0, 3) +
+                                    ".." +
+                                    row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
+                                    "</a>";
+                            }
+                        }
+                    },
+                    {data: 'quantity'},
+                    {
+                        data: 'price',
+                        render: function (data, type, row) {
+                            return marketCurrencySymbol + data;
+                        }
+                    }
+                ],
+                order: [[2, 'desc']],
+                columnDefs: [
+                    {targets: [0], className: 'dt-right', width: '40%'},  // Adjusted column width
+                    {targets: [1], className: 'dt-right', width: '30%'},  // Adjusted column width
+                    {targets: [2], className: 'dt-right', width: '30%'}   // Adjusted column width
+                ],
+                rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
+                    // Calculate percentage of bids for this row
+                    // Global has this calculated called `totalBids`
+                    var total = totalBids ?? 0;
+                    if (total !== 0) {
+                        // 0.5 percentage of lead, since top of book can look empty
+                        var percentage = ((data.metadata.percent ?? 0) * 100) + 0.5;
+                        var rowSelector = $(row);
+                        rowSelector.css("background", "linear-gradient(270deg, #118005 " + percentage.toFixed(0) +
+                            "%, rgba(0, 0, 0, 0.00) 0%) !important;"
+                        );
+                    }
+                }
+            });
+
+            askTable = $('#asksTable').DataTable({
+                paging: false,  // Set paging to false for a more compact look
+                info: false,
+                pageLength: 6,
+                "aaData": jsonData.askOrders,// <-- your array of objects
+                "aoColumns": [
+                    { "mData": "owner" }, // <-- which values to use inside object
+                    { "mData": "quantity" },
+                    { "mData": "price" }
+                ],
+                language: {
+                    sSearch: "",  // This will remove the "Search" label text
+                    searchPlaceholder: "",  // This will set the search input placeholder text to an empty string
+                    sSearchPlaceholder: ""  // This will also set the search input placeholder text to an empty string
+                },
+                columns: [
+                    {
+                        data: 'price',
+                        render: function (data, type, row) {
+                            return marketCurrencySymbol + data;
+                        }
+                    },
+                    {data: 'quantity'},
+                    {
+                        data: 'owner',
+                        render: function (data, type, row) {
+                            if (typeof row.metadata.name !== 'undefined') {
+                                if (row.metadata.name === 'Mango') {
+                                    var externalUrl = location.href.replace("#", "") + 'mango/lookup/' + row.metadata.mangoKey;
+                                    return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
+                                        row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
+                                        row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
+                                }
+
+                                return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
+                                    row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
+                                    row.metadata.name + "</a>";
+                            } else {
+                                return "<a class='coloredlink' href=\"https://solana.fm/account/" +
+                                    row.owner.publicKey + "\" target=_blank>" +
+                                    row.owner.publicKey.substring(0, 3) +
+                                    ".." +
+                                    row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
+                                    "</a>";
+                            }
+                        }
+                    }
+                ],
+                order: [[0, 'asc']],
+                columnDefs: [
+                    {targets: [0], className: 'dt-left', width: '30%'},  // Adjusted column width
+                    {targets: [1], className: 'dt-left', width: '30%'},  // Adjusted column width
+                    {targets: [2], className: 'dt-left', width: '40%'}   // Adjusted column width
+                ],
+                rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
+                    // Calculate percentage of bids for this row
+                    // Global has this calculated called `totalBids`
+                    var total = totalAsks ?? 0;
+                    if (total !== 0) {
+                        // 0.5 percentage of lead, since top of book can look empty
+                        var percentage = ((data.metadata.percent ?? 0) * 100) + 0.5;
+                        var rowSelector = $(row);
+                        rowSelector.css("background", "linear-gradient(90deg, rgb(199 6 2) " + percentage.toFixed(0) +
+                            "%, rgba(0, 0, 0, 0.00) 0%) !important;"
+                        );
+                    }
+                }
+            });
+        }
+        $(document).ready(function () {
+            getOrderBooks()
+            setInterval(function () {
+                $.ajax({
+                    url: "/api/openbook/market/" + initialMarketId,
+                    success: function (result) {
+                        jsonData = result;
+                        $('#bidsTable').dataTable().fnClearTable();
+                        $('#bidsTable').dataTable().fnAddData(result.bidOrders);
+
+                        $('#asksTable').dataTable().fnClearTable();
+                        $('#asksTable').dataTable().fnAddData(result.askOrders);
+
+                    },
+                    async: true
+                });
+            }, 2000);
+        }
+        );
+        /*]]>*/
+    </script>
+    <style>
+        .dataTables_filter {
+            width: 100%;
+            text-align: center;
+        }
+
+        .dataTables_filter input {
+            margin: 0 auto;
+            display: inline-block;
+        }
+
+        .custom-align th, .custom-align td {
+            text-align: center;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px; /* Adjust width of scrollbar */
+        }
+
+        /* ... other scrollbar styles ... */
+
+        /* Base styles for both tables */
+        .custom-bids-table tbody tr,
+        .custom-asks-table tbody tr {
+            background-color: transparent !important;
+            border-color: transparent !important;
+        }
+
+        /* Striped styles for bids table */
+        .custom-bids-table tbody tr:nth-child(odd) {
+            background-color: #BEFFB8 !important; /* Lighter green */
+        }
+
+        .custom-bids-table tbody tr:nth-child(even) {
+            background-color: #8DFF83 !important; /* Darker green */
+        }
+
+        /* Striped styles for asks table */
+        .custom-asks-table tbody tr:nth-child(odd) {
+            background-color: #FFB1B1 !important; /* Lighter red */
+        }
+
+        .custom-asks-table tbody tr:nth-child(even) {
+            background-color: #FF7676 !important; /* Darker red */
+        }
+            /* Bold text for Price and Quantity columns in Bids table */
+        .custom-bids-table tbody tr td:nth-child(1),
+        .custom-bids-table tbody tr td:nth-child(2),
+        .custom-bids-table tbody tr td:nth-child(3) {
+            font-weight: bold;
+        }
+
+        /* Bold text for Price and Quantity columns in Asks table */
+        .custom-asks-table tbody tr td:nth-child(1),
+        .custom-asks-table tbody tr td:nth-child(2),
+        .custom-asks-table tbody tr td:nth-child(3) {
+            font-weight: bold;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -182,7 +535,7 @@
             <div class="navbar-logo">
 
                 <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-                <a class="navbar-brand ms-0 me-1 me-sm-3" href="/index">
+                <a class="navbar-brand ms-0 me-1 me-sm-3" href="/">
                     <div class="d-flex align-items-center">
                         <div class="d-flex align-items-center"><img src="/static/img/icons/arcana-icon-outline.png" alt="arcana" style="margin-left: -18px;" width="50" />
                             <img src="/static/img/banners/arcana.png" alt="arcana" style="margin-left: 14px;" width="100" />
@@ -234,12 +587,12 @@
         </div>
     </nav>
     <div class="content">
-        <h2 class="mb-2 lh-sm" th:text="${strategyName}"></h2>
+        <h2 class="mb-2 lh-sm">SOL/USDC</h2>
         <p class="text-700 lead mb-4">View market statistics and data relevant to your trading bot</p>
         <div class="row mb-4">
             <!-- First Div -->
             <div class="col-md-6">
-            <div class="card p-4 mb-4 rounded d-flex flex-column pr-md-3">
+            <div class="card p-4 mb-8 rounded d-flex flex-column pr-md-3">
                 <div class="row small">
                     <div class="col-6 font-weight-bold align-items-center justify-content-start">
                         <strong>🤖 Bot #</strong>
@@ -259,25 +612,25 @@
             </div>
                 <div class="card p-4 mb-4 rounded d-flex flex-column pr-md-3">
                     <div class="row mb-1 small">
-                        <div class="col-6">
-                            <strong>Market ID:</strong>
-                            <div class="text-truncate" style="max-width: 200px;"> <span th:text="${botMarketId}"></span></div>
+                        <div class="col-6 d-flex align-items-center">
+                            <strong>Strategy:&nbsp;</strong>
+                            <div class="text-truncate" style="max-width: 150px;"> <span th:text="${strategyName}"></span></div>
                         </div>
-                            <div class="col-6">
-                                <strong>Base Wallet:&nbsp;</strong>
-                                <div class="text-truncate" style="max-width: 200px;"> <span th:text="${botBaseWallet}"></span></div>
-                            </div>
-                    </div>
-                    <hr class="my-2">
-                    <div class="row mb-1 small">
                         <div class="col-6 d-flex align-items-center">
                             <strong>Bps Spread:&nbsp;</strong>
                             <div class="text-truncate" style="max-width: 150px;" th:text="${botBpsSpread}"></div>
                         </div>
+                    </div>
+                    <hr class="my-2">
+                    <div class="row mb-1 small">
                         <div class="col-6 d-flex align-items-center">
-                            <strong>Quote Sizes:&nbsp;</strong>Bid
-                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountBid}">&nbsp;</div>, Ask
-                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountAsk}">&nbsp;</div>
+                            <strong>Quote Sizes:&nbsp;</strong>Bid&nbsp;
+                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountBid}">&nbsp;</div>,&nbsp;Ask&nbsp;
+                            <div class="text-truncate" style="max-width: 150px;" th:text="${botAmountAsk}"></div>
+                        </div>
+                        <div class="col-6">
+                            <strong>Base Wallet:&nbsp;</strong>
+                            <div class="text-truncate" style="max-width: 200px;"> <span th:text="${botBaseWallet}"></span></div>
                         </div>
                     </div>
                     <hr class="my-2">
@@ -304,25 +657,23 @@
                 </div>
             </div>
             </div>
-
             <!-- Second Div -->
-            <div class="col-md-6 card bg-soft p-3 rounded">
-                <div style="font-size: 1rem; font-weight: 500; display: inline" id="orderBookHeader"><strong>
-                    Orderbook: </strong><span class="align-items-center" th:text="${botMarketId}"><strong>SOL/USDC</strong></span>
+            <div class="col-md-6 card bg-soft p-2 rounded">
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <strong>Orderbook</strong>
                 </div>
                 <hr>
-                <div id="container">
-                <div class="row g-0">  <!-- g-0 to eliminate the gap between columns -->
+                <div class="row g-0">
                     <div class="col-6 orderBook">
                         <!-- Bids Column Title -->
-                        <div class="bg-secondary text-white text-center py-2 mb-2 ">Bids</div>
-                        <div class="container overflow-auto" style="height: 350px;">
-                            <table id="bidsTable" class="table table-striped table-hover cell-border table-sm" style="width: 100%; table-layout: auto; font-size: 0.75rem;">  <!-- Adjusted font-size -->
+                        <div class="bg-secondary text-white text-center mb-2 rounded-start">Bids</div>
+                        <div class="overflow-auto custom-scrollbar" style="height: 300px;">
+                            <table id="bidsTable" class="table custom-bids-table table-hover cell-border table-sm custom-align" style="width: 100%; table-layout: auto; font-size: 0.75rem;">
                                 <thead>
                                 <tr>
                                     <th>Owner</th>
                                     <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th class="text-success">Price</th>
                                 </tr>
                                 </thead>
                                 <!-- ... rest of your HTML ... -->
@@ -331,12 +682,12 @@
                     </div>
                     <div class="col-6 orderBook">
                         <!-- Asks Column Title -->
-                        <div class="bg-secondary text-white text-center py-2 mb-2 ">Asks</div>
-                        <div class="container overflow-auto" style="height: 350px;">
-                            <table id="asksTable" class="table table-striped table-hover cell-border table-sm" style="width: 100%; table-layout: auto; font-size: 0.75rem;">  <!-- Adjusted font-size -->
+                        <div class="bg-secondary text-white text-center mb-2 rounded-end">Asks</div>
+                        <div class="overflow-auto custom-scrollbar" style="height: 300px;">
+                            <table id="asksTable" class="table custom-asks-table table-hover cell-border table-sm custom-align" style="width: 100%; table-layout: auto; font-size: 0.75rem;">
                                 <thead>
                                 <tr>
-                                    <th>Price</th>
+                                    <th class="text-danger">Price</th>
                                     <th>Quantity</th>
                                     <th>Owner</th>
                                 </tr>
@@ -347,291 +698,7 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
-        <script th:inline="javascript">
-            var activeMarketId, lastLoadedMarketId, lastLoadedChartId;
-            var marketCurrencySymbol = '$';
-            var totalBids, totalAsks;
-            var bidTotal, askTotal;
-            const ctx = document.getElementById('myChart').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [],
-                    datasets: [{
-                        label: 'Price',
-                        data: [],
-                        fill: false,
-                        borderColor: 'rgb(41,98,255)',
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: false
-                        }
-                    },
-                    animation: false,
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
-
-            $('#searchForMarkets').click(function () {
-                var baseMint = $('#tokenSelect').val();
-                loadMarkets(baseMint);
-            });
-
-            // DRAW DEPTH CHART AND SET INTERVAL
-
-            var formatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-            });
-
-            var depthChart = Highcharts.chart('container', {
-                chart: {
-                    type: 'area',
-                    zoomType: 'xy',
-                    backgroundColor: '#222222'
-                },
-                title: {
-                    text: ''
-                },
-                xAxis: {
-                    minPadding: 0,
-                    maxPadding: 0,
-                    min: 0,
-                    max: 0,
-                    plotLines: [{
-                        color: '#888',
-                        value: 0,
-                        width: 1,
-                        label: {
-                            text: '',
-                            rotation: 90
-                        }
-                    }]
-                },
-                yAxis: [{
-                    lineWidth: 1,
-                    gridLineWidth: 0,
-                    title: null,
-                    tickWidth: 1,
-                    tickLength: 5,
-                    tickPosition: 'inside',
-                    labels: {
-                        align: 'left',
-                        x: 8
-                    }
-                }, {
-                    color: '#ffffff',
-                    opposite: true,
-                    linkedTo: 0,
-                    lineWidth: 1,
-                    gridLineWidth: 0,
-                    title: null,
-                    tickWidth: 1,
-                    tickLength: 5,
-                    tickPosition: 'inside',
-                    labels: {
-                        align: 'right',
-                        x: -8
-                    }
-                }],
-                legend: {
-                    enabled: false
-                },
-                plotOptions: {
-                    area: {
-                        fillOpacity: 0.2,
-                        lineWidth: 1,
-                        step: 'center'
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size=10px;">Price: {point.key}</span><br/>',
-                    valueDecimals: 2
-                },
-                series: [{
-                    name: 'Total Quantity',
-                    data: [],
-                    color: '#03a7a8'
-                }, {
-                    name: 'Total Quantity',
-                    data: [],
-                    color: '#fc5857'
-                }]
-            });
-
-            setInterval(updateDepthChart, 550);
-
-        </script>
-        <script type="text/javascript" th:inline="none" class="init">
-            /*<![CDATA[*/
-            var jsonData, bidTable, askTable;
-
-            function getOrderBooks() {
-                $.ajax({
-                    url: "/api/openbook/market/" + initialMarketId,
-                    success: function (result) {
-                        jsonData = result;
-                    },
-                    async: false
-                });
-                // pass in the data to each datatable, instead of 2 requests
-                bidTable = $('#bidsTable').DataTable({
-                    paging: false,  // Set paging to false for a more compact look
-                    info: false,
-                    pageLength: 6,
-                    "aaData": jsonData.bidOrders,// <-- your array of objects
-                    "aoColumns": [
-                        { "mData": "owner" }, // <-- which values to use inside object
-                        { "mData": "quantity" },
-                        { "mData": "price" }
-                    ],
-                    columns: [
-                        {
-                            data: 'owner',
-                            render: function (data, type, row) {
-                                if (typeof row.metadata.name !== 'undefined') {
-                                    if (row.metadata.name === 'Mango') {
-                                        var externalUrl = location.href.replace("#", "") + 'mango/lookup/' +
-                                            row.metadata.mangoKey;
-                                        return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
-                                            row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                            row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
-                                    }
-
-                                    return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
-                                        row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                        row.metadata.name + "</a>";
-                                } else {
-                                    return "<a class='coloredlink' href=\"https://solana.fm/account/" + row.owner.publicKey
-                                        + "\" target=_blank>" +
-                                        row.owner.publicKey.substring(0, 3) +
-                                        ".." +
-                                        row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
-                                        "</a>";
-                                }
-                            }
-                        },
-                        {data: 'quantity'},
-                        {
-                            data: 'price',
-                            render: function (data, type, row) {
-                                return marketCurrencySymbol + data;
-                            }
-                        }
-                    ],
-                    order: [[2, 'desc']],
-                    columnDefs: [
-                        {targets: [0], className: 'dt-right', width: '40%'},  // Adjusted column width
-                        {targets: [1], className: 'dt-right', width: '30%'},  // Adjusted column width
-                        {targets: [2], className: 'dt-right', width: '30%'}   // Adjusted column width
-                    ],
-                    rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
-                        // Calculate percentage of bids for this row
-                        // Global has this calculated called `totalBids`
-                        var total = totalBids ?? 0;
-                        if (total !== 0) {
-                            // 0.5 percentage of lead, since top of book can look empty
-                            var percentage = ((data.metadata.percent ?? 0) * 100) + 0.5;
-                            var rowSelector = $(row);
-                            rowSelector.css("background", "linear-gradient(270deg, #118005 " + percentage.toFixed(0) +
-                                "%, rgba(0, 0, 0, 0.00) 0%) !important;"
-                            );
-                        }
-                    }
-                });
-
-                askTable = $('#asksTable').DataTable({
-                    paging: false,  // Set paging to false for a more compact look
-                    info: false,
-                    pageLength: 6,
-                    "aaData": jsonData.askOrders,// <-- your array of objects
-                    "aoColumns": [
-                        { "mData": "owner" }, // <-- which values to use inside object
-                        { "mData": "quantity" },
-                        { "mData": "price" }
-                    ],
-                    columns: [
-                        {
-                            data: 'price',
-                            render: function (data, type, row) {
-                                return marketCurrencySymbol + data;
-                            }
-                        },
-                        {data: 'quantity'},
-                        {
-                            data: 'owner',
-                            render: function (data, type, row) {
-                                if (typeof row.metadata.name !== 'undefined') {
-                                    if (row.metadata.name === 'Mango') {
-                                        var externalUrl = location.href.replace("#", "") + 'mango/lookup/' + row.metadata.mangoKey;
-                                        return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
-                                            row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                            row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
-                                    }
-
-                                    return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
-                                        row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                        row.metadata.name + "</a>";
-                                } else {
-                                    return "<a class='coloredlink' href=\"https://solana.fm/account/" +
-                                        row.owner.publicKey + "\" target=_blank>" +
-                                        row.owner.publicKey.substring(0, 3) +
-                                        ".." +
-                                        row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
-                                        "</a>";
-                                }
-                            }
-                        }
-                    ],
-                    order: [[0, 'asc']],
-                    columnDefs: [
-                        {targets: [0], className: 'dt-left', width: '30%'},  // Adjusted column width
-                        {targets: [1], className: 'dt-left', width: '30%'},  // Adjusted column width
-                        {targets: [2], className: 'dt-left', width: '40%'}   // Adjusted column width
-                    ],
-                    rowCallback: function (row, data, displayNum, displayIndex, dataIndex) {
-                        // Calculate percentage of bids for this row
-                        // Global has this calculated called `totalBids`
-                        var total = totalAsks ?? 0;
-                        if (total !== 0) {
-                            // 0.5 percentage of lead, since top of book can look empty
-                            var percentage = ((data.metadata.percent ?? 0) * 100) + 0.5;
-                            var rowSelector = $(row);
-                            rowSelector.css("background", "linear-gradient(90deg, rgb(199 6 2) " + percentage.toFixed(0) +
-                                "%, rgba(0, 0, 0, 0.00) 0%) !important;"
-                            );
-                        }
-                    }
-                });
-            }
-            $(document).ready(function () {
-                getOrderBooks()
-                setInterval(function () {
-                    $.ajax({
-                        url: "/api/openbook/market/" + initialMarketId,
-                        success: function (result) {
-                            jsonData = result;
-                            $('#bidsTable').dataTable().fnClearTable();
-                            $('#bidsTable').dataTable().fnAddData(result.bidOrders);
-
-                            $('#asksTable').dataTable().fnClearTable();
-                            $('#asksTable').dataTable().fnAddData(result.askOrders);
-
-                        },
-                        async: true
-                    });
-                }, 2000);
-            }
-            );
-            /*]]>*/
-        </script>
     <footer class="footer position-fixed bg-white z-index-2">
         <div class="row g-0 justify-content-between align-items-center h-100">
             <div class="col-12 col-sm-auto text-center" >
@@ -724,7 +791,6 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    <script src="/static/vendors/jQuery/jquery-3.6.0.min.js"></script>
     <script src="/static/vendors/popper/popper.min.js"></script>
     <script src="/static/vendors/bootstrap/bootstrap.min.js"></script>
     <script src="/static/vendors/anchorjs/anchor.min.js"></script>
@@ -738,6 +804,7 @@
     <script src="/static/js/phoenix.js"></script>
 
     <!-- jquery & chartjs -->
+    <script src="/static/vendors/jQuery/jquery-3.6.0.min.js"></script>
     <script src="/static/vendors/chart/chart.min.js"></script>
 
     <!-- depth -->
@@ -746,7 +813,28 @@
 
     <!-- JavaScript Bundle with Popper -->
     <script src="/static/vendors/dataTables/jquery.dataTables.min.js"></script>
-    <script src="/static/vendors/dataTables/custom.js"></script>
+    <script>
+        function styleOrderbookRows() {
+            // Style bids table rows
+            $('#bidsTable tbody tr').each(function(index) {
+                if (index % 2 == 0) {
+                    $(this).addClass('bid-row-even');
+                } else {
+                    $(this).addClass('bid-row-odd');
+                }
+            });
+
+            // Style asks table rows
+            $('#asksTable tbody tr').each(function(index) {
+                if (index % 2 == 0) {
+                    $(this).addClass('ask-row-even');
+                } else {
+                    $(this).addClass('ask-row-odd');
+                }
+            });
+        }
+
+    </script>
 
 </body>
 
