@@ -539,6 +539,32 @@
                                       </div>
                                   </div>
                               </div>
+                                <script>
+                                    function wrapSol() {
+                                        alert($("#wrapSol").val());
+                                    }
+                                </script>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-900">Wrap SOL</label>
+                                        <input class="form-control" type="text" placeholder="Wrap SOL"/>
+                                        <input
+                                                class="btn btn-secondary form-control"
+                                                type="button"
+                                                id="wrapSol"
+                                                value="wrapSol"
+                                                onclick="wrapSol()" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-900">Generate OOA (optional)</label>
+                                        <input
+                                                class="btn btn-secondary form-control"
+                                                type="button"
+                                                id="generateOoa"
+                                                value="Generate OOA"
+                                                onclick="alert('ooa')" />
+                                    </div>
+                                </div>
                         </div>
                         <div class="tab-pane fade " role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                               <div class="row mb-3">
