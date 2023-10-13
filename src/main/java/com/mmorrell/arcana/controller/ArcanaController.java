@@ -422,6 +422,12 @@ public class ArcanaController {
         );
     }
 
+    @RequestMapping("/generateOoa")
+    @ResponseBody
+    public Map<String, String> generateOoa(Model model) {
+        return Map.of("ooa", null);
+    }
+
     @RequestMapping("/accounts/getAllAccounts")
     @ResponseBody
     public List<Map<String, String>> getAllAccounts(Model model) {
