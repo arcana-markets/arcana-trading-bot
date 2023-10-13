@@ -2,6 +2,7 @@ package com.mmorrell.arcana.background;
 
 import com.mmorrell.serum.model.Market;
 import com.mmorrell.serum.model.SerumUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.core.Transaction;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class ArcanaBackgroundCache {
 
     private RpcClient rpcClient;
@@ -85,7 +87,7 @@ public class ArcanaBackgroundCache {
         Transaction newTx = new Transaction();
         newTx.addInstruction(
                 ComputeBudgetProgram.setComputeUnitPrice(
-                        1811_500_000
+                        811_500_000
                 )
         );
         newTx.addInstruction(
@@ -98,7 +100,7 @@ public class ArcanaBackgroundCache {
                 SystemProgram.createAccount(
                         tradingAccount.getPublicKey(),
                         sessionWsolAccount.getPublicKey(),
-                        (long) (startingAmount * 1000000000.0) + 5039280, //.05 SOL
+                        (long) (startingAmount * 1000000000.0) + 3039280, //.03 SOL
                         165,
                         TokenProgram.PROGRAM_ID
                 )
@@ -113,6 +115,7 @@ public class ArcanaBackgroundCache {
 
         try {
             String txId = rpcClient.getApi().sendTransaction(newTx, List.of(tradingAccount, sessionWsolAccount), null);
+            log.info("Wrap SOL: " + txId + ", " + solAmount);
         } catch (RpcException e) {
             return PublicKey.valueOf("");
         }
