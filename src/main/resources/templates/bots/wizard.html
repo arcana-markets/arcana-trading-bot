@@ -26,6 +26,20 @@
     <script src="/static/vendors/simplebar/simplebar.min.js"></script>
     <script src="/static/js/config.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        function wrapSolana() {
+            var amount = $("#wrapSolValue").val();
+            if (isNumeric) {
+                alert("numeric: " + amount);
+            } else {
+                alert("fail");
+            }
+        }
+    </script>
 
 
     <!-- ===============================================-->
@@ -204,7 +218,6 @@
     }
 
       </style>
-
   </head>
 
 
@@ -539,21 +552,17 @@
                                       </div>
                                   </div>
                               </div>
-                                <script>
-                                    function wrapSol() {
-                                        alert($("#wrapSol").val());
-                                    }
-                                </script>
                                 <div class="row g-3 mb-3">
                                     <div class="col-md-6">
                                         <label class="form-label text-900">Wrap SOL</label>
-                                        <input class="form-control" type="text" placeholder="Wrap SOL"/>
+                                        <input id="wrapSolValue" class="form-control" type="text"
+                                               placeholder="Wrap SOL"/>
                                         <input
                                                 class="btn btn-secondary form-control"
                                                 type="button"
                                                 id="wrapSol"
                                                 value="wrapSol"
-                                                onclick="wrapSol()" />
+                                                onclick="wrapSolana();" />
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label text-900">Generate OOA (optional)</label>
