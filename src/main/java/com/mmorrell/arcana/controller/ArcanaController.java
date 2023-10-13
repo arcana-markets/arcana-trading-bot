@@ -112,7 +112,8 @@ public class ArcanaController {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
         String marketsString = Resources.toString(Resources.getResource("static/js/markets.json"),
                 StandardCharsets.UTF_8);
-        List<Map<String, Object>> markets = new ObjectMapper().readValue(marketsString, new TypeReference<>() {});
+        List<Map<String, Object>> markets = new ObjectMapper().readValue(marketsString, new TypeReference<>() {
+        });
         model.addAttribute("markets", markets);
         return "markets";
     }
@@ -425,7 +426,9 @@ public class ArcanaController {
     @RequestMapping("/generateOoa")
     @ResponseBody
     public Map<String, String> generateOoa(Model model) {
-        return Map.of("ooa", null);
+        return Map.of("ooa", arcanaBackgroundCache.generateOoa(
+                botManager.getTradingAccount()
+        ).toBase58());
     }
 
     @RequestMapping("/accounts/getAllAccounts")

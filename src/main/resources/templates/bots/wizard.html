@@ -46,6 +46,15 @@
                 // alert("fail");
             }
         }
+
+        function generateOoaAction(){
+            $.get('/generateOoa', function (data, textStatus, jqXHR) {
+                $("#openOrdersAccount").val(data.ooa);
+            }).fail(function() {
+                $("#openOrdersAccount").val("");
+                alert("Error generating OOA.");
+            });
+        }
     </script>
 
 
@@ -550,7 +559,9 @@
                               <div class="row g-3 mb-3">
                                   <div class="col-md-6">
                                           <label class="form-label text-900">Open Orders Account</label>
-                                          <input class="form-control" type="text" placeholder="Open Orders Account" required="required" th:field="*{ooa}"/>
+                                          <input class="form-control" type="text" id="openOrdersAccount"
+                                                 placeholder="Open Orders Account"
+                                                 required="required" th:field="*{ooa}"/>
                                   </div>
                                   <div class="col-md-6">
                                           <label class="form-label text-900">USDC Account</label>
@@ -579,7 +590,7 @@
                                                 type="button"
                                                 id="generateOoa"
                                                 value="Generate OOA"
-                                                onclick="alert('ooa')" />
+                                                onclick="generateOoaAction();" />
                                     </div>
                                 </div>
                         </div>

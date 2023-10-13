@@ -2,6 +2,7 @@ package com.mmorrell.arcana.background;
 
 import com.mmorrell.serum.model.Market;
 import com.mmorrell.serum.model.SerumUtils;
+import com.mmorrell.serum.program.SerumProgram;
 import lombok.extern.slf4j.Slf4j;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
@@ -121,5 +122,38 @@ public class ArcanaBackgroundCache {
         }
 
         return sessionWsolAccount.getPublicKey();
+    }
+
+    public PublicKey generateOoa(Account tradingAccount) {
+        Account newOoa = new Account();
+        Transaction tx = new Transaction();
+        tx.addInstruction(
+                ComputeBudgetProgram.setComputeUnitPrice(
+                        811_500_000
+                )
+        );
+        tx.addInstruction(
+                ComputeBudgetProgram.setComputeUnitLimit(
+                        10_700
+                )
+        );
+        tx.addInstruction(
+                SystemProgram.createAccount(
+                        tradingAccount.getPublicKey(),
+                        newOoa.getPublicKey(),
+                        2539280L, //.25 SOL
+                        165,
+                        new PublicKey("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
+                )
+        );
+
+        try {
+            String txId = rpcClient.getApi().sendTransaction(tx, List.of(tradingAccount, newOoa), null);
+            log.info("Generate OOA: " + txId);
+        } catch (RpcException e) {
+            log.error("Unable to generate OOA: " + e.getMessage());
+        }
+
+        return newOoa.getPublicKey();
     }
 }
