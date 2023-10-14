@@ -55,6 +55,20 @@
                 alert("Error generating OOA.");
             });
         }
+
+        function autoFill() {
+        $("#autoFillButton").prop('disabled', true).val('Loading...');
+
+        var marketId = $("#inputAddress").val();
+        $.get('/getAccountsByMarket/' + marketId, function (data, textStatus, jqXHR) {
+            $("#baseWallet").val(data.baseWallet);
+            $("#quoteWallet").val(data.quoteWallet);
+            $("#ooa").val(data.ooa);
+            $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
+             }).fail(function() {
+        $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
+             });
+        }
     </script>
 
 
@@ -125,22 +139,22 @@
               scrollbar-color: #888 #f1f1f1;
           }
 
-          .select2-results__options::-webkit-scrollbar {
-              width: 5px;
-          }
+        .select2-results__options::-webkit-scrollbar {
+            width: 5px;
+        }
 
-          .select2-results__options::-webkit-scrollbar-thumb {
-              background: #888;
-              border-radius: 2px;
-          }
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 2px;
+        }
 
-          .select2-results__options::-webkit-scrollbar-thumb:hover {
-              background: #555;
-          }
+        .select2-results__options::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
 
-          .select2-results__options::-webkit-scrollbar-track {
-              background: #f1f1f1;
-          }
+        .select2-results__options::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
 
           /* Styling for option states */
           .select2-results__option--highlighted[aria-selected],
@@ -166,11 +180,22 @@
           }
 
           /* Dark mode specific styles for select2 */
+
           body.dark .select2-container--default .select2-selection--single {
-              background-color: #333;
-              color: #fff;
-              border: 1px solid #444;
-          }
+          background-color: #31374a; /* Bootstrap's dark grey */
+          color: #fff !important; /* Change the text color to white */
+          border: 1px solid #495057; /* Bootstrap's secondary dark grey */
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+          transition: all 0.3s ease;
+        }
+
+        body.dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #fff !important; /* Change the text color to white */
+        }
+
+        body.dark .select2-container--default .select2-selection--single:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
 
           body.dark .select2-dropdown {
               background-color: #333;
@@ -181,57 +206,47 @@
           }
 
           body.dark .select2-results__option--highlighted[aria-selected],
+
           body.dark .select2-results__option:hover {
               background-color: #555;
               color: #fff;
           }
-              /* Enhanced Dark mode specific styles for select2 */
-         body.dark .select2-container--default .select2-selection--single {
-        background-color: #31374a; /* Bootstrap's dark grey */
-        color: #eaeaea;
-        border: 1px solid #495057; /* Bootstrap's secondary dark grey */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
-    }
 
-    body.dark .select2-container--default .select2-selection--single:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    }
+        body.dark .select2-dropdown {
+            background: linear-gradient(145deg, #23272b, #343a40); /* subtle gradient using Bootstrap's dark colors */
+            color: #eaeaea;
+            border-color: #495057;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
 
-    body.dark .select2-dropdown {
-        background: linear-gradient(145deg, #23272b, #343a40); /* subtle gradient using Bootstrap's dark colors */
-        color: #eaeaea;
-        border-color: #495057;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
+        body.dark .select2-results__option {
+            background-color: #141824;
+            color: #fff;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
 
-    body.dark .select2-results__option {
-        background-color: #23272b;
-        color: #ccc;
-        border-radius: 3px;
-        transition: background-color 0.3s ease;
-    }
+        body.dark .select2-results__option--highlighted[aria-selected],
 
-    body.dark .select2-results__option--highlighted[aria-selected],
-    body.dark .select2-results__option:hover {
-        background-color: #495057;
-        color: #fff;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-    }
+        body.dark .select2-results__option:hover {
+            background-color: #495057;
+            color: #fff;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
 
-    /* Dark mode scrollbar styling for select2 dropdown */
-    body.dark .select2-results__options::-webkit-scrollbar-thumb {
-        background: #495057;
-        border-radius: 2px;
-    }
+        /* Dark mode specific scrollbar styling */
 
-    body.dark .select2-results__options::-webkit-scrollbar-thumb:hover {
-        background: #343a40;
-    }
+        body.dark .select2-results__options::-webkit-scrollbar-thumb {
+            background: #495057;
+        }
 
-    body.dark .select2-results__options::-webkit-scrollbar-track {
-        background: #23272b;
-    }
+        body.dark .select2-results__options::-webkit-scrollbar-thumb:hover {
+            background: #343a40;
+        }
+
+        body.dark .select2-results__options::-webkit-scrollbar-track {
+            background: #23272b;
+        }
 
       </style>
   </head>
@@ -296,14 +311,14 @@
                                   <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
                                       <li class="collapsed-nav-item-title d-none">Trading Bots
                                       </li>
-                                      <li class="nav-item"><a class="nav-link" href="/bots" data-bs-toggle="" aria-expanded="false">
-                                          <div class="d-flex align-items-center"><span class="nav-link-text">My Bots</span>
+                                      <li class="nav-item"><a class="nav-link" href="/bots/add" data-bs-toggle="" aria-expanded="false">
+                                          <div class="d-flex align-items-center"><span class="nav-link-text">The Wizard</span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info ">New</span>
                                           </div>
                                       </a>
                                           <!-- more inner pages-->
                                       </li>
-                                      <li class="nav-item"><a class="nav-link" href="/bots/add" data-bs-toggle="" aria-expanded="false">
-                                          <div class="d-flex align-items-center"><span class="nav-link-text">The Wizard</span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info ">New</span>
+                                      <li class="nav-item"><a class="nav-link" href="/bots" data-bs-toggle="" aria-expanded="false">
+                                          <div class="d-flex align-items-center"><span class="nav-link-text">My Bots</span>
                                           </div>
                                       </a>
                                           <!-- more inner pages-->
@@ -383,7 +398,7 @@
           </div>
           <ul class="navbar-nav navbar-nav-icons flex-row">
             <li class="nav-item">
-              <div class="theme-control-toggle fa-icon-wait px-2">
+              <div class="theme-control-toggle px-2">
                 <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
                 <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="moon"></span></label>
                 <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Switch theme"><span class="icon" data-feather="sun"></span></label>
@@ -437,7 +452,7 @@
         <h2 class="mb-2 lh-sm">The Wizard</h2>
         <p class="text-700 lead mb-2">Follow the wizard to create new Arcana trading bots</p>
         <div class="row mb-2">
-            <div class="col-12 col-xxl-6">
+            <div class="col-12 col-xxl-10">
                 <div class="card shadow-none border border-300 my-4" data-component-card="data-component-card">
                     <div class="card-body p-0">
                         <div class="p-4">
@@ -483,18 +498,6 @@
                                               <option value="3NnxQvDcZXputNMxaxsGvqiKpqgPfSYXpNigZNFcknmD" data-image-src="/static/img/token-icons/MNGO.png" data-image-src2="/static/img/token-icons/WUSDC.png">MNGO/USDC</option>
                                               <option value="8rUvvjhtyjiJYTVhNn8usWDAQn1RHwt2adChzk7ANeT4" data-image-src="/static/img/token-icons/SOLAPE.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOLAPE/USDC</option>
                                           </select>
-                                          <script>
-                                              $(document).ready(function() {
-                                                  // Autofill the inputAddress with the default value from presetMarkets when the page loads
-                                                  $("#inputAddress").val($("#presetMarkets").val());
-
-                                                  // Update inputAddress when presetMarkets changes
-                                                  $("#presetMarkets").on('change', function() {
-                                                      $("#inputAddress").val(this.value);
-                                                      $("#openOrdersAccount").val("");
-                                                  });
-                                              });
-                                          </script>
                                       </div>
                                   </div>
                                     <div class="col-md-6 d-flex align-items-center">
@@ -515,31 +518,20 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <script>
-                                            function autoFill() {
-                                                $("#autoFillButton").prop('disabled', true).val('Loading...');
-                                                var marketId = $("#inputAddress").val();
-                                                $.get('/getAccountsByMarket/' + marketId, function (data, textStatus, jqXHR) {
-                                                    $("#baseWallet").val(data.baseWallet);
-                                                    $("#quoteWallet").val(data.quoteWallet);
-                                                    $("#ooa").val(data.ooa);
-                                                    $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
-                                                }).fail(function() {
-                                                    $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
-                                                });
-                                            }
-                                        </script>
-                                        <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="form-label invisible" for="autoFillButton">Accounts</label>
+                                        <div class="col-md-6 d-flex align-items-center">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                            <label class="form-label flex text-900" for="generateOoa">(Costs 0.0026 SOL)</label>
+                                                    </div>
+                                                </div>
                                             <input
                                                     class="btn btn-lg btn-secondary"
                                                     type="button"
-                                                    id="CreateOOA"
-                                                    disabled
-                                                    value="Generate Accounts"
-                                                    onclick="" />
-                                        </div>
+                                                    id="generateOoa"
+                                                    value="Generate OOA"
+                                                    onclick="generateOoaAction();" />
+                                            </div>
                                         </div>
                                     </div>
                               </div>
@@ -583,15 +575,6 @@
                                                 id="wrapSol"
                                                 value="Wrap SOL"
                                                 onclick="wrapSolana();" />
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label text-900">Generate OOA (optional)</label>
-                                        <input
-                                                class="btn btn-secondary form-control"
-                                                type="button"
-                                                id="generateOoa"
-                                                value="Generate OOA (Costs 0.0026 SOL)"
-                                                onclick="generateOoaAction();" />
                                     </div>
                                 </div>
                         </div>
@@ -659,7 +642,7 @@
                           <div class="col-12 col-sm-auto">
                               <div class="text-center text-sm-start">
                                 <h4 class="mb-3">You're all set!</h4>
-                                  <p class="text-700 fs--1">Click 'Launch' to being trading<br />with Arcana Markets</p>
+                                  <p class="text-700 fs--1">Click 'Launch' to begin trading<br />with Arcana Markets</p>
                                   <button type="submit" class="btn btn-primary px-6">Launch Bot</button>
                               </div>
                             </div>
@@ -819,6 +802,22 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
+            function setTheme(theme) {
+                document.documentElement.setAttribute('class', theme);
+                $('body').toggleClass('dark', theme === 'dark-mode');
+                $('.imageSelect').trigger("change");  // Update select2 appearance
+            }
+
+            // Function to handle theme change
+            function handleThemeChange(newTheme) {
+                localStorage.setItem('theme', newTheme);  // Save theme setting to localStorage
+                setTheme(newTheme);
+            }
+
+            // Set initial theme from localStorage or default to 'light-mode'
+            const savedTheme = localStorage.getItem('theme') || 'light-mode';
+            setTheme(savedTheme);
+
             // Script for handling select2 dropdown
             function formatState(state) {
                 if (!state.id) { return state.text; }
@@ -835,32 +834,20 @@
 
             // Theme control toggle script
             $("#themeControlToggle").on('change', function() {
-                $('body').toggleClass('dark', $(this).is(":checked"));
-
-                // Force select2 to update its appearance without destroying it
-                $('.imageSelect').trigger("change");
-            });
-                // Add the 'selected' class to the clicked box
-                $(this).addClass('selected');
+                const newTheme = $(this).is(":checked") ? 'dark-mode' : 'light-mode';
+                handleThemeChange(newTheme);
             });
 
-         $(document).ready(function() {
-            $('.btn').on('click', function() {
-                $('.btn').removeClass('active');  // Remove active class from all buttons
-                $(this).addClass('active');  // Add active class to clicked button
+            // Event listener for 'theme' changes in local storage
+            window.addEventListener('storage', function(event) {
+                if (event.key === 'theme') {
+                    setTheme(event.newValue);
+                }
             });
+
+            feather.replace({ width: 18, height: 18 });
         });
-
-        window.addEventListener('storage', function(event) {
-            if (event.key === 'phoenixTheme') {
-                const icon = document.querySelector('.icon img');
-                icon.src = event.newValue === 'dark' ? '/path-to-dark-icon.svg' : '/path-to-light-icon.svg';
-            }
-        });
-
-        feather.replace({ width: 18, height: 18 });
     </script>
 
-  </body>
-
+</body>
 </html>

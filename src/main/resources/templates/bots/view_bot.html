@@ -458,14 +458,14 @@
                                 <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-faq">
                                     <li class="collapsed-nav-item-title d-none">Trading Bots
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="/bots" data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">My Bots</span>
+                                    <li class="nav-item"><a class="nav-link" href="/bots/add" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">The Wizard</span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info ">New</span>
                                         </div>
                                     </a>
                                         <!-- more inner pages-->
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="/bots/add" data-bs-toggle="" aria-expanded="false">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">The Wizard</span><span class="badge ms-2 badge badge-phoenix badge-phoenix-info ">New</span>
+                                    <li class="nav-item"><a class="nav-link" href="/bots" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">My Bots</span>
                                         </div>
                                     </a>
                                         <!-- more inner pages-->
@@ -593,18 +593,18 @@
             <!-- First Div -->
             <div class="col-md-6">
             <div class="card p-4 mb-8 rounded d-flex flex-column pr-md-3">
-                <div class="row small">
+                <div class="row ">
                     <div class="col-6 font-weight-bold align-items-center justify-content-start">
                         <strong>🤖 Bot #</strong>
                         <span style="display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;" th:text="${botId + 1}"></span>
                         /
-                        <span style="display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;" th:text="${botUuid}"></span>
+                        <span style="display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;" th:text="${botOoa}"></span>
                     </div>
                     <div class="col-6 d-flex align-items-center justify-content-end">
                         <a th:href="${#strings.concat('/bots/stop/', botId)}" class="btn btn-sm px-2" style="margin-right: 10px;">
-                            <i data-feather="stop-circle" width="28" height="28"></i>
+                            <i data-feather="stop-circle" width="28" height="28" style="color: #EC4E4E;"></i>
                         </a>
-                        <a th:href="${#strings.concat('/bots/start/', botId)}" class="btn btn-sm ml-2 px-2">
+                        <a th:href="${#strings.concat('/bots/start/', botId)}" class="btn btn-sm ml-2 px-2 disabled">
                             <i data-feather="play-circle" width="28" height="28"></i>
                         </a>
                     </div>
@@ -636,8 +636,8 @@
                     <hr class="my-2">
                     <div class="row mb-1 small">
                     <div class="col-6">
-                        <strong>OOA:&nbsp;</strong>
-                        <div class="text-truncate" style="max-width: 150px;" th:text="${botOoa}"></div>
+                        <strong>Bot ID:&nbsp;</strong>
+                        <div class="text-truncate" style="max-width: 150px;" th:text="${botUuid}"></div>
                     </div>
                     <div class="col-6">
                         <strong>Quote Wallet:&nbsp;</strong>
@@ -836,20 +836,19 @@
 
     </script>
     <script>
-        function toggleMode() {
-            const currentMode = document.documentElement.getAttribute('class');
-            if (currentMode === 'light-mode') {
-                document.documentElement.setAttribute('class', 'dark-mode');
-            } else {
-                document.documentElement.setAttribute('class', 'light-mode');
+         $(document).ready(function() {
+            $('.btn').on('click', function() {
+                $('.btn').removeClass('active');  // Remove active class from all buttons
+                $(this).addClass('active');  // Add active class to clicked button
+            });
+        });
+
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'phoenixTheme') {
+                const icon = document.querySelector('.icon img');
+                icon.src = event.newValue === 'dark' ? '/path-to-dark-icon.svg' : '/path-to-light-icon.svg';
             }
-        }
-
-        // Assume you have a button with id "toggleButton" to switch modes
-        document.getElementById('toggleButton').addEventListener('click', toggleMode);
-
-        // Set initial mode
-        document.documentElement.setAttribute('class', 'light-mode');
+        });
 
     </script>
 
