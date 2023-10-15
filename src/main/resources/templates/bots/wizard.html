@@ -484,58 +484,55 @@
                         <form class="needs-validation" id="wizardValidationMainForm" novalidate="novalidate" action="#" method="POST" th:action="@{/bots/add/post}" th:object="${newBot}">
                             <div class="tab-content">
                                 <div class="tab-pane active show fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab1" id="bootstrap-wizard-validation-tab1">
-                                <div class="row g-3 mb-3">
-                                  <!-- First item: Markets dropdown -->
-                                  <div class="col-md-4 col-sm-6 d-flex align-items-center">
-                                      <div>
-                                          <label class="form-label" for="presetMarkets">Markets</label>
-                                          <select class="form-select form-select-lg imageSelect" id="presetMarkets" style="width: 100%;">
-                                              <option value="8BnEgHoWFysVcuFFX7QztDmzuH8r5ZFvyP3sYwn1XTh6" data-image-src="/static/img/token-icons/SOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOL/USDC</option>
-                                              <option value="BbJgE7HZMaDp5NTYvRh5jZSkQPVDTU8ubPFtpogUkEj4" data-image-src="/static/img/token-icons/ETH.png" data-image-src2="/static/img/token-icons/WUSDC.png">ETH/USDC</option>
-                                              <option value="3BAKsQd3RuhZKES2DGysMhjBdwjZYKYmxRqnSMtZ4KSN" data-image-src="/static/img/token-icons/WBTC.png" data-image-src2="/static/img/token-icons/WUSDC.png">WBTC/USDC</option>
-                                              <option value="9Lyhks5bQQxb9EyyX55NtgKQzpM4WK7JCmeaWuQ5MoXD" data-image-src="/static/img/token-icons/mSOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">MSOL/USDC</option>
-                                              <option value="72h8rWaWwfPUL36PAFqyQZU8RT1V3FKG7Nc45aK89xTs" data-image-src="/static/img/token-icons/RLB.png" data-image-src2="/static/img/token-icons/WUSDC.png">RLB/USDC</option>
-                                              <option value="3NnxQvDcZXputNMxaxsGvqiKpqgPfSYXpNigZNFcknmD" data-image-src="/static/img/token-icons/MNGO.png" data-image-src2="/static/img/token-icons/WUSDC.png">MNGO/USDC</option>
-                                              <option value="8rUvvjhtyjiJYTVhNn8usWDAQn1RHwt2adChzk7ANeT4" data-image-src="/static/img/token-icons/SOLAPE.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOLAPE/USDC</option>
-                                          </select>
-                                      </div>
-                                  </div>
-                                    <div class="col-md-6 d-flex align-items-center">
-                                        <div class="col-md-6">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label class="form-label" for="autoFillButton">Accounts</label>
-                                                </div>
+                                    <div class="container">
+                                        <div class="row g-3 mb-3">
+                                            <!-- Markets Dropdown -->
+                                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-label d-block" for="presetMarkets">Markets</label>
+                                                <select class="form-select form-select-lg imageSelect" id="presetMarkets" style="width: 100%;">
+                                                    <option value="8BnEgHoWFysVcuFFX7QztDmzuH8r5ZFvyP3sYwn1XTh6" data-image-src="/static/img/token-icons/SOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOL/USDC</option>
+                                                    <option value="BbJgE7HZMaDp5NTYvRh5jZSkQPVDTU8ubPFtpogUkEj4" data-image-src="/static/img/token-icons/ETH.png" data-image-src2="/static/img/token-icons/WUSDC.png">ETH/USDC</option>
+                                                    <option value="3BAKsQd3RuhZKES2DGysMhjBdwjZYKYmxRqnSMtZ4KSN" data-image-src="/static/img/token-icons/WBTC.png" data-image-src2="/static/img/token-icons/WUSDC.png">WBTC/USDC</option>
+                                                    <option value="9Lyhks5bQQxb9EyyX55NtgKQzpM4WK7JCmeaWuQ5MoXD" data-image-src="/static/img/token-icons/mSOL.png" data-image-src2="/static/img/token-icons/WUSDC.png">MSOL/USDC</option>
+                                                    <option value="72h8rWaWwfPUL36PAFqyQZU8RT1V3FKG7Nc45aK89xTs" data-image-src="/static/img/token-icons/RLB.png" data-image-src2="/static/img/token-icons/WUSDC.png">RLB/USDC</option>
+                                                    <option value="3NnxQvDcZXputNMxaxsGvqiKpqgPfSYXpNigZNFcknmD" data-image-src="/static/img/token-icons/MNGO.png" data-image-src2="/static/img/token-icons/WUSDC.png">MNGO/USDC</option>
+                                                    <option value="8rUvvjhtyjiJYTVhNn8usWDAQn1RHwt2adChzk7ANeT4" data-image-src="/static/img/token-icons/SOLAPE.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOLAPE/USDC</option>
+                                                </select>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
+                                            <!-- Wrap SOL Input and Button -->
+                                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-label d-block" for="wrapSolValue">Wrap SOL</label>
+                                                <div class="input-group">
                                                     <input
-                                                            class="btn btn-lg btn-secondary"
-                                                            type="button"
-                                                            id="autoFillButton"
-                                                            value="Fetch Accounts"
-                                                            onclick="autoFill()" />
+                                                            id="wrapSolValue"
+                                                            class="form-control"
+                                                            type="text" />
+                                                    <button class="btn btn-lg btn-secondary" id="wrapSol" onclick="wrapSolana();">Wrap SOL</button>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6 d-flex align-items-center">
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                            <label class="form-label flex text-900" for="generateOoa">(Costs 0.0026 SOL)</label>
-                                                    </div>
-                                                </div>
-                                            <input
-                                                    class="btn btn-lg btn-secondary"
-                                                    type="button"
-                                                    id="generateOoa"
-                                                    value="Generate OOA"
-                                                    onclick="generateOoaAction();" />
+                                            <!-- Generate OOA Button -->
+                                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-label d-block" for="generateOoa">(Costs 0.0026 SOL)</label>
+                                                <input
+                                                        class="btn btn-lg btn-secondary d-block"
+                                                        type="button"
+                                                        id="generateOoa"
+                                                        value="Generate OOA"
+                                                        onclick="generateOoaAction();" />
+                                            </div>
+                                            <!-- Fetch Accounts Button -->
+                                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                                <label class="form-label d-block" for="autoFillButton">Accounts</label>
+                                                <input
+                                                        class="btn btn-lg btn-secondary d-block"
+                                                        type="button"
+                                                        id="autoFillButton"
+                                                        value="Fetch Accounts"
+                                                        onclick="autoFill()" />
                                             </div>
                                         </div>
                                     </div>
-                              </div>
-                              <div class="row g-3 mb-3">
+                                    <div class="row g-3 mb-3">
                                   <div class="col-md-6">
                                   <label class="form-label" for="inputAddress">Market ID</label>
                                   <input type="text" class="form-control" placeholder="Market Address" id="inputAddress" th:field="*{marketId}">
@@ -544,7 +541,7 @@
                                       <label class="form-label text-900">SOL Account</label>
                                       <input id="baseWalletText" class="form-control" type="text"
                                              placeholder="Base Wallet Address" required="required" th:field="*{baseWallet}"/>
-                                      <div class="mt-2 form-label text-900">
+                                      <div class="mt-2 form-label text-500">
                                           <strong>Balance:</strong> <span th:text="${baseWalletBalance}"></span> SOL
                                       </div>
                                   </div>
@@ -559,24 +556,11 @@
                                   <div class="col-md-6">
                                           <label class="form-label text-900">USDC Account</label>
                                           <input class="form-control" type="text" placeholder="Quote Wallet Address" required="required" th:field="*{quoteWallet}"/>
-                                      <div class="mt-2 form-label text-900">
+                                      <div class="mt-2 form-label text-500">
                                           <strong>Balance:</strong> <span th:text="${quoteWalletBalance}"></span> USDC
                                       </div>
                                   </div>
                               </div>
-                                <div class="row g-3 mb-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label text-900">Wrap SOL</label>
-                                        <input id="wrapSolValue" class="form-control" type="text"
-                                               placeholder="Wrap SOL"/>
-                                        <input
-                                                class="btn btn-secondary form-control"
-                                                type="button"
-                                                id="wrapSol"
-                                                value="Wrap SOL"
-                                                onclick="wrapSolana();" />
-                                    </div>
-                                </div>
                         </div>
                         <div class="tab-pane fade " role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
                               <div class="row mb-3">
