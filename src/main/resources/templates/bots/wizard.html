@@ -498,6 +498,11 @@
                                                     <option value="3NnxQvDcZXputNMxaxsGvqiKpqgPfSYXpNigZNFcknmD" data-image-src="/static/img/token-icons/MNGO.png" data-image-src2="/static/img/token-icons/WUSDC.png">MNGO/USDC</option>
                                                     <option value="8rUvvjhtyjiJYTVhNn8usWDAQn1RHwt2adChzk7ANeT4" data-image-src="/static/img/token-icons/SOLAPE.png" data-image-src2="/static/img/token-icons/WUSDC.png">SOLAPE/USDC</option>
                                                 </select>
+                                                <script>
+                                                    $("#presetMarkets").change(function () {
+                                                        $("#inputAddress").val(this.value);
+                                                    });
+                                                </script>
                                             </div>
                                             <!-- Wrap SOL Input and Button -->
                                             <div class="col-lg-3 col-md-6 col-sm-12">
