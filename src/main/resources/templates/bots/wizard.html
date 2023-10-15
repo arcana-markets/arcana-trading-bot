@@ -61,9 +61,9 @@
 
         var marketId = $("#inputAddress").val();
         $.get('/getAccountsByMarket/' + marketId, function (data, textStatus, jqXHR) {
-            $("#baseWallet").val(data.baseWallet);
+            $("#baseWalletText").val(data.baseWallet);
             $("#quoteWallet").val(data.quoteWallet);
-            $("#ooa").val(data.ooa);
+            $("#openOrdersAccount").val(data.ooa);
             $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
              }).fail(function() {
         $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
@@ -560,7 +560,9 @@
                                   </div>
                                   <div class="col-md-6">
                                           <label class="form-label text-900">USDC Account</label>
-                                          <input class="form-control" type="text" placeholder="Quote Wallet Address" required="required" th:field="*{quoteWallet}"/>
+                                          <input id="quoteWallet" class="form-control" type="text"
+                                                 placeholder="Quote Wallet Address"
+                                                 required="required" th:field="*{quoteWallet}"/>
                                       <div class="mt-2 form-label text-500">
                                           <strong>Balance:</strong> <span th:text="${quoteWalletBalance}"></span> USDC
                                       </div>

@@ -188,8 +188,9 @@ public class ArcanaController {
                     market.getOwnAddress(),
                     pubkey
             );
-            openBookContext.setOoa(openOrdersAccount.getOwnPubkey().toBase58());
-
+            if (openOrdersAccount != null) {
+                openBookContext.setOoa(openOrdersAccount.getOwnPubkey().toBase58());
+            }
             return openBookContext;
         } catch (RpcException e) {
             return new OpenBookContext();
