@@ -23,7 +23,7 @@ Accessible via app download or Docker, this off-chain solution ensures secure, l
 
 ## Features
 
-- **Automated Trading:** Engage in trading across a variety of market pairs automatically with our robust trading bots.
+- **Automated Trading:** Trade across a variety of market pairs automatically with our robust trading bots.
 - **Secure:** Navigate through the platform effortlessly and track DEX data.
 - **Interactive UI:** Navigate through the platform effortlessly and track DEX data.
 - **Add Multiple Bots:** Add multiple bots, each tailored to different market conditions.
@@ -35,8 +35,8 @@ Accessible via app download or Docker, this off-chain solution ensures secure, l
 1. **Standard Market Making:** Utilize market making strategies to provide liquidity and earn the spread.
 2. **High Frequency Trading (HFT):** Engage in high frequency trading to exploit small price differences.
 3. **Arbitrage Strategies:** Take advantage of price discrepancies across different markets or times.
-4. **Strategy Selection:** Choose a pre-built trading strategy (e.g., Jupiter Surge, Orderbook Slicer, or Pyth Frenzy) or customize your own.
-5. **Trade Execution:** Enter your trade parameters and execute your trade. Monitor and manage your trading bots in real-time.
+4. **Strategy Selection:** Choose a pre-built trading strategy or customize your own.
+5. **Trade Execution:** Monitor and manage your trading bots in real-time.
 
 ## Development
 
