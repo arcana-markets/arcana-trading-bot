@@ -34,4 +34,14 @@ public class ArcanaTests {
 
         log.info("OOA: " + openOrdersAccount.getOwnPubkey().toBase58());
     }
+
+    @Test
+    public void cacheTokenAccountsTest() throws RpcException {
+        Map<String, Object> requiredParams = Map.of("programId", new PublicKey(
+                "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"));
+        TokenAccountInfo tokenAccount = rpcClient.getApi().getTokenAccountsByOwner(PublicKey.valueOf(
+                "mikefsWLEcNYHgsiwSRr6PVd7yVcoKeaURQqeDE1tXN"), requiredParams, new HashMap<>());
+
+        log.info(tokenAccount.toString());
+    }
 }

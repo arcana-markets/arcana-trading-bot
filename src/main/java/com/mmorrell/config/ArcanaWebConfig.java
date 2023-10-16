@@ -28,7 +28,7 @@ public class ArcanaWebConfig implements WebMvcConfigurer {
 
     @Bean
     public RpcClient rpcClient() {
-        return new RpcClient(Cluster.BLOCKDAEMON);
+        return new RpcClient(Cluster.BLOCKDAEMON.getEndpoint(), 60);
     }
 
     @Bean
@@ -57,6 +57,15 @@ public class ArcanaWebConfig implements WebMvcConfigurer {
         bean.setViewClass(JstlView.class);
         bean.setPrefix("/templates/");
         bean.setSuffix(".jsp");
+        return bean;
+    }
+
+    @Bean
+    public ViewResolver htmlViewResolver() {
+        InternalResourceViewResolver bean = new InternalResourceViewResolver();
+        bean.setViewClass(JstlView.class);
+        bean.setPrefix("/templates/");
+        bean.setSuffix(".html");
         return bean;
     }
 

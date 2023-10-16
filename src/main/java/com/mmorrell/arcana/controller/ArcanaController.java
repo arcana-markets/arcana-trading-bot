@@ -1,17 +1,28 @@
 package com.mmorrell.arcana.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.io.Resources;
+import com.mmorrell.arcana.background.ArcanaAccountManager;
 import com.mmorrell.arcana.background.ArcanaBackgroundCache;
+import com.mmorrell.arcana.background.MarketCache;
+import com.mmorrell.arcana.background.TokenManager;
 import com.mmorrell.arcana.pricing.JupiterPricingSource;
 import com.mmorrell.arcana.strategies.BotManager;
 import com.mmorrell.arcana.strategies.OpenBookBot;
 import com.mmorrell.arcana.strategies.openbook.OpenBookSplUsdc;
+import com.mmorrell.arcana.util.MarketUtil;
 import com.mmorrell.model.OpenBookContext;
+import com.mmorrell.model.OpenBookOrder;
+import com.mmorrell.serum.manager.OrderBookCacheManager;
 import com.mmorrell.serum.manager.SerumManager;
 import com.mmorrell.serum.model.Market;
 import com.mmorrell.serum.model.OpenOrdersAccount;
+import com.mmorrell.serum.model.OrderBook;
 import com.mmorrell.serum.model.SerumUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.bitcoinj.core.Base58;
+import org.json.JSONArray;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.rpc.RpcClient;
@@ -29,10 +40,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -43,15 +59,24 @@ public class ArcanaController {
     private final SerumManager serumManager;
     private final JupiterPricingSource jupiterPricingSource;
     private final ArcanaBackgroundCache arcanaBackgroundCache;
+    private final MarketCache marketCache;
+    private final TokenManager tokenManager;
+    private final OrderBookCacheManager orderBookCacheManager;
+    private final ArcanaAccountManager arcanaAccountManager;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
                             SerumManager serumManager, JupiterPricingSource jupiterPricingSource,
-                            ArcanaBackgroundCache arcanaBackgroundCache) {
+                            ArcanaBackgroundCache arcanaBackgroundCache, MarketCache marketCache,
+                            TokenManager tokenManager, ArcanaAccountManager arcanaAccountManager) {
         this.rpcClient = rpcClient;
         this.botManager = botManager;
         this.serumManager = serumManager;
         this.jupiterPricingSource = jupiterPricingSource;
         this.arcanaBackgroundCache = arcanaBackgroundCache;
+        this.marketCache = marketCache;
+        this.tokenManager = tokenManager;
+        this.orderBookCacheManager = new OrderBookCacheManager(rpcClient);
+        this.arcanaAccountManager = arcanaAccountManager;
     }
 
     @RequestMapping("/")
@@ -59,6 +84,38 @@ public class ArcanaController {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
         model.addAttribute("botList", botManager.getBotList());
         return "index";
+    }
+
+    @RequestMapping("/onboarding")
+    public String arcanaOnBoarding(Model model) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        model.addAttribute("botList", botManager.getBotList());
+        return "onboarding";
+    }
+
+    @RequestMapping("/quests")
+    public String arcanaQuests(Model model) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        model.addAttribute("botList", botManager.getBotList());
+        return "quests";
+    }
+
+    @RequestMapping("/bots")
+    public String arcanaBots(Model model) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        model.addAttribute("botList", botManager.getBotList());
+        return "bots/my_bots";
+    }
+
+    @RequestMapping("/markets")
+    public String arcanaMarkets(Model model) throws IOException {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+        String marketsString = Resources.toString(Resources.getResource("static/js/markets.json"),
+                StandardCharsets.UTF_8);
+        List<Map<String, Object>> markets = new ObjectMapper().readValue(marketsString, new TypeReference<>() {
+        });
+        model.addAttribute("markets", markets);
+        return "markets";
     }
 
     @RequestMapping("/settings")
@@ -71,6 +128,7 @@ public class ArcanaController {
 
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
         model.addAttribute("tradingAccountPubkey", botManager.getTradingAccount().getPublicKey().toBase58());
+        model.addAttribute("arcanaAccounts", arcanaAccountManager.getArcanaAccounts());
 
         return "settings";
     }
@@ -90,32 +148,49 @@ public class ArcanaController {
             log.info("Base Mint: " + market.getBaseMint());
             log.info("Quote Mint: " + market.getQuoteMint());
 
+            log.info("Searching for tokens accounts for: " + pubkey.toBase58());
             Map<String, Object> requiredParams = Map.of("mint", market.getBaseMint());
             TokenAccountInfo tokenAccount = rpcClient.getApi().getTokenAccountsByOwner(pubkey, requiredParams,
                     new HashMap<>());
+            log.info(Arrays.toString(tokenAccount.getValue().toArray()));
             requiredParams = Map.of("mint", market.getQuoteMint());
             TokenAccountInfo quoteTokenAccount = rpcClient.getApi().getTokenAccountsByOwner(pubkey, requiredParams,
                     new HashMap<>());
-
-            log.info("Our base wallet: " + tokenAccount.getValue().get(0).getPubkey());
-            log.info("Our quote wallet: " + quoteTokenAccount.getValue().get(0).getPubkey());
-
-            results.put("baseWallet", tokenAccount.getValue().get(0).getPubkey());
-            results.put("quoteWallet", quoteTokenAccount.getValue().get(0).getPubkey());
-            results.put("ooa", null);
+            log.info(Arrays.toString(quoteTokenAccount.getValue().toArray()));
 
             OpenBookContext openBookContext = new OpenBookContext();
-            openBookContext.setBaseWallet(tokenAccount.getValue().get(0).getPubkey());
-            openBookContext.setQuoteWallet(quoteTokenAccount.getValue().get(0).getPubkey());
 
+            // if base wallet found
+            TokenAccountInfo.Value baseValue = !tokenAccount.getValue().isEmpty() ? tokenAccount.getValue().get(0) :
+                    null;
+            if (baseValue != null) {
+                log.info("Our base wallet: " + baseValue.getPubkey());
+                results.put("baseWallet", baseValue.getPubkey());
+                openBookContext.setBaseWallet(baseValue.getPubkey());
+
+            }
+
+            // if quote wallet found
+            TokenAccountInfo.Value quoteValue = !quoteTokenAccount.getValue().isEmpty() ? quoteTokenAccount.getValue().get(0) :
+                    null;
+            if (quoteValue != null) {
+                log.info("Our quote wallet: " + quoteValue.getPubkey());
+                results.put("quoteWallet", quoteValue.getPubkey());
+                openBookContext.setQuoteWallet(quoteValue.getPubkey());
+            }
+
+            results.put("ooa", null);
+
+            // todo handle timeout exception
             // OOA
             final OpenOrdersAccount openOrdersAccount = SerumUtils.findOpenOrdersAccountForOwner(
                     rpcClient,
                     market.getOwnAddress(),
                     pubkey
             );
-            openBookContext.setOoa(openOrdersAccount.getOwnPubkey().toBase58());
-
+            if (openOrdersAccount != null) {
+                openBookContext.setOoa(openOrdersAccount.getOwnPubkey().toBase58());
+            }
             return openBookContext;
         } catch (RpcException e) {
             return new OpenBookContext();
@@ -152,7 +227,7 @@ public class ArcanaController {
         botManager.addBot(newBot);
         log.info("New strategy created/started: " + newBot);
 
-        return "redirect:/";
+        return "redirect:/bots";
     }
 
     @RequestMapping("/openbook")
@@ -175,7 +250,7 @@ public class ArcanaController {
         model.addAttribute("newBot", newBot);
         model.addAttribute("marketId", marketId);
 
-        return "add_bot";
+        return "bots/wizard";
     }
 
     @RequestMapping("/bots/view/{id}")
@@ -203,7 +278,7 @@ public class ArcanaController {
             model.addAttribute("lastAskOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastAskOrder().toString());
         }
 
-        return "view_bot";
+        return "bots/view_bot";
     }
 
     @RequestMapping("/bots/stop/{id}")
@@ -213,15 +288,21 @@ public class ArcanaController {
     }
 
 
-
     @PostMapping("/privateKeyUpload")
     public String privateKeyUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
         try {
             byte[] bytes = file.getBytes();
             botManager.setTradingAccount(Account.fromJson(new String(bytes)));
+
+            // if a new account, add to our cache / like a Set
+            if (arcanaAccountManager.getArcanaAccounts().stream()
+                    .noneMatch(account -> account.getPublicKey().toBase58()
+                            .equals(botManager.getTradingAccount().getPublicKey().toBase58()))) {
+                arcanaAccountManager.getArcanaAccounts().add(botManager.getTradingAccount());
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            redirectAttributes.addAttribute("status", e.getMessage());
         }
 
         return "redirect:/settings";
@@ -232,7 +313,145 @@ public class ArcanaController {
         byte[] bytes = Base58.decode(privateKey);
         botManager.setTradingAccount(new Account(bytes));
 
+        // if a new account, add to our cache
+        if (arcanaAccountManager.getArcanaAccounts().stream()
+                .noneMatch(account -> account.getPublicKey().toBase58()
+                        .equals(botManager.getTradingAccount().getPublicKey().toBase58()))) {
+            arcanaAccountManager.getArcanaAccounts().add(botManager.getTradingAccount());
+        }
+
         return "redirect:/settings";
+    }
+
+    @RequestMapping("/api/openbook/market/{marketId}")
+    @ResponseBody
+    public Map<String, Object> getMarket(@PathVariable String marketId) {
+        /*
+        This is called in an AJAX loop
+        Returns: bid orderbook + ask orderbook
+         */
+        final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
+        Optional<Market> market = marketCache.getMarket(marketPublicKey);
+        final Map<String, Object> results = new HashMap<>();
+
+        if (market.isPresent()) {
+            Market ourMarket = market.get();
+            OrderBook bidOrderBook = orderBookCacheManager.getOrderBook(ourMarket.getBids());
+            bidOrderBook.setBaseDecimals((byte) tokenManager.getDecimals(ourMarket.getBaseMint()));
+            bidOrderBook.setQuoteDecimals((byte) tokenManager.getDecimals(ourMarket.getQuoteMint()));
+            bidOrderBook.setBaseLotSize(ourMarket.getBaseLotSize());
+            bidOrderBook.setQuoteLotSize(ourMarket.getQuoteLotSize());
+
+            List<OpenBookOrder> openBookBidOrders = MarketUtil.convertOrderBookToSerumOrders(bidOrderBook, true);
+
+            // Calculate aggregate percentages for each quote, add to metadata
+            float aggregateNotional = openBookBidOrders.stream()
+                    .map(order -> order.getQuantity() * order.getPrice())
+                    .reduce(0f, Float::sum);
+
+            float currentTotal = 0.0f;
+            for (OpenBookOrder order : openBookBidOrders) {
+                float notional = order.getPrice() * order.getQuantity();
+                currentTotal += notional;
+                order.addMetadata("percent", currentTotal / aggregateNotional);
+            }
+
+            results.put("bidOrders", openBookBidOrders);
+
+            // asks
+            OrderBook askOrderBook = orderBookCacheManager.getOrderBook(ourMarket.getAsks());
+            askOrderBook.setBaseDecimals((byte) tokenManager.getDecimals(ourMarket.getBaseMint()));
+            askOrderBook.setQuoteDecimals((byte) tokenManager.getDecimals(ourMarket.getQuoteMint()));
+            askOrderBook.setBaseLotSize(ourMarket.getBaseLotSize());
+            askOrderBook.setQuoteLotSize(ourMarket.getQuoteLotSize());
+
+            List<OpenBookOrder> openBookAskOrders = MarketUtil.convertOrderBookToSerumOrders(askOrderBook, false);
+
+            // Calculate aggregate percentages for each quote, add to metadata
+            float aggregateNotionalAsk = openBookAskOrders.stream()
+                    .map(order -> order.getQuantity() * order.getPrice())
+                    .reduce(0f, Float::sum);
+
+            float currentTotalAsk = 0.0f;
+            for (OpenBookOrder order : openBookAskOrders) {
+                float notional = order.getPrice() * order.getQuantity();
+                currentTotalAsk += notional;
+                order.addMetadata("percent", currentTotalAsk / aggregateNotionalAsk);
+            }
+
+            results.put("askOrders", openBookAskOrders);
+        }
+
+        results.put("marketId", marketId);
+        return results;
+
+    }
+
+    @RequestMapping("/settings/localStorage")
+    public String localStorage(Model model, @RequestParam String localStorage) {
+        log.info("localStorage: " + localStorage);
+
+        JSONArray jsonArray = new JSONArray(localStorage);
+        jsonArray.forEach(privateKey -> {
+            byte[] privateKeyBytes = Base58.decode(privateKey.toString());
+            Account newAccount = new Account(privateKeyBytes);
+            log.info("New account from LS: " + newAccount.getPublicKey().toBase58());
+            if (arcanaAccountManager.getArcanaAccounts().stream()
+                    .noneMatch(account -> account.getPublicKey().toBase58()
+                            .equals(newAccount.getPublicKey().toBase58()))) {
+                arcanaAccountManager.getArcanaAccounts().add(newAccount);
+            }
+        });
+
+        return "redirect:/settings";
+    }
+
+    @RequestMapping("/bots/use/{id}")
+    public String useTradingAccount(Model model, @PathVariable("id") long botId) {
+        botManager.setTradingAccount(arcanaAccountManager.getArcanaAccounts().get((int) botId));
+        return "redirect:/settings";
+    }
+
+    @RequestMapping("/wrap/{amountSol}")
+    @ResponseBody
+    public Map<String, String> wrapSol(Model model, @PathVariable Double amountSol) {
+        return Map.of(
+                "wsolPubkey",
+                arcanaBackgroundCache.wrapSol(
+                        botManager.getTradingAccount(),
+                        amountSol
+                ).toBase58()
+        );
+    }
+
+    @RequestMapping("/generateOoa")
+    @ResponseBody
+    public Map<String, String> generateOoa(Model model) {
+        return Map.of("ooa", arcanaBackgroundCache.generateOoa(
+                botManager.getTradingAccount()
+        ).toBase58());
+    }
+
+    @RequestMapping("/accounts/getAllAccounts")
+    @ResponseBody
+    public List<Map<String, String>> getAllAccounts(Model model) {
+        return arcanaAccountManager.getArcanaAccounts().stream()
+                .map(account -> Map.of("pubkey", account.getPublicKey().toBase58()))
+                .toList();
+    }
+
+    @RequestMapping("/accounts/getAllPrivateAccounts")
+    @ResponseBody
+    public List<Map<String, String>> getAllPrivateAccounts(Model model) {
+        return arcanaAccountManager.getArcanaAccounts().stream()
+                .map(account -> Map.of("privatekey", Base58.encode(account.getSecretKey())))
+                .toList();
+    }
+
+    @RequestMapping("/accounts/clear")
+    public String clearAccounts(Model model) {
+        arcanaAccountManager.setArcanaAccounts(new ArrayList<>());
+        return "settings";
     }
 
 }
