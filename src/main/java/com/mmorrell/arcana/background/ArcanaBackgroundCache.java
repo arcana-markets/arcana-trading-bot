@@ -88,12 +88,12 @@ public class ArcanaBackgroundCache {
         Transaction newTx = new Transaction();
         newTx.addInstruction(
                 ComputeBudgetProgram.setComputeUnitPrice(
-                        811_500_000
+                        1337_500_000
                 )
         );
         newTx.addInstruction(
                 ComputeBudgetProgram.setComputeUnitLimit(
-                        10_700
+                        14_700
                 )
         );
         double startingAmount = solAmount;
