@@ -61,9 +61,9 @@
 
         var marketId = $("#inputAddress").val();
         $.get('/getAccountsByMarket/' + marketId, function (data, textStatus, jqXHR) {
-            $("#baseWalletText").val(data.baseWallet);
-            $("#quoteWallet").val(data.quoteWallet);
-            $("#openOrdersAccount").val(data.ooa);
+            if (data.baseWallet !=null) $("#baseWalletText").val(data.baseWallet);
+            if (data.quoteWallet !=null) $("#quoteWallet").val(data.quoteWallet);
+            if (data.ooa !=null) $("#openOrdersAccount").val(data.ooa);
             $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
              }).fail(function() {
         $("#autoFillButton").prop('disabled', false).val('Fetch Accounts');
