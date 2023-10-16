@@ -23,19 +23,40 @@ Accessible via app download or Docker, this off-chain solution ensures secure, l
 3. Run the Docker container, and you can access Arcana from any web browser at `localhost:8080`.
 4. When finished, you can simply close the Docker app.
 
+## Account Wallet Configuration
+
+### Private Key Setup
+arcanaJ is your own custom market-making software, and thus requires direct control of a Solana-based wallet to function in an offchain environment.
+Users will need to input a wallet private key string in order to establish a connection with their local arcana interface.
+
+> **NOTE**: Your private key is sensitive information. Never share it with anyone, and ensure it's stored in a secure, offline environment.
+> > If you want to remove the wallet keys from your arcana device, you can clear the local storage cache in Account Settings.
+
+### New User Reccomendation
+For new users looking to test arcanaJ, we recommend the following;
+- Create a new Phantom wallet in your web browser
+- Navigate to settings and export your Private Key
+- Input the Key into your arcana Account Settings
+
+You will now have the option to access this wallet on future use of arcana, for that specific device.
+Once that wallet has been credited with some SOL and USDC, you'll be able to utilize the arcanaJ 'Wizard' to create new trading bots.
+
+
+#### Command Line Interface (CLI) wallets
+CLI wallet users have the option to import their private key via JSON file if preferred.
 
 ## Features
 
-- **Automated Trading:** Trade across a variety of market pairs automatically with our robust trading bots.
-- **Secure:** Navigate through the platform effortlessly and track DEX data.
-- **Interactive UI:** Navigate through the platform effortlessly and track DEX data.
+- **Automated Trading:** Trade across a variety of market pairs, automatically, with our robust trading bots.
+- **Secure:** Offchain solution ensures secure local client operations with no private information retention.
+- **Interactive UI:** Navigate through the platform effortlessly and track your data.
 - **Add Multiple Bots:** Add multiple bots, each tailored to different market conditions.
 - **Open Source:** Dive into our codebase and contribute to the evolution of decentralized trading on Solana.
 - **Customize Strategies:** Tailor your trading approach by selecting from our built-in strategies.
 
 ## Usage
 
-1. **Standard Market Making:** Utilize market making strategies to provide liquidity and earn the spread.
+1. **Standard Market Making:** Utilize market making strategies to provide liquidity and earn on the spread.
 2. **High Frequency Trading (HFT):** Engage in high frequency trading to exploit small price differences.
 4. **Strategy Selection:** Choose a pre-built trading strategy or customize your own.
 5. **Trade Execution:** Monitor and manage your trading bots in real-time.
