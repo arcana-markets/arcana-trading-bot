@@ -9,6 +9,18 @@ Accessible via app download or Docker, this off-chain solution ensures secure, l
 
 ![Arcana Markets Interface](https://github.com/makolabs-xyz/arcana/assets/90412655/272b4237-79f6-4cb6-a58a-155bda194cbc)
 
+## Setup
+
+### Java App
+1. Download the latest JDK (Java Development Kit) from [here](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html).
+2. Download the Arcana Java App from [here](https://drive.google.com/file/d/1qtZ1hbaOTlz85X82snODIXHWQwpVe68w/view).
+3. Run the Arcana App, then access it from any web browser by navigating to `localhost:8080`.
+
+### Docker Desktop
+1. For Docker Desktop users, search for `mmorrell/arcana` in the Docker Hub.
+2. Run the Docker container, and you can access Arcana from any web browser at `localhost:8080`.
+
+
 ## Features
 
 - **Automated Trading:** Engage in trading across a variety of market pairs automatically with our robust trading bots.
