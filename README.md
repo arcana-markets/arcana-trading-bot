@@ -13,7 +13,7 @@ Accessible via app download or Docker, this off-chain solution ensures secure, l
 
 ### Java App
 1. Download the latest JDK (Java Development Kit) from [here](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html).
-2. Download the Arcana Java App from [here](https://drive.google.com/file/d/1qtZ1hbaOTlz85X82snODIXHWQwpVe68w/view).
+2. Download the Arcana Java App from [here](arcana.markets/arcana-1.0.jar).
 3. Run the Arcana App, then access it from any web browser by navigating to `localhost:8080`.
 4. When finished with your session, hit Ctrl + Shift + Escape and end the Java process.
 
