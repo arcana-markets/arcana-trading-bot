@@ -48,7 +48,7 @@
         }
 
         function generateOoaAction(){
-            $.get('/generateOoa', function (data, textStatus, jqXHR) {
+            $.get('/generateOoa/' + $("#inputAddress").val(), function (data, textStatus, jqXHR) {
                 $("#openOrdersAccount").val(data.ooa);
             }).fail(function() {
                 $("#openOrdersAccount").val("");

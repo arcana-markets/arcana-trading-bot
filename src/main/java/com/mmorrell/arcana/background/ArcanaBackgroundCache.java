@@ -124,7 +124,7 @@ public class ArcanaBackgroundCache {
         return sessionWsolAccount.getPublicKey();
     }
 
-    public PublicKey generateOoa(Account tradingAccount) {
+    public PublicKey generateOoa(Account tradingAccount, PublicKey marketId) {
         Account newOoa = new Account();
         Transaction tx = new Transaction();
         tx.addInstruction(
@@ -141,11 +141,16 @@ public class ArcanaBackgroundCache {
                 SystemProgram.createAccount(
                         tradingAccount.getPublicKey(),
                         newOoa.getPublicKey(),
-                        1003928L,
+                        24003928L,
                         3228,
                         new PublicKey("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
                 )
         );
+//        tx.addInstruction(OpenBookProgramUtils.initOpenOrders(
+//                newOoa.getPublicKey(),
+//                tradingAccount.getPublicKey(),
+//                marketId
+//        ));
 
         try {
             String txId = rpcClient.getApi().sendTransaction(tx, List.of(tradingAccount, newOoa), null);
