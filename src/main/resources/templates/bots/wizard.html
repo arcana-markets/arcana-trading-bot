@@ -569,66 +569,70 @@
                                   </div>
                               </div>
                         </div>
-                        <div class="tab-pane fade " role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
-                              <div class="row mb-3">
-                                  <div class="col-md-4">
-                                      <div class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded" th:field="*{priceStrategy}">
-                                          <i data-feather="zap" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio1" checked="checked" th:value="'jupiter'">
-                                          <label class="form-check-label d-block" for="inlineRadio1">
-                                              Jupiter Surge
-                                          </label>
-                                      </div>
-                                      <div class="info-box mt-2 text-center p-3 border rounded">
-                                          Jupiter Surge offers high-frequency trades with minimal spread and rapid executions.
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded" th:field="*{priceStrategy}">
-                                          <i data-feather="cloud" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio2" th:value="'tob'">
-                                          <label class="form-check-label d-block" for="inlineRadio2">
-                                              Orderbook Slicer
-                                          </label>
-                                      </div>
-                                      <div class="info-box mt-2 text-center p-3 border rounded">
-                                          The Orderbook Slicer takes advantage of imbalances and offers precision-based trades.
-                                      </div>
-                                  </div>
-                                  <div class="col-md-4">
-                                      <div class="form-check text-center p-3 disabled btn d-block btn-secondary border rounded" th:field="*{priceStrategy}">
-                                          <i data-feather="sun" class="mb-2" style="width: 36px; height: 36px;"></i>
-                                          <input class="form-check-input d-none" type="radio" name="marketOption" id="inlineRadio3" disabled>
-                                          <label class="form-check-label d-block" for="inlineRadio3">
-                                              Pyth Frenzy
-                                          </label>
-                                      </div>
-                                      <div class="info-box mt-2 text-center p-3 border rounded">
-                                          Pyth Frenzy thrives in volatile conditions, ensuring maximum profits during market swings.
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-md-12 mt-3">
-                                  <div class="row">
-                                      <!-- Text Input 1 -->
-                                      <div class="col-md-4">
-                                          <label class="form-label" for="inputAddress2">BPS</label>
-                                          <input type="number" class="form-control" required="required" id="inputAddress2" placeholder="Enter your Spread Size" th:field="*{bpsSpread}">
-                                      </div>
-                                      <!-- Text Input 2 -->
-                                      <div class="col-md-4">
-                                          <label class="form-label" for="amountBid">Bid Size</label>
-                                          <input type="number" class="form-control" required="required" id="amountBid" placeholder="Enter your Bid Size" th:field="*{amountBid}">
-                                      </div>
-                                      <!-- Text Input 3 -->
-                                      <div class="col-md-4">
-                                          <label class="form-label" for="amountAsk">Ask Size</label>
-                                          <input type="number" class="form-control" required="required" id="amountAsk" placeholder="Enter your Ask Size" th:field="*{amountAsk}">
-                                      </div>
-                                  </div>
-                              </div>
-                        </div>
-                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab4" id="bootstrap-wizard-validation-tab4">
+                                <div class="tab-pane fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">
+                                    <div class="row mb-3">
+                                        <!-- Jupiter Surge -->
+                                        <div class="col-md-4">
+                                            <label class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded">
+                                                <i data-feather="zap" style="width: 36px; height: 36px;"></i><br>
+                                                <span class="d-inline-flex align-items-center">
+                                            <input class="form-check-input" type="radio" name="marketOption" id="inlineRadio1" th:value="'jupiter'">
+                                            Jupiter Surge
+                                        </span>
+                                            </label>
+                                            <div class="info-box mt-2 text-center p-3 border rounded">
+                                                Utilize the JUP API for precision in price sources and competitive market-making.
+                                            </div>
+                                        </div>
+                                        <!-- Orderbook Slicer -->
+                                        <div class="col-md-4">
+                                            <label class="form-check text-center btn d-block btn-outline-secondary p-3 border rounded">
+                                                <i data-feather="cloud" style="width: 36px; height: 36px;"></i><br>
+                                                <span class="d-inline-flex align-items-center">
+                                                <input class="form-check-input" type="radio" name="marketOption" id="inlineRadio2" th:value="'tob'">
+                                                Orderbook Slicer
+                                            </span>
+                                            </label>
+                                            <div class="info-box mt-2 text-center p-3 border rounded">
+                                                Quote from the top of any on-chain orderbook. Ideal for competitive DEX-native market making.
+                                            </div>
+                                        </div>
+                                        <!-- Pyth Frenzy -->
+                                        <div class="col-md-4">
+                                            <label class="form-check disabled text-center btn d-block btn-outline-secondary p-3 border rounded">
+                                                <i data-feather="sun" style="width: 36px; height: 36px;"></i><br>
+                                                <span class="d-inline-flex align-items-center">
+                                                <input class="form-check-input" type="radio" name="marketOption" id="inlineRadio3" disabled>
+                                                Pyth Frenzy
+                                            </span>
+                                            </label>
+                                            <div class="info-box mt-2 text-center p-3 border rounded">
+                                                Pyth Frenzy completes high-frequency trades with minimal spread.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="row">
+                                            <!-- Text Input 1 -->
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="inputAddress2">BPS</label>
+                                                <input type="number" class="form-control" required="required" id="inputAddress2" placeholder="Enter your Spread Size" th:field="*{bpsSpread}">
+                                            </div>
+                                            <!-- Text Input 2 -->
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="amountBid">Bid Size</label>
+                                                <input type="number" class="form-control" required="required" id="amountBid" placeholder="Enter your Bid Size" th:field="*{amountBid}">
+                                            </div>
+                                            <!-- Text Input 3 -->
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="amountAsk">Ask Size</label>
+                                                <input type="number" class="form-control" required="required" id="amountAsk" placeholder="Enter your Ask Size" th:field="*{amountAsk}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab4" id="bootstrap-wizard-validation-tab4">
                           <div class="row flex-center pb-8 pt-4 gx-3 gy-4">
                           <div class="col-12 col-sm-auto">
                               <div class="text-center text-sm-start">
