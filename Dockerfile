@@ -26,6 +26,6 @@ FROM ghcr.io/graalvm/jdk:22.3.2
 # Remote Debugging
 #ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,address=*:8000,server=y,suspend=n
 
-COPY --from=build /home/app/target/arcana-1.0-SNAPSHOT.jar /usr/local/lib/arcana.jar
+COPY --from=build /home/app/target/arcana-1.0.jar /usr/local/lib/arcana.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/arcana.jar"]
