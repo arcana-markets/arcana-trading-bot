@@ -30,7 +30,7 @@ arcanaJ is your own custom market-making software, and thus requires direct cont
 Users will need to input a wallet private key string in order to establish a connection with their local arcana interface.
 
 > **NOTE**: Your private key is sensitive information. Never share it with anyone, and ensure it's stored in a secure, offline environment.
-> > If you want to remove the wallet keys from your arcana device, you can clear the local storage cache in Account Settings.
+> > If you want to remove the wallet keys from your arcana session, you can clear the local storage cache in Account Settings.
 
 ### New User Reccomendation
 For new users looking to test arcanaJ, we recommend the following;
