@@ -141,7 +141,7 @@ public class ArcanaBackgroundCache {
                 SystemProgram.createAccount(
                         tradingAccount.getPublicKey(),
                         newOoa.getPublicKey(),
-                        103928L,
+                        1003928L,
                         3228,
                         new PublicKey("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
                 )
