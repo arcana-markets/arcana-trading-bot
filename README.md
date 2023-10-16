@@ -37,7 +37,6 @@ Accessible via app download or Docker, this off-chain solution ensures secure, l
 
 1. **Standard Market Making:** Utilize market making strategies to provide liquidity and earn the spread.
 2. **High Frequency Trading (HFT):** Engage in high frequency trading to exploit small price differences.
-3. **Arbitrage Strategies:** Take advantage of price discrepancies across different markets or times.
 4. **Strategy Selection:** Choose a pre-built trading strategy or customize your own.
 5. **Trade Execution:** Monitor and manage your trading bots in real-time.
 
