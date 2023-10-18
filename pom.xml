@@ -88,6 +88,11 @@
             <artifactId>json</artifactId>
             <version>20230618</version>
         </dependency>
+        <dependency>
+            <groupId>com.syntifi.near</groupId>
+            <artifactId>borshj</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
