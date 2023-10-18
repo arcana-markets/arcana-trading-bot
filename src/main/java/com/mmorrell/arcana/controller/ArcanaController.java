@@ -424,11 +424,11 @@ public class ArcanaController {
         );
     }
 
-    @RequestMapping("/generateOoa")
+    @RequestMapping("/generateOoa/{marketId}")
     @ResponseBody
-    public Map<String, String> generateOoa(Model model) {
+    public Map<String, String> generateOoa(Model model, @PathVariable("marketId") String marketId) {
         return Map.of("ooa", arcanaBackgroundCache.generateOoa(
-                botManager.getTradingAccount()
+                botManager.getTradingAccount(), new PublicKey(marketId)
         ).toBase58());
     }
 
