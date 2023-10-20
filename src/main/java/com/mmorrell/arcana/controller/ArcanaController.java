@@ -85,7 +85,7 @@ public class ArcanaController {
         model.addAttribute("botList", botManager.getBotList());
         try {
             double walletBalance = rpcClient.getApi().getBalance(botManager.getTradingAccount().getPublicKey());
-            model.addAttribute("walletBalance", walletBalance);
+            model.addAttribute("walletBalance", walletBalance / 1_000_000.0);
         } catch (RpcException e) {
             model.addAttribute("walletBalance", 0.0);
         }
