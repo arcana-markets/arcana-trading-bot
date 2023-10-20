@@ -83,6 +83,12 @@ public class ArcanaController {
     public String arcanaIndex(Model model) {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
         model.addAttribute("botList", botManager.getBotList());
+        try {
+            double walletBalance = rpcClient.getApi().getBalance(botManager.getTradingAccount().getPublicKey());
+            model.addAttribute("walletBalance", walletBalance);
+        } catch (RpcException e) {
+            model.addAttribute("walletBalance", 0.0);
+        }
         return "index";
     }
 
