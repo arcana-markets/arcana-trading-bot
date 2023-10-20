@@ -293,7 +293,7 @@
                         <div>
                           <h5>Wallet Balance<span class="badge badge-phoenix badge-phoenix-info rounded-pill fs--1 ms-2"><span class="badge-label">-6.8%</span></span></h5>
                         </div>
-                          <h2><span th:text="${#numbers.formatDecimal(walletBalance, 0, 'COMMA', 2, 'POINT')}"></span></h2>
+                          <h2><span th:text="${#numbers.formatDecimal(walletBalance, 0, 'COMMA', 2, 'POINT') + ' SOL'}"></span></h2>
                       </div>
                       <div class="d-flex justify-content-center px-4 ">
                       </div>
