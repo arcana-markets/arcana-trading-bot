@@ -120,6 +120,36 @@ public class ArcanaController {
             model.addAttribute("wbtcBalance", 0.0);
         }
 
+        // WETH Balance
+        try {
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                            Map.of("mint", "7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs"), Map.of());
+            if (!usdcBalance.getValue().isEmpty()) {
+                model.addAttribute("wethBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("wethBalance", 0.0);
+            }
+        } catch (RpcException e) {
+            model.addAttribute("wethBalance", 0.0);
+        }
+
+        // MNGO Balance
+        try {
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                            Map.of("mint", "MangoCzJ36AjZyKwVj3VnYU4GTonjfVEnJmvvWaxLac"), Map.of());
+            if (!usdcBalance.getValue().isEmpty()) {
+                model.addAttribute("mngoBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("mngoBalance", 0.0);
+            }
+        } catch (RpcException e) {
+            model.addAttribute("mngoBalance", 0.0);
+        }
+
         return "index";
     }
 

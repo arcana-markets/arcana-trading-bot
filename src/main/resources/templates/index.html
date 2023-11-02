@@ -343,12 +343,14 @@
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/ETH.png" alt="Ethereum" class="crypto-asset-image me-2">
                                       <span class="crypto-asset-name">Ethereum (ETH)</span>
-                                      <span class="crypto-asset-value ms-auto">1.45 ETH</span>
+                                      <span class="crypto-asset-value ms-auto"><span
+                                              th:text="${#numbers.formatDecimal(wethBalance, 0, 'COMMA', 2, 'POINT') + ' ETH'}"></span></span>
                                   </div>
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/MNGO.png" alt="Mango" class="crypto-asset-image me-2">
-                                      <span class="crypto-asset-name">Mango (MGNO)</span>
-                                      <span class="crypto-asset-value ms-auto">10345 MGNO</span>
+                                      <span class="crypto-asset-name">Mango (MNGO)</span>
+                                      <span class="crypto-asset-value ms-auto"><span
+                                              th:text="${#numbers.formatDecimal(mngoBalance, 0, 'COMMA', 2, 'POINT') + ' MNGO'}"></span></span>
                                   </div>
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/WUSDC.png" alt="USDC" class="crypto-asset-image me-2">
