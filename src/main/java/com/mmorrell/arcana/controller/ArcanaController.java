@@ -90,12 +90,17 @@ public class ArcanaController {
             model.addAttribute("walletBalance", 0.0);
         }
 
+        // USDC Balance
         try {
             TokenAccountInfo usdcBalance =
                     rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
                     Map.of("mint", MarketUtil.USDC_MINT.toBase58()), Map.of());
-            model.addAttribute("usdcBalance",
-                    usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            if (usdcBalance.getValue() != null) {
+                model.addAttribute("usdcBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("usdcBalance", 0.0);
+            }
         } catch (RpcException e) {
             model.addAttribute("usdcBalance", 0.0);
         }
