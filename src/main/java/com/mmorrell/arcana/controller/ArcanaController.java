@@ -104,6 +104,22 @@ public class ArcanaController {
         } catch (RpcException e) {
             model.addAttribute("usdcBalance", 0.0);
         }
+
+        // WBTC Balance
+        try {
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                            Map.of("mint", MarketUtil.WBTC_MINT.toBase58()), Map.of());
+            if (!usdcBalance.getValue().isEmpty()) {
+                model.addAttribute("wbtcBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("wbtcBalance", 0.0);
+            }
+        } catch (RpcException e) {
+            model.addAttribute("wbtcBalance", 0.0);
+        }
+
         return "index";
     }
 

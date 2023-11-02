@@ -332,12 +332,13 @@
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/SOL.png" alt="Solana" class="crypto-asset-image me-2">
                                       <span class="crypto-asset-name">Solana (SOL)</span>
-                                      <span class="crypto-asset-value ms-auto"><span th:text="${#numbers.formatDecimal(walletBalance, 0, 'COMMA', 2, 'POINT') + ' SOL'}"></span> SOL</span>
+                                      <span class="crypto-asset-value ms-auto"><span th:text="${#numbers.formatDecimal(walletBalance, 0, 'COMMA', 2, 'POINT') + ' SOL'}"></span></span>
                                   </div>
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/WBTC.png" alt="Bitcoin" class="crypto-asset-image me-2">
                                       <span class="crypto-asset-name">Wrapped Bitcoin (WBTC)</span>
-                                      <span class="crypto-asset-value ms-auto">0.023 BTC</span>
+                                      <span class="crypto-asset-value ms-auto"><span
+                                              th:text="${#numbers.formatDecimal(wbtcBalance, 0, 'COMMA', 2, 'POINT') + ' BTC'}"></span></span>
                                   </div>
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/ETH.png" alt="Ethereum" class="crypto-asset-image me-2">
