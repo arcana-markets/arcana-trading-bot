@@ -332,7 +332,7 @@
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/SOL.png" alt="Solana" class="crypto-asset-image me-2">
                                       <span class="crypto-asset-name">Solana (SOL)</span>
-                                      <span class="crypto-asset-value ms-auto">22 SOL</span>
+                                      <span class="crypto-asset-value ms-auto"><span th:text="${#numbers.formatDecimal(walletBalance, 0, 'COMMA', 2, 'POINT') + ' SOL'}"></span> SOL</span>
                                   </div>
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/WBTC.png" alt="Bitcoin" class="crypto-asset-image me-2">
@@ -352,7 +352,8 @@
                                   <div class="crypto-asset-item d-flex align-items-center mb-2">
                                       <img src="/static/img/token-icons/WUSDC.png" alt="USDC" class="crypto-asset-image me-2">
                                       <span class="crypto-asset-name">USDC (USDC)</span>
-                                      <span class="crypto-asset-value ms-auto">1245 USDC</span>
+                                      <span class="crypto-asset-value ms-auto"><span
+                                              th:text="${#numbers.formatDecimal(usdcBalance, 0, 'COMMA', 2, 'POINT') + ' USDC'}"></span></span>
                                   </div>
                               </div>
                           </div>

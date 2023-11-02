@@ -1,3 +1,4 @@
+import com.mmorrell.arcana.util.MarketUtil;
 import com.mmorrell.serum.model.OpenOrdersAccount;
 import com.mmorrell.serum.model.SerumUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -43,5 +44,17 @@ public class ArcanaTests {
                 "mikefsWLEcNYHgsiwSRr6PVd7yVcoKeaURQqeDE1tXN"), requiredParams, new HashMap<>());
 
         log.info(tokenAccount.toString());
+    }
+
+    @Test
+    public void balanceTest() throws RpcException {
+        TokenAccountInfo usdcBalance =
+                rpcClient.getApi().getTokenAccountsByOwner(PublicKey.valueOf(
+                                "mikefsWLEcNYHgsiwSRr6PVd7yVcoKeaURQqeDE1tXN"),
+                        Map.of("mint", MarketUtil.USDC_MINT.toBase58()), Map.of());
+        log.info(usdcBalance.toString());
+
+        String uiAmount = usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString();
+        log.info("USDC Balance: {}", uiAmount);
     }
 }

@@ -86,8 +86,15 @@ public class ArcanaController {
         try {
             double walletBalance = rpcClient.getApi().getBalance(botManager.getTradingAccount().getPublicKey());
             model.addAttribute("walletBalance", walletBalance / 1_000_000_000.0);
+
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                            Map.of(), Map.of());
+            model.addAttribute("usdcBalance",
+                    usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
         } catch (RpcException e) {
             model.addAttribute("walletBalance", 0.0);
+            model.addAttribute("usdcBalance", 0.0);
         }
         return "index";
     }
