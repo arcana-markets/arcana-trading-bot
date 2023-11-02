@@ -95,7 +95,7 @@ public class ArcanaController {
             TokenAccountInfo usdcBalance =
                     rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
                     Map.of("mint", MarketUtil.USDC_MINT.toBase58()), Map.of());
-            if (usdcBalance.getValue() != null) {
+            if (!usdcBalance.getValue().isEmpty()) {
                 model.addAttribute("usdcBalance",
                         usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
             } else {
