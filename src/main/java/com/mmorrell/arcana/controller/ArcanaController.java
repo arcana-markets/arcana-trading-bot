@@ -269,7 +269,7 @@ public class ArcanaController {
     public String arcanaBotAdd(@ModelAttribute("newBot") OpenBookBot newBot) {
         // Adds new strategy to list.
         OpenBookSplUsdc openBookSplUsdc = new OpenBookSplUsdc(
-                serumManager,
+                new SerumManager(rpcClient),
                 rpcClient,
                 newBot.getMarketId(),
                 jupiterPricingSource,

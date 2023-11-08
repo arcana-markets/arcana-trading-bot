@@ -88,7 +88,7 @@ public class ArcanaBackgroundCache {
         Transaction newTx = new Transaction();
         newTx.addInstruction(
                 ComputeBudgetProgram.setComputeUnitPrice(
-                        1337_500_000
+                        500_000
                 )
         );
         newTx.addInstruction(
@@ -118,6 +118,7 @@ public class ArcanaBackgroundCache {
             String txId = rpcClient.getApi().sendTransaction(newTx, List.of(tradingAccount, sessionWsolAccount), null);
             log.info("Wrap SOL: " + txId + ", " + solAmount);
         } catch (RpcException e) {
+            log.error(e.getMessage());
             return PublicKey.valueOf("");
         }
 
