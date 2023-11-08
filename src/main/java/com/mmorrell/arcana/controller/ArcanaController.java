@@ -190,6 +190,7 @@ public class ArcanaController {
         if (rpc != null && rpc.length() > 10) {
             // set RPC host
             rpcClient = new RpcClient(rpc);
+            marketCache.setRpcClient(rpcClient);
             log.info("New RPC Host: " + rpc);
         }
 
