@@ -61,7 +61,7 @@ public class ArcanaController {
     private final ArcanaBackgroundCache arcanaBackgroundCache;
     private final MarketCache marketCache;
     private final TokenManager tokenManager;
-    private final OrderBookCacheManager orderBookCacheManager;
+    private OrderBookCacheManager orderBookCacheManager;
     private final ArcanaAccountManager arcanaAccountManager;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
@@ -191,6 +191,7 @@ public class ArcanaController {
             // set RPC host
             rpcClient = new RpcClient(rpc);
             marketCache.setRpcClient(rpcClient);
+            orderBookCacheManager = new OrderBookCacheManager(rpcClient);
             log.info("New RPC Host: " + rpc);
         }
 
