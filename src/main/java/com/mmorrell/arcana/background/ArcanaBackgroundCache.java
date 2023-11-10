@@ -28,6 +28,7 @@ import java.util.Optional;
 public class ArcanaBackgroundCache {
 
     private RpcClient rpcClient;
+
     public ArcanaBackgroundCache(RpcClient rpcClient) {
         this.rpcClient = rpcClient;
         this.cachedMarkets = new ArrayList<>();
@@ -130,7 +131,7 @@ public class ArcanaBackgroundCache {
         Transaction tx = new Transaction();
         tx.addInstruction(
                 ComputeBudgetProgram.setComputeUnitPrice(
-                        1511_500_000
+                        500_000
                 )
         );
         tx.addInstruction(
@@ -147,11 +148,13 @@ public class ArcanaBackgroundCache {
                         new PublicKey("srmqPvymJeFKQ4zGQed1GFppgkRHL9kaELCbyksJtPX")
                 )
         );
-//        tx.addInstruction(OpenBookProgramUtils.initOpenOrders(
-//                newOoa.getPublicKey(),
-//                tradingAccount.getPublicKey(),
-//                marketId
-//        ));
+        tx.addInstruction(
+                SerumProgram.initOpenOrders(
+                        newOoa.getPublicKey(),
+                        tradingAccount.getPublicKey(),
+                        marketId
+                )
+        );
 
         try {
             String txId = rpcClient.getApi().sendTransaction(tx, List.of(tradingAccount, newOoa), null);
