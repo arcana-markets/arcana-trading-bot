@@ -65,20 +65,15 @@ public class ArcanaTrayIcon extends TrayIcon implements ApplicationContextAware 
 
     protected static Image createImage(String path, String description) {
 
-        URL imageURL = ArcanaTrayIcon.class.getResource(path);
+        URL imageURL = Resources.getResource("static/img/brand/man-mage.png");
         byte[] imageData = new byte[0];
         try {
             imageData = Resources.toByteArray(Resources.getResource("static/img/brand/man-mage.png"));
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-        if (imageURL == null) {
-            log.error("Failed Creating Image. Resource not found: " + path);
-            return null;
-        } else {
             log.info("Loaded image: " + path);
-            return new ImageIcon(imageData, description).getImage();
+        } catch (IOException e) {
+            log.error("Failed creating tray image: " + e.getMessage());
         }
+        return new ImageIcon(imageData, description).getImage();
     }
 
     @Override
