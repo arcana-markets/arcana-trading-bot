@@ -29,9 +29,8 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-public class ArcanaTrayIcon extends TrayIcon implements ApplicationContextAware {
+public class ArcanaTrayIcon extends TrayIcon {
 
-    private ApplicationContext context;
     private static final String IMAGE_PATH = "static/img/brand/small-mage.png";
     private static final String TOOLTIP = "Arcana: Running";
     private PopupMenu popup;
@@ -44,16 +43,9 @@ public class ArcanaTrayIcon extends TrayIcon implements ApplicationContextAware 
         try {
             setup();
         } catch (AWTException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.warn("Failed to create Tray Icon: " + e.getMessage());
         }
     }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.context = applicationContext;
-    }
-
 
     @PostConstruct
     private void setup() throws AWTException {
