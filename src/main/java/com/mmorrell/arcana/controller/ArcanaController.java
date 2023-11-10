@@ -61,7 +61,7 @@ public class ArcanaController {
     private final ArcanaBackgroundCache arcanaBackgroundCache;
     private final MarketCache marketCache;
     private final TokenManager tokenManager;
-    private final OrderBookCacheManager orderBookCacheManager;
+    private OrderBookCacheManager orderBookCacheManager;
     private final ArcanaAccountManager arcanaAccountManager;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
@@ -83,6 +83,73 @@ public class ArcanaController {
     public String arcanaIndex(Model model) {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
         model.addAttribute("botList", botManager.getBotList());
+        try {
+            double walletBalance = rpcClient.getApi().getBalance(botManager.getTradingAccount().getPublicKey());
+            model.addAttribute("walletBalance", walletBalance / 1_000_000_000.0);
+        } catch (RpcException e) {
+            model.addAttribute("walletBalance", 0.0);
+        }
+
+        // USDC Balance
+        try {
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                    Map.of("mint", MarketUtil.USDC_MINT.toBase58()), Map.of());
+            if (!usdcBalance.getValue().isEmpty()) {
+                model.addAttribute("usdcBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("usdcBalance", 0.0);
+            }
+        } catch (RpcException e) {
+            model.addAttribute("usdcBalance", 0.0);
+        }
+
+        // WBTC Balance
+        try {
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                            Map.of("mint", MarketUtil.WBTC_MINT.toBase58()), Map.of());
+            if (!usdcBalance.getValue().isEmpty()) {
+                model.addAttribute("wbtcBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("wbtcBalance", 0.0);
+            }
+        } catch (RpcException e) {
+            model.addAttribute("wbtcBalance", 0.0);
+        }
+
+        // WETH Balance
+        try {
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                            Map.of("mint", "7vfCXTUXx5WJV5JADk17DUJ4ksgau7utNKj4b963voxs"), Map.of());
+            if (!usdcBalance.getValue().isEmpty()) {
+                model.addAttribute("wethBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("wethBalance", 0.0);
+            }
+        } catch (RpcException e) {
+            model.addAttribute("wethBalance", 0.0);
+        }
+
+        // MNGO Balance
+        try {
+            TokenAccountInfo usdcBalance =
+                    rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
+                            Map.of("mint", "MangoCzJ36AjZyKwVj3VnYU4GTonjfVEnJmvvWaxLac"), Map.of());
+            if (!usdcBalance.getValue().isEmpty()) {
+                model.addAttribute("mngoBalance",
+                        usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
+            } else {
+                model.addAttribute("mngoBalance", 0.0);
+            }
+        } catch (RpcException e) {
+            model.addAttribute("mngoBalance", 0.0);
+        }
+
         return "index";
     }
 
@@ -123,6 +190,8 @@ public class ArcanaController {
         if (rpc != null && rpc.length() > 10) {
             // set RPC host
             rpcClient = new RpcClient(rpc);
+            marketCache.setRpcClient(rpcClient);
+            orderBookCacheManager = new OrderBookCacheManager(rpcClient);
             log.info("New RPC Host: " + rpc);
         }
 
@@ -202,7 +271,7 @@ public class ArcanaController {
     public String arcanaBotAdd(@ModelAttribute("newBot") OpenBookBot newBot) {
         // Adds new strategy to list.
         OpenBookSplUsdc openBookSplUsdc = new OpenBookSplUsdc(
-                serumManager,
+                new SerumManager(rpcClient),
                 rpcClient,
                 newBot.getMarketId(),
                 jupiterPricingSource,

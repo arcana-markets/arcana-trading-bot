@@ -1,5 +1,8 @@
 FROM maven:3.8.6-eclipse-temurin-17 AS build
 
+# Tray Icon
+# apt-get install libxrender1:i386 libxtst6:i386 libxi6:i386
+
 # Yourkit
 #RUN apt-get update \
 #    && apt-get install unzip -y \

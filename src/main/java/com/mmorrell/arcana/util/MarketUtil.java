@@ -14,6 +14,8 @@ public class MarketUtil {
             PublicKey.valueOf("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
     public static final PublicKey USDT_MINT =
             PublicKey.valueOf("Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB");
+    public static final PublicKey WBTC_MINT =
+            PublicKey.valueOf("3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh");
 
     public static List<OpenBookOrder> convertOrderBookToSerumOrders(OrderBook orderBook, boolean isBid) {
         return orderBook.getOrders().stream()

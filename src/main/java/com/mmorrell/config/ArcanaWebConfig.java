@@ -28,7 +28,7 @@ public class ArcanaWebConfig implements WebMvcConfigurer {
 
     @Bean
     public RpcClient rpcClient() {
-        return new RpcClient(Cluster.BLOCKDAEMON.getEndpoint(), 60);
+        return new RpcClient("https://mainnet.helius-rpc.com/?api-key=a778b653-bdd6-41bc-8cda-0c7377faf1dd", 60);
     }
 
     @Bean

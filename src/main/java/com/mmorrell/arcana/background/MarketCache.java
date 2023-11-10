@@ -16,10 +16,14 @@ import java.util.Optional;
 @Slf4j
 public class MarketCache {
 
-    private final RpcClient rpcClient;
+    private RpcClient rpcClient;
     private final Map<PublicKey, Market> marketCache = new HashMap<>();
 
     public MarketCache(RpcClient rpcClient) {
+        this.rpcClient = rpcClient;
+    }
+
+    public void setRpcClient(RpcClient rpcClient) {
         this.rpcClient = rpcClient;
     }
 
