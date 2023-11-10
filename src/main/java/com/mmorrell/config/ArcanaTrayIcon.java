@@ -50,19 +50,16 @@ public class ArcanaTrayIcon extends TrayIcon {
     @PostConstruct
     private void setup() throws AWTException {
         // Create a pop-up menu components
-        MenuItem exitItem = new MenuItem("Exit");
+        MenuItem exitItem = new MenuItem("Exit Arcana");
         popup.add(exitItem);
-        exitItem.addActionListener(e -> {
-            final int exitCode = 0;
-            ExitCodeGenerator exitCodeGenerator = () -> exitCode;
+        exitItem.addActionListener(event -> {
+            ExitCodeGenerator exitCodeGenerator = () -> 0;
             tray.remove(ArcanaTrayIcon.this);
             SpringApplication.exit(ArcanaApplication.context, exitCodeGenerator);
         });
         // popup.addSeparator();
         setPopupMenu(popup);
         tray.add(this);
-
-
     }
 
     protected static Image createImage(String path, String description) {
