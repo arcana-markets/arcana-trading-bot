@@ -7,6 +7,7 @@ import com.mmorrell.serum.model.MarketBuilder;
 import com.mmorrell.serum.model.Order;
 import com.mmorrell.serum.model.OrderTypeLayout;
 import com.mmorrell.serum.model.SelfTradeBehaviorLayout;
+import com.mmorrell.serum.model.SerumUtils;
 import com.mmorrell.serum.program.SerumProgram;
 import com.mmorrell.arcana.strategies.Strategy;
 import lombok.Getter;
@@ -17,9 +18,16 @@ import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.core.Transaction;
 import org.p2p.solanaj.programs.ComputeBudgetProgram;
 import org.p2p.solanaj.programs.MemoProgram;
+import org.p2p.solanaj.programs.SystemProgram;
+import org.p2p.solanaj.programs.TokenProgram;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
+import org.p2p.solanaj.rpc.types.config.Commitment;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -66,6 +74,7 @@ public class OpenBookSplUsdc extends Strategy {
     private static long ASK_CLIENT_ID;
 
     private static final float SOL_QUOTE_SIZE = 0.1f;
+    public static final int PRIORITY_UNITS = 54_800; // Limit
 
     @Setter
     private float baseAskAmount = SOL_QUOTE_SIZE;
@@ -351,7 +360,150 @@ public class OpenBookSplUsdc extends Strategy {
 
     @Override
     public void stop() {
+        // CXL open orders
+        log.info("Stopping bot on market {} and settling orders...", solUsdcMarket.getOwnAddress().toBase58());
         executorService.shutdown();
-        log.info("Bot stopped.");
+        hardCancelAndSettle();
+        log.info("Bot stopped on market {}.", solUsdcMarket.getOwnAddress().toBase58());
+    }
+
+    public void hardCancelAndSettle() {
+        Account account = mmAccount;
+        Account sessionWsolAccount = new Account();
+        Transaction newTx = new Transaction();
+        newTx.addInstruction(
+                ComputeBudgetProgram.setComputeUnitPrice(
+                        690_000
+                )
+        );
+
+        newTx.addInstruction(
+                ComputeBudgetProgram.setComputeUnitLimit(
+                        PRIORITY_UNITS * 4
+                )
+        );
+
+        // Create WSOL account for session. 0.5 to start
+        newTx.addInstruction(
+                SystemProgram.createAccount(
+                        account.getPublicKey(),
+                        sessionWsolAccount.getPublicKey(),
+                        (long) (0.03 * 1000000000.0) + 2039280, //.05 SOL
+                        165,
+                        TokenProgram.PROGRAM_ID
+                )
+        );
+
+        newTx.addInstruction(
+                TokenProgram.initializeAccount(
+                        sessionWsolAccount.getPublicKey(),
+                        SerumUtils.WRAPPED_SOL_MINT,
+                        account.getPublicKey()
+                )
+        );
+
+        newTx.addInstruction(
+                SerumProgram.cancelOrderByClientId(
+                        solUsdcMarket,
+                        marketOoa,
+                        account.getPublicKey(),
+                        ASK_CLIENT_ID
+                )
+        );
+
+        newTx.addInstruction(
+                SerumProgram.settleFunds(
+                        solUsdcMarket,
+                        marketOoa,
+                        account.getPublicKey(),
+                        sessionWsolAccount.getPublicKey(),
+                        usdcWallet
+                )
+        );
+
+        newTx.addInstruction(TokenProgram.closeAccount(
+                sessionWsolAccount.getPublicKey(),
+                account.getPublicKey(),
+                account.getPublicKey()
+        ));
+
+        try {
+            log.info("ASK cxl = " + rpcClient.getApi().sendTransaction(newTx, List.of(account,
+                            sessionWsolAccount),
+                    rpcClient.getApi().getRecentBlockhash(Commitment.PROCESSED)));
+            log.info("Settled asks on market {}", solUsdcMarket.getOwnAddress().toBase58());
+        } catch (RpcException e) {
+            log.error(e.getMessage());
+        }
+
+        ////////////////////////////// BID
+
+        Account sessionWsolAccount2 = new Account();
+        Transaction newTx2 = new Transaction();
+        newTx2.addInstruction(
+                ComputeBudgetProgram.setComputeUnitPrice(
+                        890_000
+                )
+        );
+
+        newTx2.addInstruction(
+                ComputeBudgetProgram.setComputeUnitLimit(
+                        PRIORITY_UNITS
+                )
+        );
+
+        // Create WSOL account for session. 0.5 to start
+        newTx2.addInstruction(
+                SystemProgram.createAccount(
+                        account.getPublicKey(),
+                        sessionWsolAccount2.getPublicKey(),
+                        (long) (0.03 * 1000000000.0) + 2039280, //.05 SOL
+                        165,
+                        TokenProgram.PROGRAM_ID
+                )
+        );
+
+        newTx2.addInstruction(
+                TokenProgram.initializeAccount(
+                        sessionWsolAccount2.getPublicKey(),
+                        SerumUtils.WRAPPED_SOL_MINT,
+                        account.getPublicKey()
+                )
+        );
+
+
+        newTx2.addInstruction(
+                SerumProgram.cancelOrderByClientId(
+                        solUsdcMarket,
+                        marketOoa,
+                        account.getPublicKey(),
+                        BID_CLIENT_ID
+                )
+        );
+
+        newTx2.addInstruction(
+                SerumProgram.settleFunds(
+                        solUsdcMarket,
+                        marketOoa,
+                        account.getPublicKey(),
+                        sessionWsolAccount2.getPublicKey(), //random wsol acct for settles
+                        usdcWallet
+                )
+        );
+
+        newTx2.addInstruction(TokenProgram.closeAccount(
+                sessionWsolAccount2.getPublicKey(),
+                account.getPublicKey(),
+                account.getPublicKey()
+        ));
+
+        try {
+            log.info("BID cxl = " + rpcClient.getApi().sendTransaction(newTx2, List.of(account,
+                            sessionWsolAccount2),
+                    rpcClient.getApi().getRecentBlockhash(Commitment.PROCESSED)));
+            log.info("Settled bids on market {}", solUsdcMarket.getOwnAddress().toBase58());
+        } catch (RpcException e) {
+            log.error(e.getMessage());
+        }
     }
 }
