@@ -375,7 +375,9 @@
                 </div>
                 <div class="row">
                     <div class="col-12 mb-2 ">
-                        <span class="badge badge-phoenix fs--1 badge-phoenix-secondary" th:text="${tradingAccountPubkey}"></span><br>
+                        <span class="badge badge-phoenix fs--1 badge-phoenix-secondary"
+                              style="text-transform:none !important; ;"
+                              th:text="${tradingAccountPubkey}"></span><br>
                     </div>
                 </div>
                 <div class="row">
@@ -386,7 +388,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 mb-2"></div>
-                    <ul id="tradingAccounts" style="list-style-type: none; padding-left: 4;">
+                    <ul id="tradingAccounts" style="list-style-type: none; padding-left: 4px;">
                     </ul>
                     <script>
                         // HTTP Get to load all accounts we have on the backend (show their public key)
