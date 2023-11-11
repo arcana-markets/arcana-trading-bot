@@ -277,7 +277,29 @@ public class ArcanaController {
                 jupiterPricingSource,
                 newBot.getPriceStrategy()
         );
-        openBookSplUsdc.setMarketOoa(newBot.getOoa());
+
+        // Check for OOA. If it doesn't exist, create it.
+        final OpenOrdersAccount openOrdersAccount = SerumUtils.findOpenOrdersAccountForOwner(
+                rpcClient,
+                newBot.getMarketId(),
+                botManager.getTradingAccount().getPublicKey()
+        );
+
+        if (openOrdersAccount != null) {
+            log.info("Using OOA for bot: " + openOrdersAccount.getOwnPubkey().toBase58());
+            openBookSplUsdc.setMarketOoa(openOrdersAccount.getOwnPubkey());
+        } else {
+            // Create OOA
+            log.info("Creating OOA for bot market: " + newBot.getMarketId().toBase58());
+            PublicKey newOoa = arcanaBackgroundCache.generateOoa(
+                    botManager.getTradingAccount(),
+                    newBot.getMarketId()
+            );
+            log.info("Using OOA for bot: " + newOoa.toBase58());
+            openBookSplUsdc.setMarketOoa(newOoa);
+        }
+
+        newBot.setOoa(openBookSplUsdc.getMarketOoa());
         openBookSplUsdc.setBaseWallet(newBot.getBaseWallet());
         openBookSplUsdc.setUsdcWallet(newBot.getQuoteWallet());
         openBookSplUsdc.setMmAccount(botManager.getTradingAccount());

@@ -519,16 +519,6 @@
                                                     <button class="btn btn-lg btn-secondary" id="wrapSol" onclick="wrapSolana();">Wrap SOL</button>
                                                 </div>
                                             </div>
-                                            <!-- Generate OOA Button -->
-                                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                                <label class="form-label d-block" for="generateOoa">(Costs 0.0026 SOL)</label>
-                                                <input
-                                                        class="btn btn-lg btn-secondary d-block"
-                                                        type="button"
-                                                        id="generateOoa"
-                                                        value="Generate OOA"
-                                                        onclick="generateOoaAction();" />
-                                            </div>
                                             <!-- Fetch Accounts Button -->
                                             <div class="col-lg-3 col-md-6 col-sm-12">
                                                 <label class="form-label d-block" for="autoFillButton">Accounts</label>
@@ -556,12 +546,6 @@
                                   </div>
                               </div>
                               <div class="row g-3 mb-3">
-                                  <div class="col-md-6">
-                                          <label class="form-label text-900">Open Orders Account</label>
-                                          <input class="form-control" type="text" id="openOrdersAccount"
-                                                 placeholder="Open Orders Account"
-                                                 required="required" th:field="*{ooa}"/>
-                                  </div>
                                   <div class="col-md-6">
                                           <label class="form-label text-900">USDC Account</label>
                                           <input id="quoteWallet" class="form-control" type="text"
