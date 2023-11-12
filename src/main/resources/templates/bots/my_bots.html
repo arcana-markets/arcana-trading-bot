@@ -196,7 +196,7 @@
             </li>
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar avatar-l ">
-                  <img class="rounded-circle " src="/static/img/team/Profiles/profile-pic.png" alt="" />
+                  <img class="rounded-circle " src="/static/img/team/avatar-rounded.webp" alt="" />
 
                 </div>
               </a>
@@ -205,10 +205,10 @@
                   <div class="card-body p-0">
                     <div class="text-center pt-4 pb-3">
                       <div class="avatar avatar-xl ">
-                        <img class="rounded-circle " src="/static/img/team/Profiles/profile-pic.png" alt="" />
+                        <img class="rounded-circle " src="/static/img/team/avatar-rounded.webp" alt="" />
 
                       </div>
-                      <h6 class="mt-2 text-black">kiz</h6>
+                      <h6 class="mt-2 text-black">New User</h6>
                     </div>
                   </div>
                   <div class="overflow-auto scrollbar" style="height: 10rem;">
@@ -260,9 +260,9 @@
                                 <!-- market --><td th:text="${bot.getMarketId().toBase58().substring(0, 8)}" class="color align-middle white-space-nowrap fs--1 text-900">
                                 <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label"></span></span></td>
                                 <!-- volume --><td class="size align-middle white-space-nowrap text-700 fs--1 fw-semi-bold">
-                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label">$1820</span></span></td>
+                                <span class="badge badge-phoenix badge-phoenix-secondary rounded-pill fs--1 ms-2"><span class="badge-label">N/A</span></span></td>
                                 <!-- pnl --><td class="price align-middle text-900 fs--1 fw-semi-bold text-end"><span class="badge badge-phoenix badge-phoenix-warning rounded-pill fs--1 ms-2">
-                                <span class="badge-label">-$57</span></span></td>
+                                <span class="badge-label">N/A</span></span></td>
                                 <!-- stop btn --><td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                 <a th:href="${#strings.concat('/bots/view/', count.index + 1)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-search"></span></a>
                                 <a th:href="${#strings.concat('/bots/stop/', botId)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></a></td>
