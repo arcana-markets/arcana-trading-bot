@@ -2,7 +2,10 @@ package com.mmorrell.arcana.strategies.phoenix;
 
 import com.mmorrell.arcana.pricing.JupiterPricingSource;
 import com.mmorrell.arcana.strategies.Strategy;
+import com.mmorrell.phoenix.model.LimitOrderPacketRecord;
 import com.mmorrell.phoenix.model.PhoenixMarket;
+import com.mmorrell.phoenix.program.PhoenixProgram;
+import com.mmorrell.phoenix.program.PhoenixSeatManagerProgram;
 import com.mmorrell.serum.manager.SerumManager;
 import com.mmorrell.serum.model.MarketBuilder;
 import com.mmorrell.serum.model.Order;
@@ -24,6 +27,7 @@ import org.p2p.solanaj.rpc.RpcException;
 import org.p2p.solanaj.rpc.types.config.Commitment;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -122,9 +126,101 @@ public class PhoenixSplUsdc extends Strategy {
                                 this.bestAskPrice = price.get();
                             }
                         } else {
-                            this.bestBidPrice = market.getBestBid().getFirst().getPriceInTicks();
-                            this.bestAskPrice = market.getBestAsk().getFirst().getPriceInTicks();
+                            this.bestBidPrice =
+                                    (double) market.getBestBid().getFirst().getPriceInTicks() / market.getBaseLotsPerBaseUnit();
+                            this.bestAskPrice =
+                                    (double) market.getBestAsk().getFirst().getPriceInTicks() / market.getBaseLotsPerBaseUnit();
                         }
+
+                        log.info("Best bid: {}, Best Ask: {}", bestBidPrice, bestAskPrice);
+
+                        // Main loop
+                        LimitOrderPacketRecord limitOrderPacketRecord = LimitOrderPacketRecord.builder()
+                                .clientOrderId(new byte[]{})
+                                .matchLimit(0)
+                                .numBaseLots(18L)
+                                .priceInTicks((long) (market.getBestBid().getFirst().getPriceInTicks() * .9995))
+                                .selfTradeBehavior((byte) 1)
+                                .side((byte) 0)
+                                .useOnlyDepositedFunds(false)
+                                .build();
+
+                        LimitOrderPacketRecord limitOrderPacketRecordAsk = LimitOrderPacketRecord.builder()
+                                .clientOrderId(new byte[]{})
+                                .matchLimit(0)
+                                .numBaseLots(18L)
+                                .priceInTicks((long) (market.getBestAsk().getFirst().getPriceInTicks() * 1.0005))
+                                .selfTradeBehavior((byte) 1)
+                                .side((byte) 1)
+                                .useOnlyDepositedFunds(false)
+                                .build();
+
+//                        Transaction limitOrderTx = new Transaction();
+//                        limitOrderTx.addInstruction(
+//                                ComputeBudgetProgram.setComputeUnitPrice(
+//                                        123
+//                                )
+//                        );
+//
+//                        limitOrderTx.addInstruction(
+//                                ComputeBudgetProgram.setComputeUnitLimit(
+//                                        130_000
+//                                )
+//                        );
+//                        limitOrderTx.addInstruction(
+//                                PhoenixSeatManagerProgram.claimSeat(
+//                                        marketId,
+//                                        SOL_USDC_SEAT_MANAGER,
+//                                        SOL_USDC_SEAT_DEPOSIT_COLLECTOR,
+//                                        tradingAccount.getPublicKey(),
+//                                        tradingAccount.getPublicKey()
+//                                )
+//                        );
+//
+//                        limitOrderTx.addInstruction(
+//                                PhoenixProgram.cancelAllOrders(
+//                                        SOL_USDC_MARKET,
+//                                        tradingAccount.getPublicKey(),
+//                                        new PublicKey("Avs5RSYyecvLnt9iFYNQX5EMUun3egh3UNPw8P6ULbNS"),
+//                                        new PublicKey("A6Jcj1XV6QqDpdimmL7jm1gQtSP62j8BWbyqkdhe4eLe"),
+//                                        market.getPhoenixMarketHeader().getBaseVaultKey(),
+//                                        market.getPhoenixMarketHeader().getQuoteVaultKey()
+//                                )
+//                        );
+//
+//                        limitOrderTx.addInstruction(
+//                                PhoenixProgram.placeLimitOrder(
+//                                        SOL_USDC_MARKET,
+//                                        tradingAccount.getPublicKey(),
+//                                        seatPda,
+//                                        new PublicKey("Avs5RSYyecvLnt9iFYNQX5EMUun3egh3UNPw8P6ULbNS"),
+//                                        new PublicKey("A6Jcj1XV6QqDpdimmL7jm1gQtSP62j8BWbyqkdhe4eLe"),
+//                                        market.getPhoenixMarketHeader().getBaseVaultKey(),
+//                                        market.getPhoenixMarketHeader().getQuoteVaultKey(),
+//                                        limitOrderPacketRecord
+//                                )
+//                        );
+//
+//                        limitOrderTx.addInstruction(
+//                                PhoenixProgram.placeLimitOrder(
+//                                        SOL_USDC_MARKET,
+//                                        tradingAccount.getPublicKey(),
+//                                        seatPda,
+//                                        new PublicKey("Avs5RSYyecvLnt9iFYNQX5EMUun3egh3UNPw8P6ULbNS"),
+//                                        new PublicKey("A6Jcj1XV6QqDpdimmL7jm1gQtSP62j8BWbyqkdhe4eLe"),
+//                                        market.getPhoenixMarketHeader().getBaseVaultKey(),
+//                                        market.getPhoenixMarketHeader().getQuoteVaultKey(),
+//                                        limitOrderPacketRecordAsk
+//                                )
+//                        );
+//
+//                        String placeLimitOrderTx = client.getApi().sendTransaction(
+//                                limitOrderTx,
+//                                List.of(tradingAccount),
+//                                client.getApi().getRecentBlockhash(Commitment.PROCESSED)
+//                        );
+//                        log.info("Limit order in transaction: {}, {}",  limitOrderPacketRecord, placeLimitOrderTx);
+
 
                         if (!firstLoadComplete) {
                             try {
@@ -147,308 +243,11 @@ public class PhoenixSplUsdc extends Strategy {
         );
     }
 
-    private void placeSolAsk(float solAmount, float price, boolean cancel) {
-        final Transaction placeTx = new Transaction();
-
-        placeTx.addInstruction(
-                ComputeBudgetProgram.setComputeUnitPrice(
-                        151_420
-                )
-        );
-
-        placeTx.addInstruction(
-                ComputeBudgetProgram.setComputeUnitLimit(
-                        54_800
-                )
-        );
-
-        placeTx.addInstruction(
-                SerumProgram.consumeEvents(
-                        mmAccount.getPublicKey(),
-                        List.of(marketOoa),
-                        market,
-                        baseWallet,
-                        usdcWallet
-                )
-        );
-
-        Order askOrder = Order.builder()
-                .buy(false)
-                .clientOrderId(ASK_CLIENT_ID)
-                .orderTypeLayout(OrderTypeLayout.POST_ONLY)
-                .selfTradeBehaviorLayout(SelfTradeBehaviorLayout.DECREMENT_TAKE)
-                .floatPrice(price)
-                .floatQuantity(solAmount)
-                .build();
-
-        serumManager.setOrderPrices(askOrder, market);
-
-        if (cancel) {
-            placeTx.addInstruction(
-                    SerumProgram.cancelOrderByClientId(
-                            market,
-                            marketOoa,
-                            mmAccount.getPublicKey(),
-                            ASK_CLIENT_ID
-                    )
-            );
-        }
-
-
-        // Settle - base wallet gets created first then closed after
-        placeTx.addInstruction(
-                SerumProgram.settleFunds(
-                        market,
-                        marketOoa,
-                        mmAccount.getPublicKey(),
-                        baseWallet, //random wsol acct for settles
-                        usdcWallet
-                )
-        );
-
-        placeTx.addInstruction(
-                SerumProgram.placeOrder(
-                        mmAccount,
-                        baseWallet,
-                        marketOoa,
-                        market,
-                        askOrder
-                )
-        );
-
-        try {
-            String orderTx = rpcClient.getApi().sendTransaction(placeTx, mmAccount);
-            log.info("Base Ask: " + askOrder.getFloatQuantity() + " @ " + askOrder.getFloatPrice() + ", " + orderTx);
-            lastAskOrder = askOrder;
-        } catch (RpcException e) {
-            log.error("OrderTx Error = " + e.getMessage());
-        }
-    }
-
-    private void placeUsdcBid(float amount, float price, boolean cancel) {
-        final Transaction placeTx = new Transaction();
-
-        placeTx.addInstruction(
-                ComputeBudgetProgram.setComputeUnitPrice(
-                        151_420
-                )
-        );
-
-        placeTx.addInstruction(
-                ComputeBudgetProgram.setComputeUnitLimit(
-                        54_800
-                )
-        );
-
-        placeTx.addInstruction(
-                SerumProgram.consumeEvents(
-                        mmAccount.getPublicKey(),
-                        List.of(marketOoa),
-                        market,
-                        baseWallet,
-                        usdcWallet
-                )
-        );
-
-        Order bidOrder = Order.builder()
-                .buy(true)
-                .clientOrderId(BID_CLIENT_ID)
-                .orderTypeLayout(OrderTypeLayout.POST_ONLY)
-                .selfTradeBehaviorLayout(SelfTradeBehaviorLayout.DECREMENT_TAKE)
-                .floatPrice(price)
-                .floatQuantity(amount)
-                .build();
-
-        serumManager.setOrderPrices(bidOrder, market);
-
-        if (cancel) {
-            placeTx.addInstruction(
-                    SerumProgram.cancelOrderByClientId(
-                            market,
-                            marketOoa,
-                            mmAccount.getPublicKey(),
-                            BID_CLIENT_ID
-                    )
-            );
-        }
-
-
-        // Settle - base wallet gets created first then closed after
-        placeTx.addInstruction(
-                SerumProgram.settleFunds(
-                        market,
-                        marketOoa,
-                        mmAccount.getPublicKey(),
-                        baseWallet, //random wsol acct for settles
-                        usdcWallet
-                )
-        );
-
-        placeTx.addInstruction(
-                SerumProgram.placeOrder(
-                        mmAccount,
-                        usdcWallet,
-                        marketOoa,
-                        market,
-                        bidOrder
-                )
-        );
-
-        try {
-            String orderTx = rpcClient.getApi().sendTransaction(placeTx, mmAccount);
-            log.info("Quote Bid: " + bidOrder.getFloatQuantity() + " @ " + bidOrder.getFloatPrice() + ", " + orderTx);
-            lastBidOrder = bidOrder;
-        } catch (RpcException e) {
-            log.error("OrderTx Error = " + e.getMessage());
-        }
-    }
-
     @Override
     public void stop() {
         // CXL open orders
-        log.info("Stopping bot on market {} and settling orders...", market.getOwnAddress().toBase58());
+        log.info("Stopping bot on market {} and settling orders...", marketId.toBase58());
         executorService.shutdown();
-        hardCancelAndSettle();
-        log.info("Bot stopped on market {}.", market.getOwnAddress().toBase58());
-    }
-
-    public void hardCancelAndSettle() {
-        Account account = mmAccount;
-        Account sessionWsolAccount = new Account();
-        Transaction newTx = new Transaction();
-        newTx.addInstruction(
-                ComputeBudgetProgram.setComputeUnitPrice(
-                        690_000
-                )
-        );
-
-        newTx.addInstruction(
-                ComputeBudgetProgram.setComputeUnitLimit(
-                        PRIORITY_UNITS * 4
-                )
-        );
-
-        // Create WSOL account for session. 0.5 to start
-        newTx.addInstruction(
-                SystemProgram.createAccount(
-                        account.getPublicKey(),
-                        sessionWsolAccount.getPublicKey(),
-                        (long) (0.03 * 1000000000.0) + 2039280, //.05 SOL
-                        165,
-                        TokenProgram.PROGRAM_ID
-                )
-        );
-
-        newTx.addInstruction(
-                TokenProgram.initializeAccount(
-                        sessionWsolAccount.getPublicKey(),
-                        SerumUtils.WRAPPED_SOL_MINT,
-                        account.getPublicKey()
-                )
-        );
-
-        newTx.addInstruction(
-                SerumProgram.cancelOrderByClientId(
-                        market,
-                        marketOoa,
-                        account.getPublicKey(),
-                        ASK_CLIENT_ID
-                )
-        );
-
-        newTx.addInstruction(
-                SerumProgram.settleFunds(
-                        market,
-                        marketOoa,
-                        account.getPublicKey(),
-                        sessionWsolAccount.getPublicKey(),
-                        usdcWallet
-                )
-        );
-
-        newTx.addInstruction(TokenProgram.closeAccount(
-                sessionWsolAccount.getPublicKey(),
-                account.getPublicKey(),
-                account.getPublicKey()
-        ));
-
-        try {
-            log.info("ASK cxl = " + rpcClient.getApi().sendTransaction(newTx, List.of(account,
-                            sessionWsolAccount),
-                    rpcClient.getApi().getRecentBlockhash(Commitment.PROCESSED)));
-            log.info("Settled asks on market {}", market.getOwnAddress().toBase58());
-        } catch (RpcException e) {
-            log.error(e.getMessage());
-        }
-
-        ////////////////////////////// BID
-
-        Account sessionWsolAccount2 = new Account();
-        Transaction newTx2 = new Transaction();
-        newTx2.addInstruction(
-                ComputeBudgetProgram.setComputeUnitPrice(
-                        890_000
-                )
-        );
-
-        newTx2.addInstruction(
-                ComputeBudgetProgram.setComputeUnitLimit(
-                        PRIORITY_UNITS
-                )
-        );
-
-        // Create WSOL account for session. 0.5 to start
-        newTx2.addInstruction(
-                SystemProgram.createAccount(
-                        account.getPublicKey(),
-                        sessionWsolAccount2.getPublicKey(),
-                        (long) (0.03 * 1000000000.0) + 2039280, //.05 SOL
-                        165,
-                        TokenProgram.PROGRAM_ID
-                )
-        );
-
-        newTx2.addInstruction(
-                TokenProgram.initializeAccount(
-                        sessionWsolAccount2.getPublicKey(),
-                        SerumUtils.WRAPPED_SOL_MINT,
-                        account.getPublicKey()
-                )
-        );
-
-
-        newTx2.addInstruction(
-                SerumProgram.cancelOrderByClientId(
-                        market,
-                        marketOoa,
-                        account.getPublicKey(),
-                        BID_CLIENT_ID
-                )
-        );
-
-        newTx2.addInstruction(
-                SerumProgram.settleFunds(
-                        market,
-                        marketOoa,
-                        account.getPublicKey(),
-                        sessionWsolAccount2.getPublicKey(), //random wsol acct for settles
-                        usdcWallet
-                )
-        );
-
-        newTx2.addInstruction(TokenProgram.closeAccount(
-                sessionWsolAccount2.getPublicKey(),
-                account.getPublicKey(),
-                account.getPublicKey()
-        ));
-
-        try {
-            log.info("BID cxl = " + rpcClient.getApi().sendTransaction(newTx2, List.of(account,
-                            sessionWsolAccount2),
-                    rpcClient.getApi().getRecentBlockhash(Commitment.PROCESSED)));
-            log.info("Settled bids on market {}", market.getOwnAddress().toBase58());
-        } catch (RpcException e) {
-            log.error(e.getMessage());
-        }
+        log.info("Bot stopped on market {}.", marketId.toBase58());
     }
 }
