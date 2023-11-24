@@ -15,6 +15,7 @@ import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.core.Transaction;
 import org.p2p.solanaj.programs.ComputeBudgetProgram;
 import org.p2p.solanaj.rpc.RpcClient;
+import org.p2p.solanaj.rpc.RpcException;
 import org.p2p.solanaj.rpc.types.config.Commitment;
 
 import java.util.List;
@@ -80,6 +81,14 @@ public class PhoenixSplUsdc extends Strategy {
         this.rpcClient = rpcClient;
         this.jupiterPricingSource = jupiterPricingSource;
         this.marketId = marketId;
+
+        try {
+            market = PhoenixMarket.readPhoenixMarket(
+                    rpcClient.getApi().getAccountInfo(marketId).getDecodedData()
+            );
+        } catch (RpcException e) {
+            log.error("Error getting market: {}", e.getMessage());
+        }
 
         if (pricingStrategy.equalsIgnoreCase("jupiter")) {
             useJupiter = true;

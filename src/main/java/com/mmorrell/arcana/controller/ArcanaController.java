@@ -376,6 +376,20 @@ public class ArcanaController {
         return "bots/wizard";
     }
 
+    @RequestMapping("/bots/phoenix/add")
+    public String arcanaPhoenixBotWizard(Model model, @RequestParam(required = false) String marketId) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+
+        OpenBookBot newBot = new OpenBookBot();
+        if (marketId != null) {
+            newBot.setMarketId(new PublicKey(marketId));
+        }
+        model.addAttribute("newBot", newBot);
+        model.addAttribute("marketId", marketId);
+
+        return "bots/phoenix_wizard";
+    }
+
     @RequestMapping("/bots/view/{id}")
     public String arcanaBotWizard(Model model, @PathVariable("id") long botId) {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
