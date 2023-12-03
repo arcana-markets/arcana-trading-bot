@@ -420,8 +420,8 @@ public class ArcanaController {
 
     @RequestMapping("/bots/stop/{id}")
     public String arcanaBotStop(Model model, @PathVariable("id") long botId) {
-        botManager.stopBot(botId);
-        return "redirect:/";
+        botManager.stopBot(--botId);
+        return "redirect:/bots";
     }
 
 

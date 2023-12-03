@@ -265,7 +265,8 @@
                                 <span class="badge-label">N/A</span></span></td>
                                 <!-- stop btn --><td class="total align-middle fw-bold text-1000 text-end text-nowrap pe-0">
                                 <a th:href="${#strings.concat('/bots/view/', count.index + 1)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-search"></span></a>
-                                <a th:href="${#strings.concat('/bots/stop/', botId)}" class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></a></td>
+                                <a th:href="${#strings.concat('/bots/stop/', count.index + 1)}"
+                                   class="btn btn-sm text-500 hover-text-600 me-2"><span class="fas fa-trash"></span></a></td>
                             </tr>
                             </tbody>
                         </table>
