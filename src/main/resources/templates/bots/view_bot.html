@@ -601,10 +601,12 @@
                         <span style="display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;" th:text="${botOoa}"></span>
                     </div>
                     <div class="col-6 d-flex align-items-center justify-content-end">
-                        <a th:href="${#strings.concat('/bots/stop/', botId)}" class="btn btn-sm px-2" style="margin-right: 10px;">
+                        <a th:href="${#strings.concat('/bots/stop/', botId + 1)}" class="btn btn-sm px-2"
+                           style="margin-right: 10px;">
                             <i data-feather="stop-circle" width="28" height="28" style="color: #EC4E4E;"></i>
                         </a>
-                        <a th:href="${#strings.concat('/bots/start/', botId)}" class="btn btn-sm ml-2 px-2 disabled">
+                        <a th:href="${#strings.concat('/bots/start/', botId + 1)}"
+                           class="btn btn-sm ml-2 px-2 disabled">
                             <i data-feather="play-circle" width="28" height="28"></i>
                         </a>
                     </div>
