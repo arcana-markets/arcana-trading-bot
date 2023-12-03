@@ -481,7 +481,8 @@
                       </ul>
                     </div>
                     <div class="card-body pt-4 pb-0">
-                        <form class="needs-validation" id="wizardValidationMainForm" novalidate="novalidate" action="#" method="POST" th:action="@{/bots/add/post}" th:object="${newBot}">
+                        <form class="needs-validation" id="wizardValidationMainForm" novalidate="novalidate"
+                              action="#" method="POST" th:action="@{/bots/phoenix/add/post}" th:object="${newBot}">
                             <div class="tab-content">
                                 <div class="tab-pane active show fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab1" id="bootstrap-wizard-validation-tab1">
                                     <div class="container">
@@ -607,22 +608,18 @@
                                         <div class="row">
                                             <!-- Text Input 1 -->
                                             <div class="col-md-4">
-                                                <label class="form-label" for="bpsSpread">BPS</label>
-                                                <input type="text" class="form-control" required="required"
-                                                       id="bpsSpread" placeholder="Enter your Spread Size"
-                                                       th:field="*{bpsSpread}">
+                                                <label class="form-label" for="inputAddress2">BPS</label>
+                                                <input type="number" class="form-control" required="required" id="inputAddress2" placeholder="Enter your Spread Size" th:field="*{bpsSpread}">
                                             </div>
                                             <!-- Text Input 2 -->
                                             <div class="col-md-4">
                                                 <label class="form-label" for="amountBid">Bid Size</label>
-                                                <input type="text" class="form-control" id="amountBid"
-                                                       required="required" placeholder="Enter your Bid Size" th:field="*{amountBid}">
+                                                <input type="number" class="form-control" required="required" id="amountBid" placeholder="Enter your Bid Size" th:field="*{amountBid}">
                                             </div>
                                             <!-- Text Input 3 -->
                                             <div class="col-md-4">
                                                 <label class="form-label" for="amountAsk">Ask Size</label>
-                                                <input type="text" class="form-control" id="amountAsk" required="required"
-                                                       placeholder="Enter your Ask Size" th:field="*{amountAsk}">
+                                                <input type="number" class="form-control" required="required" id="amountAsk" placeholder="Enter your Ask Size" th:field="*{amountAsk}">
                                             </div>
                                         </div>
                                     </div>

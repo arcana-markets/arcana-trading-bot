@@ -11,6 +11,7 @@ import com.mmorrell.arcana.pricing.JupiterPricingSource;
 import com.mmorrell.arcana.strategies.BotManager;
 import com.mmorrell.arcana.strategies.OpenBookBot;
 import com.mmorrell.arcana.strategies.openbook.OpenBookSplUsdc;
+import com.mmorrell.arcana.strategies.phoenix.PhoenixSplUsdc;
 import com.mmorrell.arcana.util.MarketUtil;
 import com.mmorrell.model.OpenBookContext;
 import com.mmorrell.model.OpenBookOrder;
@@ -321,6 +322,37 @@ public class ArcanaController {
         return "redirect:/bots";
     }
 
+    // Adds and starts a new SPL/USDC trading strategy.
+    @PostMapping("/bots/phoenix/add/post")
+    public String arcanaPhoenixBotAdd(@ModelAttribute("newBot") OpenBookBot newBot) {
+        PhoenixSplUsdc phoenixSplUsdc = new PhoenixSplUsdc(
+                rpcClient,
+                newBot.getMarketId(),
+                jupiterPricingSource,
+                newBot.getPriceStrategy()
+        );
+
+        phoenixSplUsdc.setBaseWallet(newBot.getBaseWallet());
+        phoenixSplUsdc.setQuoteWallet(newBot.getQuoteWallet());
+        phoenixSplUsdc.setMmAccount(botManager.getTradingAccount());
+        phoenixSplUsdc.setBaseAmountAsk((float) newBot.getAmountAsk());
+        phoenixSplUsdc.setQuoteAmountBid((float) newBot.getAmountBid());
+
+        // bid + ask multiplier
+        float bidMultiplier = (10000.0f - (float) newBot.getBpsSpread()) / 10000.0f;
+        float askMultiplier = (10000.0f + (float) newBot.getBpsSpread()) / 10000.0f;
+
+        phoenixSplUsdc.setBidSpreadMultiplier(bidMultiplier);
+        phoenixSplUsdc.setAskSpreadMultiplier(askMultiplier);
+
+        newBot.setStrategy(phoenixSplUsdc);
+
+        botManager.addBot(newBot);
+        log.info("New strategy created/started: " + newBot);
+
+        return "redirect:/bots";
+    }
+
     @RequestMapping("/openbook")
     public String openbookMarkets(Model model) {
         model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
@@ -342,6 +374,20 @@ public class ArcanaController {
         model.addAttribute("marketId", marketId);
 
         return "bots/wizard";
+    }
+
+    @RequestMapping("/bots/phoenix/add")
+    public String arcanaPhoenixBotWizard(Model model, @RequestParam(required = false) String marketId) {
+        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
+
+        OpenBookBot newBot = new OpenBookBot();
+        if (marketId != null) {
+            newBot.setMarketId(new PublicKey(marketId));
+        }
+        model.addAttribute("newBot", newBot);
+        model.addAttribute("marketId", marketId);
+
+        return "bots/phoenix_wizard";
     }
 
     @RequestMapping("/bots/view/{id}")
