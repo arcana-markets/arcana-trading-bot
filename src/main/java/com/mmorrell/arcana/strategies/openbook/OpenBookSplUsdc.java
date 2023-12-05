@@ -159,25 +159,35 @@ public class OpenBookSplUsdc extends Strategy {
 
                         boolean isCancelBid =
                                 solUsdcMarket.getBidOrderBook().getOrders().stream().anyMatch(order -> order.getOwner().equals(marketOoa));
+                        long bidOrderIdToCancel = solUsdcMarket.getBidOrderBook().getOrders().stream()
+                                .filter(order -> order.getOwner().equals(marketOoa))
+                                .map(Order::getClientOrderId)
+                                .findFirst()
+                                .orElse(0L);
 
                         float percentageChangeFromLastBid =
                                 1.00f - (lastPlacedBidPrice / ((float) bestBidPrice * bidSpreadMultiplier));
 
                         // Only place bid if we haven't placed, or the change is >= 0.1% change
                         if (lastPlacedBidPrice == 0 || (Math.abs(percentageChangeFromLastBid) >= MIN_MIDPOINT_CHANGE)) {
-                            placeUsdcBid(usdcBidAmount, (float) bestBidPrice * bidSpreadMultiplier, isCancelBid);
+                            placeUsdcBid(usdcBidAmount, (float) bestBidPrice * bidSpreadMultiplier, isCancelBid, bidOrderIdToCancel);
                             lastPlacedBidPrice = (float) bestBidPrice * bidSpreadMultiplier;
                         }
 
                         boolean isCancelAsk =
                                 solUsdcMarket.getAskOrderBook().getOrders().stream().anyMatch(order -> order.getOwner().equals(marketOoa));
+                        long askOrderIdToCancel = solUsdcMarket.getAskOrderBook().getOrders().stream()
+                                .filter(order -> order.getOwner().equals(marketOoa))
+                                .map(Order::getClientOrderId)
+                                .findFirst()
+                                .orElse(0L);
 
                         float percentageChangeFromLastAsk =
                                 1.00f - (lastPlacedAskPrice / ((float) bestAskPrice * askSpreadMultiplier));
 
                         // Only place ask if we haven't placed, or the change is >= 0.1% change
                         if (lastPlacedAskPrice == 0 || (Math.abs(percentageChangeFromLastAsk) >= MIN_MIDPOINT_CHANGE)) {
-                            placeSolAsk(baseAskAmount, (float) bestAskPrice * askSpreadMultiplier, isCancelAsk);
+                            placeSolAsk(baseAskAmount, (float) bestAskPrice * askSpreadMultiplier, isCancelAsk, askOrderIdToCancel);
                             lastPlacedAskPrice = (float) bestAskPrice * askSpreadMultiplier;
                         }
 
@@ -202,7 +212,7 @@ public class OpenBookSplUsdc extends Strategy {
         );
     }
 
-    private void placeSolAsk(float solAmount, float price, boolean cancel) {
+    private void placeSolAsk(float solAmount, float price, boolean cancel, long cancelOrderId) {
         final Transaction placeTx = new Transaction();
 
         placeTx.addInstruction(
@@ -244,7 +254,7 @@ public class OpenBookSplUsdc extends Strategy {
                             solUsdcMarket,
                             marketOoa,
                             mmAccount.getPublicKey(),
-                            ASK_CLIENT_ID
+                            cancelOrderId
                     )
             );
         }
@@ -280,7 +290,7 @@ public class OpenBookSplUsdc extends Strategy {
         }
     }
 
-    private void placeUsdcBid(float amount, float price, boolean cancel) {
+    private void placeUsdcBid(float amount, float price, boolean cancel, long cancelOrderId) {
         final Transaction placeTx = new Transaction();
 
         placeTx.addInstruction(
@@ -322,7 +332,7 @@ public class OpenBookSplUsdc extends Strategy {
                             solUsdcMarket,
                             marketOoa,
                             mmAccount.getPublicKey(),
-                            BID_CLIENT_ID
+                            cancelOrderId
                     )
             );
         }
