@@ -59,7 +59,7 @@
         <dependency>
             <groupId>com.mmorrell</groupId>
             <artifactId>serum</artifactId>
-            <version>1.17.0</version>
+            <version>1.19.8</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.mmorrell</groupId>
