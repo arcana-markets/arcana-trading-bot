@@ -6,7 +6,6 @@ import com.mmorrell.phoenix.model.LimitOrderPacketRecord;
 import com.mmorrell.phoenix.model.PhoenixMarket;
 import com.mmorrell.phoenix.program.PhoenixProgram;
 import com.mmorrell.phoenix.program.PhoenixSeatManagerProgram;
-import com.mmorrell.serum.model.Order;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-//@Component
 @Slf4j
 @Getter
 public class PhoenixSplUsdc extends Strategy {
@@ -60,12 +58,6 @@ public class PhoenixSplUsdc extends Strategy {
 
     @Setter
     private float bidSpreadMultiplier = 0.9987f;
-
-    @Setter
-    private Order lastBidOrder;
-
-    @Setter
-    private Order lastAskOrder;
 
     @Setter
     private double baseAmountAsk, quoteAmountBid;
@@ -137,7 +129,7 @@ public class PhoenixSplUsdc extends Strategy {
                                 .clientOrderId(new byte[]{})
                                 .matchLimit(0)
                                 .numBaseLots((long) quoteAmountBid) // 18
-                                .priceInTicks((long) (market.getBestBid().getFirst().getPriceInTicks() * .9995))
+                                .priceInTicks((long) (market.getBestBid().getFirst().getPriceInTicks() * .995))
                                 .selfTradeBehavior((byte) 1)
                                 .side((byte) 0)
                                 .useOnlyDepositedFunds(false)
@@ -147,7 +139,7 @@ public class PhoenixSplUsdc extends Strategy {
                                 .clientOrderId(new byte[]{})
                                 .matchLimit(0)
                                 .numBaseLots((long) baseAmountAsk)  //18
-                                .priceInTicks((long) (market.getBestAsk().getFirst().getPriceInTicks() * 1.0005))
+                                .priceInTicks((long) (market.getBestAsk().getFirst().getPriceInTicks() * 1.005))
                                 .selfTradeBehavior((byte) 1)
                                 .side((byte) 1)
                                 .useOnlyDepositedFunds(false)
@@ -156,7 +148,7 @@ public class PhoenixSplUsdc extends Strategy {
                         Transaction limitOrderTx = new Transaction();
                         limitOrderTx.addInstruction(
                                 ComputeBudgetProgram.setComputeUnitPrice(
-                                        123
+                                        423
                                 )
                         );
 

@@ -390,7 +390,9 @@ public class ArcanaController {
         model.addAttribute("botBpsSpread", bot.getBpsSpread());
         model.addAttribute("botAmountBid", bot.getAmountBid());
         model.addAttribute("botAmountAsk", bot.getAmountAsk());
-        model.addAttribute("botOoa", bot.getOoa().toBase58());
+        if (bot.getOoa() != null) {
+            model.addAttribute("botOoa", bot.getOoa().toBase58());
+        }
         model.addAttribute("botBaseWallet", bot.getBaseWallet().toBase58());
         model.addAttribute("botQuoteWallet", bot.getQuoteWallet().toBase58());
 
@@ -401,6 +403,8 @@ public class ArcanaController {
         if (bot.getStrategy() instanceof OpenBookSplUsdc) {
             model.addAttribute("lastBidOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastBidOrder().toString());
             model.addAttribute("lastAskOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastAskOrder().toString());
+        } else if (bot.getStrategy() instanceof PhoenixSplUsdc) {
+            // Arcana specific tbd
         }
 
         return "bots/view_bot";
