@@ -117,9 +117,9 @@ public class PhoenixSplUsdc extends Strategy {
                             }
                         } else {
                             this.bestBidPrice =
-                                    (double) market.getBestBid().getFirst().getPriceInTicks() / market.getBaseLotsPerBaseUnit();
+                                    (double) market.getBestBid().get().getFirst().getPriceInTicks() / market.getBaseLotsPerBaseUnit();
                             this.bestAskPrice =
-                                    (double) market.getBestAsk().getFirst().getPriceInTicks() / market.getBaseLotsPerBaseUnit();
+                                    (double) market.getBestAsk().get().getFirst().getPriceInTicks() / market.getBaseLotsPerBaseUnit();
                         }
 
                         log.info("Best bid: {}, Best Ask: {}", bestBidPrice, bestAskPrice);
@@ -128,8 +128,8 @@ public class PhoenixSplUsdc extends Strategy {
                         LimitOrderPacketRecord limitOrderPacketRecord = LimitOrderPacketRecord.builder()
                                 .clientOrderId(new byte[]{})
                                 .matchLimit(0)
-                                .numBaseLots((long) quoteAmountBid) // 18
-                                .priceInTicks((long) (market.getBestBid().getFirst().getPriceInTicks() * .995))
+                                .numBaseLots(market.convertSizeToNumBaseLots(quoteAmountBid))
+                                .priceInTicks((long) (market.getBestBid().get().getFirst().getPriceInTicks() * bidSpreadMultiplier))
                                 .selfTradeBehavior((byte) 1)
                                 .side((byte) 0)
                                 .useOnlyDepositedFunds(false)
@@ -138,8 +138,8 @@ public class PhoenixSplUsdc extends Strategy {
                         LimitOrderPacketRecord limitOrderPacketRecordAsk = LimitOrderPacketRecord.builder()
                                 .clientOrderId(new byte[]{})
                                 .matchLimit(0)
-                                .numBaseLots((long) baseAmountAsk)  //18
-                                .priceInTicks((long) (market.getBestAsk().getFirst().getPriceInTicks() * 1.005))
+                                .numBaseLots(market.convertSizeToNumBaseLots(baseAmountAsk))
+                                .priceInTicks((long) (market.getBestAsk().get().getFirst().getPriceInTicks() * askSpreadMultiplier))
                                 .selfTradeBehavior((byte) 1)
                                 .side((byte) 1)
                                 .useOnlyDepositedFunds(false)
@@ -148,7 +148,7 @@ public class PhoenixSplUsdc extends Strategy {
                         Transaction limitOrderTx = new Transaction();
                         limitOrderTx.addInstruction(
                                 ComputeBudgetProgram.setComputeUnitPrice(
-                                        423
+                                        123
                                 )
                         );
 
@@ -221,7 +221,6 @@ public class PhoenixSplUsdc extends Strategy {
                         }
                     } catch (Exception ex) {
                         log.error("Unhandled exception during event loop: " + ex.getMessage());
-                        ex.printStackTrace();
                     }
                 },
                 EVENT_LOOP_INITIAL_DELAY_MS,

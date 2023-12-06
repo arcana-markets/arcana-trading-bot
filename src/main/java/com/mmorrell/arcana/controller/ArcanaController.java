@@ -321,10 +321,9 @@ public class ArcanaController {
         } else if (newBot.getDex().equals("phoenix")) {
             // Make phoenix bot
             PhoenixSplUsdc phoenixSplUsdc = createPhoenixSplUsdcStrategy(newBot);
-
             newBot.setStrategy(phoenixSplUsdc);
-
             botManager.addBot(newBot);
+
             log.info("New Phoenix strategy created/started: " + newBot);
         }
 
