@@ -81,7 +81,7 @@
         <dependency>
             <groupId>com.mmorrell</groupId>
             <artifactId>phoenix</artifactId>
-            <version>1.19.8</version>
+            <version>1.19.10</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.mmorrell</groupId>

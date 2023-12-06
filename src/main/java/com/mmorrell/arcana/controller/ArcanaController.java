@@ -15,6 +15,10 @@ import com.mmorrell.arcana.strategies.phoenix.PhoenixSplUsdc;
 import com.mmorrell.arcana.util.MarketUtil;
 import com.mmorrell.model.OpenBookContext;
 import com.mmorrell.model.OpenBookOrder;
+import com.mmorrell.model.PhoenixNormalizedOrder;
+import com.mmorrell.phoenix.manager.PhoenixManager;
+import com.mmorrell.phoenix.model.PhoenixMarket;
+import com.mmorrell.phoenix.model.PhoenixOrder;
 import com.mmorrell.serum.manager.OrderBookCacheManager;
 import com.mmorrell.serum.manager.SerumManager;
 import com.mmorrell.serum.model.Market;
@@ -44,6 +48,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,27 +60,28 @@ public class ArcanaController {
 
     private RpcClient rpcClient;
     private final BotManager botManager;
-    private final SerumManager serumManager;
     private final JupiterPricingSource jupiterPricingSource;
     private final ArcanaBackgroundCache arcanaBackgroundCache;
     private final MarketCache marketCache;
     private final TokenManager tokenManager;
     private OrderBookCacheManager orderBookCacheManager;
     private final ArcanaAccountManager arcanaAccountManager;
+    private final PhoenixManager phoenixManager;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
-                            SerumManager serumManager, JupiterPricingSource jupiterPricingSource,
+                            JupiterPricingSource jupiterPricingSource,
                             ArcanaBackgroundCache arcanaBackgroundCache, MarketCache marketCache,
-                            TokenManager tokenManager, ArcanaAccountManager arcanaAccountManager) {
+                            TokenManager tokenManager, ArcanaAccountManager arcanaAccountManager,
+                            PhoenixManager phoenixManager) {
         this.rpcClient = rpcClient;
         this.botManager = botManager;
-        this.serumManager = serumManager;
         this.jupiterPricingSource = jupiterPricingSource;
         this.arcanaBackgroundCache = arcanaBackgroundCache;
         this.marketCache = marketCache;
         this.tokenManager = tokenManager;
         this.orderBookCacheManager = new OrderBookCacheManager(rpcClient);
         this.arcanaAccountManager = arcanaAccountManager;
+        this.phoenixManager = phoenixManager;
     }
 
     @RequestMapping("/")
@@ -93,7 +99,7 @@ public class ArcanaController {
         try {
             TokenAccountInfo usdcBalance =
                     rpcClient.getApi().getTokenAccountsByOwner(botManager.getTradingAccount().getPublicKey(),
-                    Map.of("mint", MarketUtil.USDC_MINT.toBase58()), Map.of());
+                            Map.of("mint", MarketUtil.USDC_MINT.toBase58()), Map.of());
             if (!usdcBalance.getValue().isEmpty()) {
                 model.addAttribute("usdcBalance",
                         usdcBalance.getValue().get(0).getAccount().getData().getParsed().getInfo().getTokenAmount().getUiAmountString());
@@ -386,6 +392,7 @@ public class ArcanaController {
         model.addAttribute("bot", bot.toString());
         model.addAttribute("botUuid", bot.getStrategy().uuid.toString());
         model.addAttribute("botMarketId", bot.getMarketId().toBase58());
+        model.addAttribute("dexName", bot.getDex());
         model.addAttribute("botBpsSpread", bot.getBpsSpread());
         model.addAttribute("botAmountBid", bot.getAmountBid());
         model.addAttribute("botAmountAsk", bot.getAmountAsk());
@@ -512,7 +519,41 @@ public class ArcanaController {
 
         results.put("marketId", marketId);
         return results;
+    }
 
+    @RequestMapping("/api/phoenix/market/{marketId}")
+    @ResponseBody
+    public Map<String, Object> getPhoenixMarket(@PathVariable String marketId) {
+        final PublicKey marketPublicKey = PublicKey.valueOf(marketId);
+        Optional<PhoenixMarket> phoenixMarket = phoenixManager.getMarket(marketPublicKey, false);
+        final Map<String, Object> results = new HashMap<>();
+
+        if (phoenixMarket.isPresent()) {
+            PhoenixMarket market = phoenixMarket.get();
+
+            List<PhoenixNormalizedOrder> normalizedBids = market.getBidListNormalized().stream()
+                    .sorted(Comparator.comparingDouble(PhoenixOrder::getPrice).reversed())
+                    .map(phoenixOrder -> PhoenixNormalizedOrder.builder()
+                            .quantity(phoenixOrder.getSize())
+                            .price(phoenixOrder.getPrice())
+                            .owner(phoenixOrder.getTrader())
+                            .build())
+                    .toList();
+
+            results.put("bidOrders", normalizedBids);
+
+            List<PhoenixNormalizedOrder> normalizedAsks = market.getAskListNormalized().stream()
+                    .map(phoenixOrder -> PhoenixNormalizedOrder.builder()
+                            .quantity(phoenixOrder.getSize())
+                            .price(phoenixOrder.getPrice())
+                            .owner(phoenixOrder.getTrader())
+                            .build())
+                    .toList();
+            results.put("askOrders", normalizedAsks);
+        }
+
+        results.put("marketId", marketId);
+        return results;
     }
 
     @RequestMapping("/settings/localStorage")

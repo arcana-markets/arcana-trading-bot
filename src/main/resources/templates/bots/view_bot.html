@@ -41,6 +41,7 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         var initialMarketId = /*[[${botMarketId}]]*/ '';
+        var dexName = /*[[${dexName}]]*/ '';
         /*]]>*/
     </script>
 
@@ -170,7 +171,7 @@
 
         function getOrderBooks() {
             $.ajax({
-                url: "/api/openbook/market/" + initialMarketId,
+                url: "/api/"+ dexName + "/market/" + initialMarketId,
                 success: function (result) {
                     jsonData = result;
                 },
@@ -196,29 +197,17 @@
                     {
                         data: 'owner',
                         render: function (data, type, row) {
-                            if (typeof row.metadata.name !== 'undefined') {
-                                if (row.metadata.name === 'Mango') {
-                                    var externalUrl = location.href.replace("#", "") + 'mango/lookup/' +
-                                        row.metadata.mangoKey;
-                                    return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
-                                        row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                        row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
-                                }
-
-                                return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
-                                    row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                    row.metadata.name + "</a>";
-                            } else {
-                                return "<a class='coloredlink' href=\"https://solana.fm/account/" + row.owner.publicKey
-                                    + "\" target=_blank>" +
-                                    row.owner.publicKey.substring(0, 3) +
-                                    ".." +
-                                    row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
-                                    "</a>";
-                            }
+                            return "<a class='coloredlink' href=\"https://solscan.io/account/" +
+                                row.owner.publicKey + "\" target=_blank>" +
+                                row.owner.publicKey.substring(0, 3) +
+                                ".." +
+                                row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
+                                "</a>";
                         }
                     },
-                    {data: 'quantity'},
+                    {
+                        data: 'quantity'
+                    },
                     {
                         data: 'price',
                         render: function (data, type, row) {
@@ -269,29 +258,18 @@
                             return marketCurrencySymbol + data;
                         }
                     },
-                    {data: 'quantity'},
+                    {
+                        data: 'quantity'
+                    },
                     {
                         data: 'owner',
                         render: function (data, type, row) {
-                            if (typeof row.metadata.name !== 'undefined') {
-                                if (row.metadata.name === 'Mango') {
-                                    var externalUrl = location.href.replace("#", "") + 'mango/lookup/' + row.metadata.mangoKey;
-                                    return "<a target=_blank href=\"" + externalUrl + "\"><img src=\"static/entities/" +
-                                        row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                        row.metadata.name + " (" + row.metadata.mangoKey.substring(0, 3) + ")</a>";
-                                }
-
-                                return "<a target=_blank href=\"https://solana.fm/account/" + row.owner.publicKey + "\"><img src=\"static/entities/" +
-                                    row.metadata.icon + ".png\" width=16 height=16 style=\"margin-right: 6px;\">" +
-                                    row.metadata.name + "</a>";
-                            } else {
-                                return "<a class='coloredlink' href=\"https://solana.fm/account/" +
-                                    row.owner.publicKey + "\" target=_blank>" +
-                                    row.owner.publicKey.substring(0, 3) +
-                                    ".." +
-                                    row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
-                                    "</a>";
-                            }
+                            return "<a class='coloredlink' href=\"https://solscan.io/account/" +
+                                row.owner.publicKey + "\" target=_blank>" +
+                                row.owner.publicKey.substring(0, 3) +
+                                ".." +
+                                row.owner.publicKey.substring(row.owner.publicKey.toString().length - 3) +
+                                "</a>";
                         }
                     }
                 ],
@@ -320,7 +298,7 @@
             getOrderBooks()
             setInterval(function () {
                 $.ajax({
-                    url: "/api/openbook/market/" + initialMarketId,
+                    url: "/api/" + dexName + "/market/" + initialMarketId,
                     success: function (result) {
                         jsonData = result;
                         $('#bidsTable').dataTable().fnClearTable();

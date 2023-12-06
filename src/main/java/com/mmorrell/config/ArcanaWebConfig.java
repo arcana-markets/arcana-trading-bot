@@ -1,6 +1,7 @@
 package com.mmorrell.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mmorrell.phoenix.manager.PhoenixManager;
 import com.mmorrell.pyth.manager.PythManager;
 import com.mmorrell.serum.manager.SerumManager;
 import okhttp3.OkHttpClient;
@@ -49,6 +50,11 @@ public class ArcanaWebConfig implements WebMvcConfigurer {
     @Bean
     public PythManager pythManager() {
         return new PythManager(rpcClient());
+    }
+
+    @Bean
+    public PhoenixManager phoenixManager() {
+        return new PhoenixManager(rpcClient());
     }
 
     @Bean
