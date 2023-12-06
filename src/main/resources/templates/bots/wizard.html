@@ -559,6 +559,13 @@
                                           <strong>Balance:</strong> <span th:text="${quoteWalletBalance}"></span> USDC
                                       </div>
                                   </div>
+                                  <div class="col-md-6">
+                                      <label class="form-label text-900">Exchange</label>
+                                      <select id="dex" name="dex" th:field="*{dex}">
+                                          <option value="openbook">OpenBook</option>
+                                          <option value="phoenix">Phoenix</option>
+                                      </select>
+                                  </div>
                               </div>
                         </div>
                                 <div class="tab-pane fade" role="tabpanel" aria-labelledby="bootstrap-wizard-validation-tab2" id="bootstrap-wizard-validation-tab2">

@@ -44,8 +44,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -270,61 +268,70 @@ public class ArcanaController {
     // Adds and starts a new SPL/USDC trading strategy.
     @PostMapping("/bots/add/post")
     public String arcanaBotAdd(@ModelAttribute("newBot") OpenBookBot newBot) {
-        // Adds new strategy to list.
-        OpenBookSplUsdc openBookSplUsdc = new OpenBookSplUsdc(
-                new SerumManager(rpcClient),
-                rpcClient,
-                newBot.getMarketId(),
-                jupiterPricingSource,
-                newBot.getPriceStrategy()
-        );
-
-        // Check for OOA. If it doesn't exist, create it.
-        final OpenOrdersAccount openOrdersAccount = SerumUtils.findOpenOrdersAccountForOwner(
-                rpcClient,
-                newBot.getMarketId(),
-                botManager.getTradingAccount().getPublicKey()
-        );
-
-        if (openOrdersAccount != null) {
-            log.info("Using OOA for bot: " + openOrdersAccount.getOwnPubkey().toBase58());
-            openBookSplUsdc.setMarketOoa(openOrdersAccount.getOwnPubkey());
-        } else {
-            // Create OOA
-            log.info("Creating OOA for bot market: " + newBot.getMarketId().toBase58());
-            PublicKey newOoa = arcanaBackgroundCache.generateOoa(
-                    botManager.getTradingAccount(),
-                    newBot.getMarketId()
+        // Check DEX
+        if (newBot.getDex().equals("openbook")) {
+            // Make OpenBook v1 bot
+            OpenBookSplUsdc openBookSplUsdc = new OpenBookSplUsdc(
+                    new SerumManager(rpcClient),
+                    rpcClient,
+                    newBot.getMarketId(),
+                    jupiterPricingSource,
+                    newBot.getPriceStrategy()
             );
-            log.info("Using OOA for bot: " + newOoa.toBase58());
-            openBookSplUsdc.setMarketOoa(newOoa);
+
+            // Check for OOA. If it doesn't exist, create it.
+            final OpenOrdersAccount openOrdersAccount = SerumUtils.findOpenOrdersAccountForOwner(
+                    rpcClient,
+                    newBot.getMarketId(),
+                    botManager.getTradingAccount().getPublicKey()
+            );
+
+            if (openOrdersAccount != null) {
+                log.info("Using OOA for bot: " + openOrdersAccount.getOwnPubkey().toBase58());
+                openBookSplUsdc.setMarketOoa(openOrdersAccount.getOwnPubkey());
+            } else {
+                // Create OOA
+                log.info("Creating OOA for bot market: " + newBot.getMarketId().toBase58());
+                PublicKey newOoa = arcanaBackgroundCache.generateOoa(
+                        botManager.getTradingAccount(),
+                        newBot.getMarketId()
+                );
+                log.info("Using OOA for bot: " + newOoa.toBase58());
+                openBookSplUsdc.setMarketOoa(newOoa);
+            }
+
+            newBot.setOoa(openBookSplUsdc.getMarketOoa());
+            openBookSplUsdc.setBaseWallet(newBot.getBaseWallet());
+            openBookSplUsdc.setUsdcWallet(newBot.getQuoteWallet());
+            openBookSplUsdc.setMmAccount(botManager.getTradingAccount());
+            openBookSplUsdc.setBaseAskAmount((float) newBot.getAmountAsk());
+            openBookSplUsdc.setUsdcBidAmount((float) newBot.getAmountBid());
+
+            // bid + ask multiplier
+            float bidMultiplier = (10000.0f - (float) newBot.getBpsSpread()) / 10000.0f;
+            float askMultiplier = (10000.0f + (float) newBot.getBpsSpread()) / 10000.0f;
+
+            openBookSplUsdc.setBidSpreadMultiplier(bidMultiplier);
+            openBookSplUsdc.setAskSpreadMultiplier(askMultiplier);
+
+            newBot.setStrategy(openBookSplUsdc);
+
+            botManager.addBot(newBot);
+            log.info("New OpenBook strategy created/started: " + newBot);
+        } else if (newBot.getDex().equals("phoenix")) {
+            // Make phoenix bot
+            PhoenixSplUsdc phoenixSplUsdc = createPhoenixSplUsdcStrategy(newBot);
+
+            newBot.setStrategy(phoenixSplUsdc);
+
+            botManager.addBot(newBot);
+            log.info("New Phoenix strategy created/started: " + newBot);
         }
-
-        newBot.setOoa(openBookSplUsdc.getMarketOoa());
-        openBookSplUsdc.setBaseWallet(newBot.getBaseWallet());
-        openBookSplUsdc.setUsdcWallet(newBot.getQuoteWallet());
-        openBookSplUsdc.setMmAccount(botManager.getTradingAccount());
-        openBookSplUsdc.setBaseAskAmount((float) newBot.getAmountAsk());
-        openBookSplUsdc.setUsdcBidAmount((float) newBot.getAmountBid());
-
-        // bid + ask multiplier
-        float bidMultiplier = (10000.0f - (float) newBot.getBpsSpread()) / 10000.0f;
-        float askMultiplier = (10000.0f + (float) newBot.getBpsSpread()) / 10000.0f;
-
-        openBookSplUsdc.setBidSpreadMultiplier(bidMultiplier);
-        openBookSplUsdc.setAskSpreadMultiplier(askMultiplier);
-
-        newBot.setStrategy(openBookSplUsdc);
-
-        botManager.addBot(newBot);
-        log.info("New strategy created/started: " + newBot);
 
         return "redirect:/bots";
     }
 
-    // Adds and starts a new SPL/USDC trading strategy.
-    @PostMapping("/bots/phoenix/add/post")
-    public String arcanaPhoenixBotAdd(@ModelAttribute("newBot") OpenBookBot newBot) {
+    private PhoenixSplUsdc createPhoenixSplUsdcStrategy(OpenBookBot newBot) {
         PhoenixSplUsdc phoenixSplUsdc = new PhoenixSplUsdc(
                 rpcClient,
                 newBot.getMarketId(),
@@ -344,14 +351,9 @@ public class ArcanaController {
 
         phoenixSplUsdc.setBidSpreadMultiplier(bidMultiplier);
         phoenixSplUsdc.setAskSpreadMultiplier(askMultiplier);
-
-        newBot.setStrategy(phoenixSplUsdc);
-
-        botManager.addBot(newBot);
-        log.info("New strategy created/started: " + newBot);
-
-        return "redirect:/bots";
+        return phoenixSplUsdc;
     }
+
 
     @RequestMapping("/openbook")
     public String openbookMarkets(Model model) {
@@ -374,20 +376,6 @@ public class ArcanaController {
         model.addAttribute("marketId", marketId);
 
         return "bots/wizard";
-    }
-
-    @RequestMapping("/bots/phoenix/add")
-    public String arcanaPhoenixBotWizard(Model model, @RequestParam(required = false) String marketId) {
-        model.addAttribute("rpcEndpoint", rpcClient.getEndpoint());
-
-        OpenBookBot newBot = new OpenBookBot();
-        if (marketId != null) {
-            newBot.setMarketId(new PublicKey(marketId));
-        }
-        model.addAttribute("newBot", newBot);
-        model.addAttribute("marketId", marketId);
-
-        return "bots/phoenix_wizard";
     }
 
     @RequestMapping("/bots/view/{id}")
