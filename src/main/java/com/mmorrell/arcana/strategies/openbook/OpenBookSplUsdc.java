@@ -20,6 +20,7 @@ import org.p2p.solanaj.programs.ComputeBudgetProgram;
 import org.p2p.solanaj.programs.MemoProgram;
 import org.p2p.solanaj.programs.SystemProgram;
 import org.p2p.solanaj.programs.TokenProgram;
+import org.p2p.solanaj.rpc.Cluster;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
 import org.p2p.solanaj.rpc.types.config.Commitment;
@@ -45,6 +46,7 @@ public class OpenBookSplUsdc extends Strategy {
     private static final int EVENT_LOOP_DURATION_MS = 5000;
 
     private final RpcClient rpcClient;
+    private final RpcClient txClient;
     private final SerumManager serumManager;
     private final ScheduledExecutorService executorService;
     private final JupiterPricingSource jupiterPricingSource;
@@ -110,6 +112,7 @@ public class OpenBookSplUsdc extends Strategy {
 
         this.serumManager = serumManager;
         this.rpcClient = rpcClient;
+        this.txClient = new RpcClient(Cluster.MAINNET);
 
         this.solUsdcMarketBuilder = new MarketBuilder()
                 .setClient(rpcClient)
@@ -282,7 +285,7 @@ public class OpenBookSplUsdc extends Strategy {
         );
 
         try {
-            String orderTx = rpcClient.getApi().sendTransaction(placeTx, mmAccount);
+            String orderTx = txClient.getApi().sendTransaction(placeTx, mmAccount);
             log.info("Base Ask: " + askOrder.getFloatQuantity() + " @ " + askOrder.getFloatPrice() + ", " + orderTx);
             lastAskOrder = askOrder;
         } catch (RpcException e) {
@@ -360,7 +363,7 @@ public class OpenBookSplUsdc extends Strategy {
         );
 
         try {
-            String orderTx = rpcClient.getApi().sendTransaction(placeTx, mmAccount);
+            String orderTx = txClient.getApi().sendTransaction(placeTx, mmAccount);
             log.info("Quote Bid: " + bidOrder.getFloatQuantity() + " @ " + bidOrder.getFloatPrice() + ", " + orderTx);
             lastBidOrder = bidOrder;
         } catch (RpcException e) {
