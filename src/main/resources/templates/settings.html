@@ -32,25 +32,15 @@
           // push our LocalStorage our keys into the backend.
           $.post("/settings/localStorage", {localStorage: localStorage.getItem('arcanaAccounts')})
               .done(function (data) {
-                  //alert("Data Loaded: " + data);
+                  $.get('/accounts/getAllPrivateAccounts', function (data, textStatus, jqXHR) {
+                      $.each(data, function (index, val) {
+                          if (!arcanaAccountsArray.includes(val.privatekey)) {
+                              addArcanaAccount(val.privatekey);
+                          }
+                      });
+                  });
               });
       </script>
-      <script>
-          // on page load, load private keys from back end and persist them.
-          // this occurs on pkey add, otherwise is idempotent (no effect)
-          $.get('/accounts/getAllPrivateAccounts', function (data, textStatus, jqXHR) {
-              $.each(data, function (index, val) {
-                  if (!arcanaAccountsArray.includes(val.privatekey)) {
-                      addArcanaAccount(val.privatekey);
-                  }
-              });
-
-              // TODO make this sync with the backend
-              // alert(getLoadedArcanaAccounts());
-          });
-
-      </script>
-
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
