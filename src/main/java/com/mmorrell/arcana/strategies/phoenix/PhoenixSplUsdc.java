@@ -13,6 +13,7 @@ import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.core.Transaction;
 import org.p2p.solanaj.programs.ComputeBudgetProgram;
+import org.p2p.solanaj.rpc.Cluster;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
 import org.p2p.solanaj.rpc.types.config.Commitment;
@@ -31,6 +32,7 @@ public class PhoenixSplUsdc extends Strategy {
     private static final int EVENT_LOOP_DURATION_MS = 5000;
 
     private final RpcClient rpcClient;
+    private final RpcClient txClient;
     private final ScheduledExecutorService executorService;
     private final JupiterPricingSource jupiterPricingSource;
 
@@ -73,6 +75,7 @@ public class PhoenixSplUsdc extends Strategy {
         this.rpcClient = rpcClient;
         this.jupiterPricingSource = jupiterPricingSource;
         this.marketId = marketId;
+        this.txClient = new RpcClient(Cluster.MAINNET);
 
         try {
             market = PhoenixMarket.readPhoenixMarket(
@@ -202,10 +205,9 @@ public class PhoenixSplUsdc extends Strategy {
                                 )
                         );
 
-                        String placeLimitOrderTx = rpcClient.getApi().sendTransaction(
+                        String placeLimitOrderTx = txClient.getApi().sendTransaction(
                                 limitOrderTx,
-                                List.of(mmAccount),
-                                rpcClient.getApi().getRecentBlockhash(Commitment.PROCESSED)
+                                mmAccount
                         );
                         log.info("Limit order in transaction: {}", placeLimitOrderTx);
 
