@@ -404,13 +404,15 @@ public class ArcanaController {
 
         // Strategy
         model.addAttribute("strategyName", bot.getStrategy().getClass().getSimpleName());
+        model.addAttribute("traderPubkey", botManager.getTradingAccount().getPublicKey().toBase58());
 
         // Last bids / asks
         if (bot.getStrategy() instanceof OpenBookSplUsdc) {
             model.addAttribute("lastBidOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastBidOrder().toString());
             model.addAttribute("lastAskOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastAskOrder().toString());
         } else if (bot.getStrategy() instanceof PhoenixSplUsdc) {
-            // Arcana specific tbd
+            model.addAttribute("lastBidOrder", ((PhoenixSplUsdc) bot.getStrategy()).getLastBid());
+            model.addAttribute("lastAskOrder", ((PhoenixSplUsdc) bot.getStrategy()).getLastAsk());
         }
 
         return "bots/view_bot";

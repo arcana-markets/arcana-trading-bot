@@ -64,6 +64,9 @@ public class PhoenixSplUsdc extends Strategy {
     @Setter
     private double baseAmountAsk, quoteAmountBid;
 
+    @Getter
+    private LimitOrderPacketRecord lastBid, lastAsk;
+
     // Used to delay 2000ms on first order place.
     private static boolean firstLoadComplete = false;
 
@@ -210,6 +213,9 @@ public class PhoenixSplUsdc extends Strategy {
                                 mmAccount
                         );
                         log.info("Limit order in transaction: {}", placeLimitOrderTx);
+
+                        lastBid = limitOrderPacketRecord;
+                        lastAsk = limitOrderPacketRecordAsk;
 
                         if (!firstLoadComplete) {
                             try {
