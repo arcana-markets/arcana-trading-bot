@@ -65,7 +65,7 @@ public class PhoenixSplUsdc extends Strategy {
     private double baseAmountAsk, quoteAmountBid;
 
     @Getter
-    private LimitOrderPacketRecord lastBid, lastAsk;
+    private double lastBid, lastAsk, lastBidSize, lastAskSize;
 
     // Used to delay 2000ms on first order place.
     private static boolean firstLoadComplete = false;
@@ -131,16 +131,21 @@ public class PhoenixSplUsdc extends Strategy {
                         log.info("Best bid: {}, Best Ask: {}", bestBidPrice, bestAskPrice);
 
                         // Main loop
+                        double bidPrice = bestBidPrice * bidSpreadMultiplier;
+                        double bidSize = quoteAmountBid;
                         LimitOrderPacketRecord limitOrderPacketRecord = LimitOrderPacketRecord.builder()
                                 .clientOrderId(new byte[]{})
                                 .matchLimit(0)
                                 .numBaseLots(market.convertSizeToNumBaseLots(quoteAmountBid))
-                                .priceInTicks(market.convertPriceToPriceInTicks(bestBidPrice * bidSpreadMultiplier))
+                                .priceInTicks(market.convertPriceToPriceInTicks(bidPrice))
                                 .selfTradeBehavior((byte) 1)
                                 .side((byte) 0)
                                 .useOnlyDepositedFunds(false)
                                 .build();
 
+
+                        double askPrice = bestAskPrice * askSpreadMultiplier;
+                        double askSize = baseAmountAsk;
                         LimitOrderPacketRecord limitOrderPacketRecordAsk = LimitOrderPacketRecord.builder()
                                 .clientOrderId(new byte[]{})
                                 .matchLimit(0)
@@ -214,8 +219,10 @@ public class PhoenixSplUsdc extends Strategy {
                         );
                         log.info("Limit order in transaction: {}", placeLimitOrderTx);
 
-                        lastBid = limitOrderPacketRecord;
-                        lastAsk = limitOrderPacketRecordAsk;
+                        lastBid = bidPrice;
+                        lastBidSize = bidSize;
+                        lastAsk = askPrice;
+                        lastAskSize = askSize;
 
                         if (!firstLoadComplete) {
                             try {

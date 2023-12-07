@@ -35,4 +35,8 @@ public class MarketUtil {
                 .collect(Collectors.toList());
     }
 
+    public static String convertPhoenixOrderToString(double price, double size) {
+        return String.format("%.4f x %.4f", price, size);
+    }
+
 }

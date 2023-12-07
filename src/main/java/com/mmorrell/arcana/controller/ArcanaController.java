@@ -411,8 +411,14 @@ public class ArcanaController {
             model.addAttribute("lastBidOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastBidOrder().toString());
             model.addAttribute("lastAskOrder", ((OpenBookSplUsdc) bot.getStrategy()).getLastAskOrder().toString());
         } else if (bot.getStrategy() instanceof PhoenixSplUsdc) {
-            model.addAttribute("lastBidOrder", ((PhoenixSplUsdc) bot.getStrategy()).getLastBid());
-            model.addAttribute("lastAskOrder", ((PhoenixSplUsdc) bot.getStrategy()).getLastAsk());
+            PhoenixSplUsdc strategy = (PhoenixSplUsdc) bot.getStrategy();
+
+            model.addAttribute("lastBidOrder",
+                    MarketUtil.convertPhoenixOrderToString(strategy.getLastBid(), strategy.getLastBidSize())
+            );
+            model.addAttribute("lastAskOrder",
+                    MarketUtil.convertPhoenixOrderToString(strategy.getLastAsk(), strategy.getLastAskSize())
+            );
         }
 
         return "bots/view_bot";
