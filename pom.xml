@@ -19,6 +19,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <solanaj.programs.version>1.19.11</solanaj.programs.version>
     </properties>
 
     <dependencies>
@@ -59,7 +60,7 @@
         <dependency>
             <groupId>com.mmorrell</groupId>
             <artifactId>serum</artifactId>
-            <version>1.19.8</version>
+            <version>${solanaj.programs.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.mmorrell</groupId>
@@ -70,7 +71,7 @@
         <dependency>
             <groupId>com.mmorrell</groupId>
             <artifactId>pyth</artifactId>
-            <version>1.19.8</version>
+            <version>${solanaj.programs.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.mmorrell</groupId>
@@ -81,7 +82,7 @@
         <dependency>
             <groupId>com.mmorrell</groupId>
             <artifactId>phoenix</artifactId>
-            <version>1.19.10</version>
+            <version>${solanaj.programs.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.mmorrell</groupId>
