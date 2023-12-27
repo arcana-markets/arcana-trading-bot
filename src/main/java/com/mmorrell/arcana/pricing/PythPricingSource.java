@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 // Auto feed SOL price into a cache from Pyth
-//@Component
+@Component
 @Slf4j
 public class PythPricingSource {
 
@@ -24,7 +24,7 @@ public class PythPricingSource {
         this.pythManager = pythManager;
     }
 
-    @Scheduled(fixedRate = 190L)
+    @Scheduled(fixedRate = 5000L)
     public void updateSolPriceCache() {
         final PriceDataAccount priceDataAccount = pythManager.getPriceDataAccount(solUsdPriceDataAccount);
 

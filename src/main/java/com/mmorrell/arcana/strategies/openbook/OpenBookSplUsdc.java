@@ -1,6 +1,7 @@
 package com.mmorrell.arcana.strategies.openbook;
 
 import com.mmorrell.arcana.pricing.JupiterPricingSource;
+import com.mmorrell.arcana.pricing.PythPricingSource;
 import com.mmorrell.serum.manager.SerumManager;
 import com.mmorrell.serum.model.Market;
 import com.mmorrell.serum.model.MarketBuilder;
@@ -50,6 +51,7 @@ public class OpenBookSplUsdc extends Strategy {
     private final SerumManager serumManager;
     private final ScheduledExecutorService executorService;
     private final JupiterPricingSource jupiterPricingSource;
+    private final PythPricingSource pythPricingSource;
 
     // Dynamic
     private boolean useJupiter = false;
@@ -107,7 +109,8 @@ public class OpenBookSplUsdc extends Strategy {
                            final RpcClient rpcClient,
                            final PublicKey marketId,
                            final JupiterPricingSource jupiterPricingSource,
-                           final String pricingStrategy) {
+                           final String pricingStrategy,
+                           final PythPricingSource pythPricingSource) {
         this.executorService = Executors.newSingleThreadScheduledExecutor();
 
         this.serumManager = serumManager;
@@ -120,6 +123,7 @@ public class OpenBookSplUsdc extends Strategy {
                 .setRetrieveOrderBooks(true);
         this.solUsdcMarket = this.solUsdcMarketBuilder.build();
         this.jupiterPricingSource = jupiterPricingSource;
+        this.pythPricingSource = pythPricingSource;
 
         if (pricingStrategy.equalsIgnoreCase("jupiter")) {
             useJupiter = true;
@@ -129,6 +133,15 @@ public class OpenBookSplUsdc extends Strategy {
             if (price.isPresent()) {
                 this.bestBidPrice = price.get();
                 this.bestAskPrice = price.get();
+
+                if (marketId.equals(new PublicKey("8BnEgHoWFysVcuFFX7QztDmzuH8r5ZFvyP3sYwn1XTh6"))) {
+                    double pythBid = pythPricingSource.getSolBidPrice();
+                    double pythAsk = pythPricingSource.getSolAskPrice();
+
+                    this.bestBidPrice = (this.bestBidPrice + pythBid) / 2.0;
+                    this.bestAskPrice = (this.bestAskPrice + pythAsk) / 2.0;
+                }
+
             }
         }
 

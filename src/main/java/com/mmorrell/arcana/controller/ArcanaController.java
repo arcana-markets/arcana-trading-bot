@@ -8,6 +8,7 @@ import com.mmorrell.arcana.background.ArcanaBackgroundCache;
 import com.mmorrell.arcana.background.MarketCache;
 import com.mmorrell.arcana.background.TokenManager;
 import com.mmorrell.arcana.pricing.JupiterPricingSource;
+import com.mmorrell.arcana.pricing.PythPricingSource;
 import com.mmorrell.arcana.strategies.BotManager;
 import com.mmorrell.arcana.strategies.OpenBookBot;
 import com.mmorrell.arcana.strategies.openbook.OpenBookSplUsdc;
@@ -67,12 +68,13 @@ public class ArcanaController {
     private OrderBookCacheManager orderBookCacheManager;
     private final ArcanaAccountManager arcanaAccountManager;
     private final PhoenixManager phoenixManager;
+    private final PythPricingSource pythPricingSource;
 
     public ArcanaController(RpcClient rpcClient, BotManager botManager,
                             JupiterPricingSource jupiterPricingSource,
                             ArcanaBackgroundCache arcanaBackgroundCache, MarketCache marketCache,
                             TokenManager tokenManager, ArcanaAccountManager arcanaAccountManager,
-                            PhoenixManager phoenixManager) {
+                            PhoenixManager phoenixManager, PythPricingSource pythPricingSource) {
         this.rpcClient = rpcClient;
         this.botManager = botManager;
         this.jupiterPricingSource = jupiterPricingSource;
@@ -82,6 +84,7 @@ public class ArcanaController {
         this.orderBookCacheManager = new OrderBookCacheManager(rpcClient);
         this.arcanaAccountManager = arcanaAccountManager;
         this.phoenixManager = phoenixManager;
+        this.pythPricingSource = pythPricingSource;
     }
 
     @RequestMapping("/")
@@ -282,7 +285,8 @@ public class ArcanaController {
                     rpcClient,
                     newBot.getMarketId(),
                     jupiterPricingSource,
-                    newBot.getPriceStrategy()
+                    newBot.getPriceStrategy(),
+                    pythPricingSource
             );
 
             // Check for OOA. If it doesn't exist, create it.
