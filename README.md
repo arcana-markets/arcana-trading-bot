@@ -1,4 +1,4 @@
-# arcanaJ
+# arcana-trading-bot
 
 ![GitHub](https://img.shields.io/github/license/makolabs-xyz/arcana)
 ![GitHub issues](https://img.shields.io/github/issues/makolabs-xyz/arcana)
