@@ -3,7 +3,7 @@
 ![GitHub](https://img.shields.io/github/license/makolabs-xyz/arcana)
 ![GitHub issues](https://img.shields.io/github/issues/makolabs-xyz/arcana)
 
-arcanaJ is a Java-based interface for seamless interaction with automated marketing making bots on the Solana blockchain. 
+the arcana-trading-bot is a Java-based interface for seamless interaction with automated marketing making bots on the Solana blockchain. 
 
 Accessible via app download or Docker, this off-chain solution ensures secure, local client operations with no private information retention.
 
@@ -26,20 +26,20 @@ Accessible via app download or Docker, this off-chain solution ensures secure, l
 ## Account Wallet Configuration
 
 ### Private Key Setup
-arcanaJ is your own custom market-making software, and thus requires direct control of a Solana-based wallet to function in an offchain environment.
+the arcana-trading-bot is your own custom market-making software, and thus requires direct control of a Solana-based wallet to function in an offchain environment.
 Users will need to input a wallet private key string in order to establish a connection with their local arcana interface.
 
 > **NOTE**: Your private key is sensitive information. Never share it with anyone, and ensure it's stored in a secure, offline environment.
 > > If you want to remove the wallet keys from your arcana session, you can clear the local storage cache in Account Settings.
 
 ### New User Reccomendation
-For new users looking to test arcanaJ, we recommend the following;
+For new users looking to test bot, we recommend the following;
 - Create a new Phantom wallet in your web browser
 - Navigate to settings and export your Private Key
 - Input the Key into your arcana Account Settings
 
 You will now have the option to access this wallet on future use of arcana, for that specific device.
-Once that wallet has been credited with some SOL and USDC, you'll be able to utilize the arcanaJ 'Wizard' to create new trading bots.
+Once that wallet has been credited with some SOL and USDC, you'll be able to utilize the bot 'Wizard' to create new trading bots.
 
 
 #### Command Line Interface (CLI) wallets
