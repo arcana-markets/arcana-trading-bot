@@ -29,7 +29,12 @@ public class ArcanaWebConfig implements WebMvcConfigurer {
 
     @Bean
     public RpcClient rpcClient() {
-        return new RpcClient("https://mainnet.helius-rpc.com/?api-key=a778b653-bdd6-41bc-8cda-0c7377faf1dd", 60);
+        String rpcUrl = System.getenv("RPC_URL");
+        if(rpcUrl == null || rpcUrl.isBlank()){
+            throw new RuntimeException("Please set env variable RPC_URL. " +
+                    "For example RPC_URL=https://mainnet.helius-rpc.com/?api-key=xxxxxxxx-xxx-xxxx-xxxx-xxxxxxxxxxxx");
+        }
+        return new RpcClient(rpcUrl, 60);
     }
 
     @Bean

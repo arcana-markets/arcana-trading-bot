@@ -27,8 +27,16 @@ import static org.p2p.solanaj.programs.Program.createTransactionInstruction;
 @Slf4j
 public class ArcanaTests {
 
-    private final RpcClient rpcClient = new RpcClient(Cluster.MAINNET);
+    private final RpcClient rpcClient;
 
+    private ArcanaTests(){
+        String testRpcUrl = System.getenv("TEST_RPC_URL");
+        if(testRpcUrl == null || testRpcUrl.isBlank()){
+            throw new RuntimeException("Please set env variable TEST_RPC_URL. " +
+                    "For example TEST_RPC_URL=https://mainnet.helius-rpc.com/?api-key=xxxxxxxx-xxx-xxxx-xxxx-xxxxxxxxxxxx");
+        }
+        rpcClient = new RpcClient(testRpcUrl);
+    }
     @Test
     public void ooaApiTest() throws RpcException {
         Map<String, Object> requiredParams = Map.of("mint", new PublicKey("J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn"));
